@@ -1,0 +1,15 @@
+digraph "com.sparsity.dex.algorithms.Connectivity"
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="com.sparsity.dex.algorithms.\lConnectivity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="com.sparsity.dex.algorithms.\lStrongConnectivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcom_1_1sparsity_1_1dex_1_1algorithms_1_1StrongConnectivity.html",tooltip="StrongConnectivity class."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="com.sparsity.dex.algorithms.\lStrongConnectivityGabow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcom_1_1sparsity_1_1dex_1_1algorithms_1_1StrongConnectivityGabow.html",tooltip="This class can be used to solve the problem of finding strongly connected components in a directed gr..."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="com.sparsity.dex.algorithms.\lWeakConnectivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcom_1_1sparsity_1_1dex_1_1algorithms_1_1WeakConnectivity.html",tooltip="WeakConnectivity class."];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="com.sparsity.dex.algorithms.\lWeakConnectivityDFS",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcom_1_1sparsity_1_1dex_1_1algorithms_1_1WeakConnectivityDFS.html",tooltip="WeakConnectivityDFS class."];
+}

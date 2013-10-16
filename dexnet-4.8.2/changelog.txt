@@ -1,0 +1,373 @@
+=============================================================================
+Version 4.8.2 (Jul 2013)
+=============================================================================
+- TextStream appends and concurrency problem solved.
+- TraversalDFS fixed.
+
+=============================================================================
+Version 4.8.1 (May 2013)
+=============================================================================
+- Bug fixing.
+
+=============================================================================
+Version 4.8.0 (April 2013)
+=============================================================================
+- Performance improvements.
+- Concurrency improvements.
+- Bug fixing.
+- DEXCpp without STLPort.
+
+=============================================================================
+Version 4.7.1 (February 2013)
+=============================================================================
+- Beta iOS version.
+- Beta BB10 version.
+- Bug fixing.
+
+=============================================================================
+Version 4.7 (October 2012)
+=============================================================================
+- High Availability.
+- Default Values for the attributes.
+- Improved Scripting.
+- Context Algorithm.
+- Added Graph#Drop(Objects).
+- Added new attribute statistics for string attributes.
+
+=============================================================================
+Version 4.6 (May 2012)
+=============================================================================
+- Added recovery.
+- New Text attributes interface.
+- Jdex interface now depends on dexjava.
+- Bug fixing.
+
+=============================================================================
+Version 4.5 (March 2012)
+=============================================================================
+- Algorithms available in all the interfaces.
+- Bug fixing.
+
+=============================================================================
+Version 4.4 (January 2012)
+=============================================================================
+- Backup/Restore methods added.
+- New C++ interface: DEXCPP.
+- Minor bugs fixed.
+- New method GenerateSchemaScript in ScriptParser to dump the schema.
+- Improved cache statistics.
+
+=============================================================================
+Version 4.3.1 (January 2012)
+=============================================================================
+- Fixed STLport MacOSX issue (memory allocation)
+
+=============================================================================
+Version 4.3 (November 2011)
+=============================================================================
+- Fixed sessions limit error report.
+- Fixed portability bug in schema names.
+- Added Script support for dexjava and dexnet.
+- Added Loader/Exporter for dexjava and dexnet interfaces.
+- Degree method added to dexjava and dexnet.
+- Fixed minor bugs.
+- Improved documentation.
+
+=============================================================================
+Version 4.2.3 (October 2011)
+=============================================================================
+- Fixed database loading bug
+
+=============================================================================
+Version 4.2.2 (October 2011)
+=============================================================================
+- Fixed objects iterator bug
+
+=============================================================================
+Version 4.2.1 (October 2011)
+=============================================================================
+- Fixed memory leak
+
+=============================================================================
+Version 4.2 (Jul 2011)
+=============================================================================
+- Fixed some bugs in DumpData.
+- Fixed some bugs in the Shell.
+- Manage exclusive open for the database file.
+- Improved error messages in the log.
+- Dexjava and dexnet, new public interfaces for Java and C#.
+- Fixed a Session's memory bug.
+- Removed virtual edges (workaround).
+- Removed RGraph.
+- Fixed bug when performing Objects combine operation which updates
+  a database collection.
+- Improved the internal management of the schema structures.
+- Show license details at log.
+- More detailed error messages in the loader script's log.
+
+=============================================================================
+Version 4.1.1 (May 2011)
+=============================================================================
+- Fixed memory leak
+
+=============================================================================
+Version 4.1.0 (March 2011)
+=============================================================================
+- Native library implemented for Windows 64bits.
+- Native library implemented for MacOSX Snow Leopard.
+- Added a multi-level log system.
+- Create an Objects Iterator skipping a given number of OIDs.
+- Reuse free pages.
+- Objects now implements Collection<Long>.
+- A Reader and a Writer can be get from a TextStream.
+- Export process allows for exporting to GraphML.
+
+=============================================================================
+Version 4.0.0 (Nov 2010)
+=============================================================================
+- Memory management improvements: 
+  - Paged segments managed by independent memory pools.
+  - Automatic management of the size of the memory pools 
+    based on their activity.
+- New license system which restricts software capabilities.
+- Cross-platform compatibility for the database format (just limited by
+  endianess).
+- Added read-only database mode.
+- Added explode from a collection of nodes.
+- Added neighbors from a collection of nodes.
+- Added order for the Values collection.
+- New methods to get statistical data from attributes.
+- Initial support for transactions management.
+- Concurrency improvements.
+- Removed useless thread for the JMX Monitor management.
+- New method newEdge. It is used into Loaders.
+- Fixed bug retrieving undirected reflexive edges.
+- Fixed bug when loading boolean attributes from CSV files.
+- Added post-indexing for attributes.
+- Fixed bug at Objects union operations.
+- Sequence now indexed by long integers resulting in larger Sequences.
+
+=============================================================================
+Version 3.0.0 (14-10-2009)
+=============================================================================
+- Define export for node and edge types, even virtual edge types.
+- Native library is included into Java library (jar) and automatically 
+  loaded.
+- Added support for BETWEEN operation to select operations.
+- Native library is included into jar library and automatically
+  loaded from there.
+- Added support for regular expressions at select operations.
+- Iterator optimization starting at a position.
+- Added degree statistics modul to utils package.
+- Added support for TEXT attributes (large char objects).
+- Added support for indexed or not indexed attributes.
+- Added support for unique attributes.
+- Added support for stream append operations.
+- Completed implementation of removeType.
+- Updated scripting syntax.
+- Added support for materialized neighbors for 
+  materialized edges.
+- Added Objects.sample method.
+- Graph algorithms (shortest path, connectivity, traversal).
+
+=============================================================================
+Version 2.0.0 (30-03-2009)
+=============================================================================
+- A unique native Bitmap to store all the temporary 
+  user Objects (bitmaps) of a GraphPool.
+- New bitmap operations(union, intersection, difference) without
+  create an auxiliar bitmap. Jdex, has both functions.
+- Removed WrongArgumentException.
+- Replace CmdLineTool for an improved Shell.
+- Added restricted edges to the data model.
+- B+ tree iterators are not forced to start from the begining.
+- Implemented a per-node ranking based on an attribute for directed edges.
+- Improved BuddyMem to allow a bigger pool.
+- Improved Bitmaps to allow for bigger collections (implemented L3).
+- Implemented the Remove method of B+ tree.
+- Added facilities to load data from CSV files or JDBC connections.
+- Added a scripting language to build and populate a DEX graph database.
+- Added an output when loading by means of scripts.
+- Added methods to retrieve information about the platform.
+- Improved the error management of the core library. Error 
+  propagation instead of throwing exceptions.
+- Completelly recode JNI layer.
+- Move down the graph layer, to the native core library.
+- Writen a Javadoc overview about DEX.
+
+=============================================================================
+Version 1.0.0 (26-09-2008)
+=============================================================================
+- Java naming conventions for static fields and methods.
+- Added View#isEdgeTypeDirected and Graph#isEdgeTypeDirected.
+- Long node and edge oids (64 bits).
+- Include undirected edges to Schema.
+- Added DEX core counters.
+- Fixed bug in Platform::GetClockMilliSeconds and
+  Platform::GetClockMicroSeconds in the Windows version.
+- Added a Monitor to show Statistics and CoreCounters (added
+  JNI interface of DEX core counters).
+- New core Bitmap using BuddyMem
+- Added Objects#difference method and its JNI interface.
+- View::findNode and Graph::findNode renamed to findObj.
+- Link.getCount(Value) returns 0 when the value does not exists.
+- New Graph.getStructures() to return details of the internal
+  structures of the core.
+- Fixed invalid memory pointer in StringPool::GetPtr.
+- New RBTree from old MapTree. Now MapTree maps to RBTree.
+- New BPlusTree to store link values.
+- Link pairs (oid, vid) are now (oid, value).
+- Fixed bug in BufferPool.getStatistics() for very large BBDD.
+- Added Objects#clear.
+- Solved problem with double values in BPlusTree.
+- Removed MapTreeVirtual.
+- Removed DbGraph (it is just a Graph).
+- GraphPool is abstract (use DEX to build GraphPool instances),
+  and also Graph and RGraph (use GraphPool to build their instances).
+- Added WrongArgumentException to JNI layer (jdex.cpp, etc).
+- Fixed bugs at Value#compare.
+- Removed MakeDateTime from JNI layer.
+- Make a temporary Objects from static Objects when necessary.
+- Implemented Graph#neighbours(long, int, short)
+- Fixed bug in split process at BPlusTree::Append method.
+- Make use of MapTreeTypes#getData(int,bool)
+- Fixed bugs at RGraphStorage#save and RGraphStorage#load.
+- Fixed bug at RGraphStorage#findEdges when edge type
+  corresponds to an undirected edge.
+- Fixed bug in Platform::Compare(bool_t, bool_t).
+- DefaultExport exports directed and undirected edges.
+- Graph and DbGraph synchronized methods.
+- Added Graph#getAttributeSize and Graph#getAttributeCount
+- Fixed unclosed collections in GraphStorage#neighbor method.
+- Added a warning output in GraphPool#close whether collections
+  still remain opened.
+- Fixed unclosed collection in GraphStorage#degree.
+- Operations Graph#explode, Graph#neighbors and Graph#degree
+  support BOTH direction.
+- Changed PrintStream to PrintWriter.
+- Added EVALUATION version.
+
+=============================================================================
+Version 0.9.007-d04 (09-04-2008)
+=============================================================================
+- New global of "new" and "delete" operators. Control of memory
+  allocation.
+- Added StringLib#CapitalizeFirstOnly(String s).
+- Removed all references to std in Vector and String.
+- New memory allocation and reservation in the BufferPool.
+- pthread_join to close safely the LazyWriter thread.
+- Added IteratorOID and IteratorLargeOID interface and use them
+  for all the OID collections.
+  Set deprecated Edges, Nodes and Collection classes and those
+  Graph (and Views) 'select' methods which use them.
+  Added 'Objects select()' method to Graph class (and Views).
+  Set Objects class and cleaned its public interface.
+- Collection and NodesEdge have been removed.
+- Fixed bug with Pool header's buffer. Now is 8MB by default,
+  this allows DbGraphs up to 64GB aprox.
+- Implementation of ElementXML.getAttribute().
+- Control of invalid types in Graph.getObjGroup().
+- Added:
+  - Objects select(long, Operation, Value), and
+  - Objects select(int, String, Operation, Value)
+- Fixed bug with Objects#iterators initalization.
+- Operation enum class moved to edu.upc.dama.dex package.
+- GraphExport class moved to edu.upc.dama.dex package,
+  renamed to Export and improved with new features: shape, etc.
+- Fixed bug in RGraph::existNode to support non-inherited nodes.
+  Implementation of Graph::existNode.
+- Removed private field "pool" in RGraph.
+- Added WronArgumentException in package edu.upc.dama.dex.
+- Added some Exception management.
+- Added some javadoc comments.
+- Updated Linux memory limit, from 256Mb to 512Mb, into the Pool.
+- Fixed concurrency bug within Pin method in the Pool.
+- Added more Exception management and some javadoc comments.
+
+=============================================================================
+Version 0.9.006-d03 (26-02-2008)
+=============================================================================
+- Fixed bug with union of two empty collections.
+- Graph#findAttribute, fixed bug with wrong type.
+- Set deprecated following methods: View#related and Graph#related.
+- Fixed encoding bug in GraphML export process: encoding UTF8
+  now becomes ISO-8859-1.
+- Closed all used collections in class Relationship from
+  package edu.upc.dama.dex.schema.
+- Added compile optimization option for Linux.
+- Graph#isTypeNode and Graph#isTypeEdge now return false with
+  INVALID_TYPE (-1).
+- Undirected edges types. New newUndirectedEdgeType to create
+  them, and getEdgePeer to return the related node of one of
+  the nodes in an edge. findEdge with IN or OUT returns the
+  same result.
+- Implemented Clock functions (with miliseconds and 
+  microseconds precision) in Platform.h.
+- Added mutex to Pool operation within DataExtens operations.
+- Porting of POOL_TRACE macros to Linux.
+- Fixed memory leaks at UTF8::Clear, UTF8::Set, UTF8::Copy,
+  MBString::~MBString, String::Clear, Pool::Pool, Pool::~Pool,
+  Value::Clear, and getStr (in jdextrc.cpp).
+- Added extra info to serialize Links during Graph:Save & Load
+- DEX generates an exception when there are iterators that
+  have not been properly released.
+
+=============================================================================
+Version 0.9.005-d02 (29-01-2008)
+=============================================================================
+- toString method of a NULL Value now returns a null pointer
+  instead of the "null" String.
+- Completely deleted "count" fields amd methods into Value
+  class.
+- Implemented Link::Reset(oid) and its jdex interface
+- Graph: drop() completed.
+- Implemented Link::Reset(oid,value) and its jdex interface
+  (reset for no dual Link).
+- Fixed bug in select operation on RGraphs.
+                
+=============================================================================
+Version 0.9.004-d02 (14-14-2007)
+=============================================================================
+- BufferPool: create() and open() now throw an
+  IllegalArgumentException when the filename does not contain
+  a valid DEX data file.
+- Fixed fatal bug in View.findAttribute() with an invalid attribute name.
+- Fixed fatal bug in RGraphView.getAttribute(int,String) with
+  any attribute name.
+- New instances of ElementXML can be created directly from a
+  DbGraph's node.
+
+=============================================================================
+Version 0.9.003-d02 (12-12-2007)
+=============================================================================
+- Fixed ambigous "graph" variable and class field into addNode
+  method of RGraphView class.
+- RGraphView.getAttributes() now returns the attributes from
+  inherited nodes.
+
+=============================================================================
+Version 0.9.002-d02 (10-12-2007)
+=============================================================================
+- Fixed bug with UTF8.Extract(): memory freed in several calls
+  in jdex.cpp.
+- Implementation of RGraph.newNode().
+- BufferPool.close() raises an exception when not all temporary.
+  objects have been closed.
+- All iterators of the Schema package are now closed properly.
+
+=============================================================================
+Version 0.9.001-d02 (05-12-2007)
+=============================================================================
+- GraphPool.close() does not raise an exception when there are 
+  RGraphs still open.
+- schema.Schema has a new constructor to create a GraphPool
+  directly from a script.
+- New package xml to load XML documents.
+  - DatasetXML: creates an XML dataset, loads XML documents.
+- DbGraph.dump(false) now reports the attributes of the edges.
+- Directed edges in the GraphML export process.
+- core.View: new methods nodes() and edges() to retrieve the total number 
+  of active objects.
+- View.addNode() has been moved to RGraphView and it is now only available 
+  on RGraphs.
+
