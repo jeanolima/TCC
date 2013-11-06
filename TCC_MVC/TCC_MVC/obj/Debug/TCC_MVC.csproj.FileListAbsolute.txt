@@ -52,3 +52,5 @@ C:\Users\Usuario\Desktop\TCC_Lucas\branches\MVC\TCC_MVC\TCC_MVC\bin\DotNetOpenAu
 C:\Users\Usuario\Desktop\TCC_Lucas\branches\MVC\TCC_MVC\TCC_MVC\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Usuario\Desktop\TCC_Lucas\branches\MVC\TCC_MVC\TCC_MVC\obj\Debug\TCC_MVC.dll
 C:\Users\Usuario\Desktop\TCC_Lucas\branches\MVC\TCC_MVC\TCC_MVC\obj\Debug\TCC_MVC.pdb
+C:\Users\Usuario\Desktop\TCC_Lucas\branches\MVC\TCC_MVC\TCC_MVC\bin\Satsuma.dll
+C:\Users\Usuario\Desktop\TCC_Lucas\branches\MVC\TCC_MVC\TCC_MVC\bin\Satsuma.xml

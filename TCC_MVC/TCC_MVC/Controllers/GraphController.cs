@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml.XPath;
-using System.Text;
-using System.Xml.Linq;
-using TCC_MVC.Models;
+using Satsuma;
 
 namespace TCC_MVC.Controllers
 {
@@ -14,27 +9,22 @@ namespace TCC_MVC.Controllers
     {
         public ActionResult Index()
         {
-            using(var Context = new TCC_LUCASEntities())
-            {
-                //var item = Context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements("x").Single().Value == "1");
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//IDIOMAS//IDIOMA[@IDIOMA='FR']";
-                var item = Context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any());
-                var item2 = item.ToList();
+            CustomGraph z = new CustomGraph();
 
-            }
-            //StringBuilder sbDoc = new StringBuilder();
-            //XPathDocument doc = new XPathDocument(@"C:\Users\Usuario\Desktop\TCC_Lucas\branches\MVC\Curriculos\curriculo(1).xml");
-            //XPathNavigator nav = doc.CreateNavigator();
-            //XPathExpression expr;
-            //expr = nav.Compile("/CURRICULO-VITAE/DADOS-GERAIS/IDIOMAS/IDIOMA");
-            //XPathNodeIterator iterator = nav.Select(expr);
+            Node a = z.AddNode();
+            Node b = z.AddNode();
+            Node c = z.AddNode();
+            Arc ab = z.AddArc(a, b, Directedness.Directed);
+            Arc bc = z.AddArc(b, c, Directedness.Undirected);
 
-            //while (iterator.MoveNext())
-            //{
-            //    sbDoc.Append(iterator.Current.OuterXml);
-            //}
-
-            //ViewBag.Retorno = sbDoc.ToString();
+            var g = new CompleteGraph(100, Directedness.Directed); // create a complete graph on 100 nodes
+            var cost = new Dictionary<Node, double>(); // create a cost function on the nodes
+            int i = 0;
+            foreach (Node node in g.Nodes()) cost[node] = i++; // assign some integral costs to the nodes
+            Func<Arc, double> arcCost =
+                (arc => cost[g.U(arc)] + cost[g.V(arc)]); // a cost of an arc will be the sum of the costs of the two nodes
+            foreach (Arc arc in g.Arcs())
+                Console.WriteLine("Cost of " + g.ArcToString(arc) + " is " + arcCost(arc));
 
             return View();
         }
