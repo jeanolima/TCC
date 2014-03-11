@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach(var teacher in ViewBag.Lista)
+{
+    <span>@teacher.Name</span>
+    <br />
+}
