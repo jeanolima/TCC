@@ -316,17 +316,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Areas\BDB_XML\Controllers\" />
-    <Folder Include="Areas\BDB_XML\Models\" />
-    <Folder Include="Areas\BDB_XML\Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\BDB_XML\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Graph\Index.cshtml" />

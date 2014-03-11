@@ -22,7 +22,7 @@ namespace TCC_MVC.Controllers
                 //var item2 = item.ToList();
 
 
-                var temp= GetResearchByNameInXML("Luciana Nedel");
+                var temp = GetResearchBySearch("Desenvolvimento de Matriz Gate Array");
 
             }
 
@@ -55,6 +55,17 @@ namespace TCC_MVC.Controllers
             using (var _context = new TCC_LUCASEntities())
             {
                 return _context.Curriculos.Where(x => x.Id.Equals(id)).FirstOrDefault();
+            }
+        }
+
+        private Curriculos GetResearchBySearch(string title)
+        {
+            Curriculos research = new Curriculos();
+            using (var _context = new TCC_LUCASEntities())
+            {
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[@TITULO-DA-LINHA-DE-PESQUISA='" + title + "']";
+                research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).FirstOrDefault();
+                return research;
             }
         }
 
