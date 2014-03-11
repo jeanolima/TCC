@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TCC_LUCASModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityType Name="Curriculos">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Data" />
+      <PropertyRef Name="Working" />
+      <PropertyRef Name="UpdatedIn" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Working" Type="Boolean" Nullable="false" />
+    <Property Name="UpdatedIn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="TCC_LUCASEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Curriculos" EntityType="Self.Curriculos" />
+  </EntityContainer>
+</Schema>
