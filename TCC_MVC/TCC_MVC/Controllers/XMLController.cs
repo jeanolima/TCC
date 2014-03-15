@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using TCC_MVC.Models;
@@ -21,21 +22,35 @@ namespace TCC_MVC.Controllers
                 //var item = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any());
                 //var item2 = item.ToList();
 
-                var temp = GetResearchByNameInXML("er");
+                var temp = GetResearchsByAuthor("Valter");
                 ViewBag.Lista = temp;
             }
 
             return View();
         }
 
-        private IList<Curriculos> GetResearchByNameInXML(string name)
+        private IList<string> GetResearchsByAuthor(string name)
         {
             
             using (var _context = new TCC_LUCASEntities())
             {
                 string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(@NOME-COMPLETO,'" + name + "')]";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
-                return research;
+
+                var articles = new List<string>();
+                string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DADOS-BASICOS-DO-ARTIGO";
+                foreach (var author in research)
+                {
+                    XmlDocument xml = new XmlDocument();
+                    xml.LoadXml(author.Data); // Load(file)
+
+                    foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                    {
+                        articles.Add(node.Attributes["TITULO-DO-ARTIGO"].Value);
+                    }
+                }
+
+                return articles;
             }
         }
 
@@ -62,6 +77,16 @@ namespace TCC_MVC.Controllers
             using (var _context = new TCC_LUCASEntities())
             {
                 string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains (@TITULO-DA-LINHA-DE-PESQUISA, '" + title + "')]";
+                var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
+                return research;
+            }
+        }
+
+        private IList<Curriculos> GetResearchByGroup(string projectName)
+        {
+            using (var _context = new TCC_LUCASEntities())
+            {
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//ATIVIDADE-DE-PARTICIPACAO-EM-PROJETO//PARTICIPACAO-EM-PROJETO//PROJETO-DE-PESQUISA [contains (@NOME-DE-PROJETO, '" + projectName + "')]";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
                 return research;
             }
