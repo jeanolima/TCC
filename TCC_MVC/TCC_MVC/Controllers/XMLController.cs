@@ -21,21 +21,20 @@ namespace TCC_MVC.Controllers
                 //var item = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any());
                 //var item2 = item.ToList();
 
-
-                var temp = GetResearchBySearch("Desenvolvimento de Matriz Gate Array");
-
+                var temp = GetResearchByNameInXML("er");
+                ViewBag.Lista = temp;
             }
 
             return View();
         }
 
-        private Curriculos GetResearchByNameInXML(string name)
+        private IList<Curriculos> GetResearchByNameInXML(string name)
         {
-            Curriculos research = new Curriculos();
+            
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[@NOME-COMPLETO='"+@name+"']";
-                research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).FirstOrDefault();
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(@NOME-COMPLETO,'" + name + "')]";
+                var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
                 return research;
             }
         }
@@ -58,13 +57,12 @@ namespace TCC_MVC.Controllers
             }
         }
 
-        private Curriculos GetResearchBySearch(string title)
+        private IList<Curriculos> GetResearchBySearch(string title)
         {
-            Curriculos research = new Curriculos();
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[@TITULO-DA-LINHA-DE-PESQUISA='" + title + "']";
-                research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).FirstOrDefault();
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains (@TITULO-DA-LINHA-DE-PESQUISA, '" + title + "')]";
+                var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
                 return research;
             }
         }
