@@ -2,10 +2,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<span>Total - @ViewBag.Total</span>
 
-@foreach(var teacher in ViewBag.Lista)
+@foreach(var article in ViewBag.Lista)
 {
-    <span>@teacher.Name</span>
+    <span>@article</span>
     <br />
 }
