@@ -17,13 +17,20 @@ namespace TCC_MVC.Controllers
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                var temp = GetResearchByGroup("SAPSA");
-                var temp2 = GetResearchBySearch("Desenvolvimento");
+                var model = new SearchModel();
+                var temp = GetResearchByGroup(model, "Transporte para o SBTVD");
                 ViewBag.Lista = temp;
                 ViewBag.Total = GetAllArticles().Count();
             }
 
             return View();
+        }
+
+        private SearchModel OrderByYear (SearchModel model)
+        {
+
+
+            return model;
         }
 
         private IList<string> GetAllArticles()
@@ -34,42 +41,55 @@ namespace TCC_MVC.Controllers
             return articles;
         }
 
-        private IList<string> GetResearchsByAuthor(string name)
+        private SearchModel GetResearchsByAuthor(SearchModel model, string name)
         {
             
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(@NOME-COMPLETO,'" + name + "')]";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(@NOME-COMPLETO,'" + name + "') or @NOME-COMPLETO= '" + name + "']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
-                var articles = GetArticlesFromXML(research);
+                model.curriculos = research;
+                model.articles = GetArticlesFromXML(research).Select(x => new ArticleModel { 
+                   Title = x 
+                }).ToList();
 
-                return articles;
+                return model;
             }
         }
 
 
-        private IList<string> GetResearchBySearch(string title)
+        private SearchModel GetResearchBySearch(SearchModel model, string title)
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains(@TITULO-DA-LINHA-DE-PESQUISA, '" + title + "')]";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains(@TITULO-DA-LINHA-DE-PESQUISA, '" + title + "') or @TITULO-DA-LINHA-DE-PESQUISA = '"+title+"']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
-                var articles = GetArticlesFromXML(research);
-                return articles;
+                model.curriculos = research;
+                model.articles = GetArticlesFromXML(research).Select(x => new ArticleModel
+                {
+                    Title = x
+                }).ToList();
+
+                return model;
             }
         }
 
-        private IList<string> GetResearchByGroup(string projectName)
+        private SearchModel GetResearchByGroup(SearchModel model, string projectName)
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//ATIVIDADES-DE-PARTICIPACAO-EM-PROJETO//PARTICIPACAO-EM-PROJETO//PROJETO-DE-PESQUISA[contains(@NOME-DE-PROJETO, '" + projectName + "')]";
-                var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//PROJETO-DE-PESQUISA[contains(@NOME-DO-PROJETO, '" + projectName + "') or @NOME-DO-PROJETO = '" + projectName + "']";
+                var research = _context.Curriculos.AsEnumerable().Where(entry => entry.Id == 13 && XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
-                var articles = GetArticlesFromXML(research);
-                return articles;
+                model.curriculos = research;
+                model.articles = GetArticlesFromXML(research).Select(x => new ArticleModel
+                {
+                    Title = x
+                }).ToList();
+
+                return model;
             }
         }
 
@@ -86,6 +106,8 @@ namespace TCC_MVC.Controllers
                 foreach (XmlNode node in xml.SelectNodes(xpathArticle))
                 {
                     articles.Add(node.Attributes["TITULO-DO-ARTIGO"].Value);
+
+                    //popular a model nesta parte do código
                 }
             }
 
