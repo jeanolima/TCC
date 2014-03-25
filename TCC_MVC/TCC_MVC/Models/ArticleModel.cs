@@ -12,6 +12,22 @@ namespace TCC_MVC.Models
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public string Year { get; set; }
+        public string Nature { get; set; }
+
+        public string Country { get; set; }
+
+        public string Language { get; set; }
+
+        public string HomePage { get; set; }
+
+        public string Relevant { get; set; }
+
+        public string Doi { get; set; }
+
+        public string EnglishTitle { get; set; }
+
+        public string Revelation { get; set; }
+
+        public int Year { get; set; }
     }
 }

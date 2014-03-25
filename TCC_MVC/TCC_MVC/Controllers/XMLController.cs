@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Xml;
@@ -18,27 +19,164 @@ namespace TCC_MVC.Controllers
             using (var _context = new TCC_LUCASEntities())
             {
                 var model = new SearchModel();
-                var temp = GetResearchByGroup(model, "Transporte para o SBTVD");
-                ViewBag.Lista = temp;
-                ViewBag.Total = GetAllArticles().Count();
+                model = GetAllArticles();
+                ViewBag.All = CountAllQualis(model);
+                ViewBag.Without = CountAllWithoutQualis(model);
+                ViewBag.Specific = CountSpecificQualis(model, "A1");
             }
 
             return View();
         }
 
-        private SearchModel OrderByYear (SearchModel model)
+        private int CountAllQualis (SearchModel model)
         {
+            int total = 0;
+            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
+            foreach (var author in model.curriculos)
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(author.Data);
 
+                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                {
+                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
+                    if(info.Contains("Qualis") &&
+                        !info.Contains("Nada consta") &&
+                        !info.Contains("Não está classificado"))
+                    {
+                        total++;
+                    }
+                }
+            }
+
+            return total;
+        }
+
+        private int CountAllWithoutQualis(SearchModel model)
+        {
+            int total = 0;
+            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
+            foreach (var author in model.curriculos)
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(author.Data);
+
+                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                {
+                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
+                    if (!info.Contains("Qualis") ||
+                        info.Contains("Nada consta") ||
+                        info.Contains("Não está classificado"))
+                    {
+                        total++;
+                    }
+                }
+            }
+
+            return total;
+        }
+        
+        private int CountSpecificQualis(SearchModel model, string qualis)
+        {
+            int total = 0;
+            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
+            foreach (var author in model.curriculos)
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(author.Data);
+
+                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                {
+                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
+                    if (info.Contains(qualis) &&
+                        !info.Contains("Nada consta") &&
+                        !info.Contains("Não está classificado"))
+                    {
+                        total++;
+                    }
+                }
+            }
+
+            return total;
+        }
+
+        //não esta pronta
+        private int CountAllSpecificQualis(SearchModel model)
+        {
+            int total = 0;
+            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
+            //var qualis = 
+            foreach (var author in model.curriculos)
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(author.Data);
+
+                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                {
+                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
+                    if (info.Contains("") ||
+                        !info.Contains("Nada consta") ||
+                        !info.Contains("Não está classificado"))
+                    {
+                        total++;
+                    }
+                }
+            }
+
+            return total;
+        }
+
+        private SearchModel OrderByTriennium(SearchModel model)
+        {
+            var yearNow = DateTime.Now.Year;
+
+            model.articles = model.articles.Where(x => (x.Year > yearNow - 3 ? true : false)).OrderBy(x => x.Year).ToList();
+
+            var years = model.articles.Select(x => x.Year).Distinct().ToList();
+            model.Years = new List<YearArticlesModel>();
+
+            foreach (var year in years)
+            {
+                var totalOfYear = model.articles.Where(x => x.Year.Equals(year)).Count();
+
+                model.Years.Add(new YearArticlesModel
+                {
+                    TotalArticles = totalOfYear,
+                    Year = year
+                });
+            }
 
             return model;
         }
 
-        private IList<string> GetAllArticles()
+        private SearchModel OrderByYear (SearchModel model)
         {
-            var researches = GetAll();
-            var articles = GetArticlesFromXML(researches);
+            model.articles = model.articles.OrderBy(x => x.Year).ToList();
 
-            return articles;
+            var years = model.articles.Select(x => x.Year).Distinct().ToList();
+            model.Years = new List<YearArticlesModel>();
+            
+            foreach (var year in years)
+            {
+                var totalOfYear = model.articles.Where(x => x.Year.Equals(year)).Count();
+
+                model.Years.Add(new YearArticlesModel{
+                    TotalArticles = totalOfYear,
+                    Year = year
+                });
+            }
+
+            return model;
+        }
+
+        private SearchModel GetAllArticles()
+        {
+            var model = new SearchModel();
+            var researches = GetAll();
+            model.curriculos =researches;
+            model = GetArticlesFromXML(model, researches);
+
+            return model;
         }
 
         private SearchModel GetResearchsByAuthor(SearchModel model, string name)
@@ -50,9 +188,7 @@ namespace TCC_MVC.Controllers
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
-                model.articles = GetArticlesFromXML(research).Select(x => new ArticleModel { 
-                   Title = x 
-                }).ToList();
+                model = GetArticlesFromXML(model, research);
 
                 return model;
             }
@@ -67,10 +203,7 @@ namespace TCC_MVC.Controllers
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
-                model.articles = GetArticlesFromXML(research).Select(x => new ArticleModel
-                {
-                    Title = x
-                }).ToList();
+                model = GetArticlesFromXML(model, research);
 
                 return model;
             }
@@ -84,34 +217,42 @@ namespace TCC_MVC.Controllers
                 var research = _context.Curriculos.AsEnumerable().Where(entry => entry.Id == 13 && XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
-                model.articles = GetArticlesFromXML(research).Select(x => new ArticleModel
-                {
-                    Title = x
-                }).ToList();
+                model = GetArticlesFromXML(model, research);
 
                 return model;
             }
         }
 
-        private IList<string> GetArticlesFromXML (IList<Curriculos> researchs)
+        private SearchModel GetArticlesFromXML (SearchModel model, IList<Curriculos> researchs)
         {
-
-            var articles = new List<string>();
             string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DADOS-BASICOS-DO-ARTIGO";
+
+            if (model.articles == null)
+                model.articles = new List<ArticleModel>();
             foreach (var author in researchs)
             {
                 XmlDocument xml = new XmlDocument();
-                xml.LoadXml(author.Data); // Load(file)
-
+                xml.LoadXml(author.Data);
+                
                 foreach (XmlNode node in xml.SelectNodes(xpathArticle))
                 {
-                    articles.Add(node.Attributes["TITULO-DO-ARTIGO"].Value);
+                    var article = new ArticleModel();
+                    article.Nature = node.Attributes["NATUREZA"].Value;
+                    article.Title = node.Attributes["TITULO-DO-ARTIGO"].Value;
+                    article.Year = Convert.ToInt32(node.Attributes["ANO-DO-ARTIGO"].Value);
+                    article.Country = node.Attributes["PAIS-DE-PUBLICACAO"].Value;
+                    article.Language = node.Attributes["IDIOMA"].Value;
+                    article.HomePage = node.Attributes["HOME-PAGE-DO-TRABALHO"].Value;
+                    article.Relevant = node.Attributes["FLAG-RELEVANCIA"].Value;
+                    article.Doi = node.Attributes["DOI"].Value;
+                    article.EnglishTitle = node.Attributes["TITULO-DO-ARTIGO-INGLES"].Value;
+                    article.Revelation = node.Attributes["FLAG-DIVULGACAO-CIENTIFICA"].Value;
 
-                    //popular a model nesta parte do código
+                    model.articles.Add(article);
                 }
             }
 
-            return articles;
+            return model;
         }
 
         private Curriculos GetResearchByName(string name)

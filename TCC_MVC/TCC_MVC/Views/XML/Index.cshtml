@@ -2,10 +2,23 @@
     ViewBag.Title = "Index";
 }
 
-<span>Total - @ViewBag.Total</span>
+<span>All with Qaulis - @ViewBag.All</span><br />
+<span>All without Qaulis - @ViewBag.Without</span><br />
+<span>All with specific Qaulis - @ViewBag.Specific</span><br />
 
-@foreach(var article in ViewBag.Lista)
+
+@*@foreach (var article in ViewBag.ByYear)
 {
-    <span>@article</span>
+    <span>@article.Year</span>
     <br />
 }
+
+<br />
+<br />
+<br />
+
+@foreach (var article in ViewBag.ByTriennium)
+{
+    <span>@article.Year</span>
+    <br />
+}*@
