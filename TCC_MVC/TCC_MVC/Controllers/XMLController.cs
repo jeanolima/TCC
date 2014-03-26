@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Xml;
 using System.Xml.Linq;
@@ -16,16 +17,14 @@ namespace TCC_MVC.Controllers
 
         public ActionResult Index()
         {
-            using (var _context = new TCC_LUCASEntities())
-            {
-                var model = new SearchModel();
-                model = GetAllArticles();
-                ViewBag.All = CountAllQualis(model);
-                ViewBag.Without = CountAllWithoutQualis(model);
-                ViewBag.Specific = CountSpecificQualis(model, "A1");
-            }
+            var _context = new TCC_LUCASEntities();
+            var model = new SearchModel();
 
-            return View();
+            model = GetAllArticles();
+            ViewBag.All = CountAllQualis(model);
+            model = CountAllSpecificQualis(model);
+
+            return View("Index", model);
         }
 
         private int CountAllQualis (SearchModel model)
@@ -101,29 +100,48 @@ namespace TCC_MVC.Controllers
         }
 
         //não esta pronta
-        private int CountAllSpecificQualis(SearchModel model)
+        private SearchModel CountAllSpecificQualis(SearchModel model)
         {
             int total = 0;
-            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
-            //var qualis = 
+            var listaQualis = new List<string>() { 
+                "A1", "1A", "a1", "1a",
+                "A2", "2A", "a2", "2a",
+                "B1", "1B", "b1", "1b",
+                "B2", "2B", "b2", "2b",
+                "B3", "3B", "b3", "3b",
+                "B4", "4B", "b4", "4b",
+                "B5", "5B", "b5", "5b",
+                "C"
+            };
+            
             foreach (var author in model.curriculos)
             {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(author.Data);
-
-                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                foreach (var qualis in listaQualis)
                 {
-                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
-                    if (info.Contains("") ||
-                        !info.Contains("Nada consta") ||
-                        !info.Contains("Não está classificado"))
+                    string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS[contains(@DESCRICAO-INFORMACOES-ADICIONAIS, '" + qualis + "') and not(contains(@DESCRICAO-INFORMACOES-ADICIONAIS,'Nada consta') or contains(@DESCRICAO-INFORMACOES-ADICIONAIS,'Não está classificado')) ]";
+                
+                    XmlDocument xml = new XmlDocument();
+                    xml.LoadXml(author.Data);
+                    total = xml.SelectNodes(xpathArticle).Count;
+
+                    var num = Regex.Match(qualis, @"\d+").Value;
+                    var letter = Regex.Replace(qualis, @"[\d-]", string.Empty);
+                    var qualisFormat = letter + num;
+                    switch (qualisFormat.ToLower())
                     {
-                        total++;
+                        case "a1": { model.TotalA1 = model.TotalA1 + total; break; }
+                        case "a2": { model.TotalA2 = model.TotalA2 + total; break; }
+                        case "b1": { model.TotalB1 = model.TotalB1 + total; break; }
+                        case "b2": { model.TotalB2 = model.TotalB2 + total; break; }
+                        case "b3": { model.TotalB3 = model.TotalB3 + total; break; }
+                        case "b4": { model.TotalB4 = model.TotalB4 + total; break; }
+                        case "b5": { model.TotalB5 = model.TotalB5 + total; break; }
+                        case "c": { model.TotalC = model.TotalC + 1; break; }
+                        default: { break; }
                     }
                 }
             }
-
-            return total;
+            return model;
         }
 
         private SearchModel OrderByTriennium(SearchModel model)
