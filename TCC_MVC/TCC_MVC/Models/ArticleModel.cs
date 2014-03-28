@@ -29,5 +29,7 @@ namespace TCC_MVC.Models
         public string Revelation { get; set; }
 
         public int Year { get; set; }
+
+        public int Coauthors { get; set; }
     }
 }

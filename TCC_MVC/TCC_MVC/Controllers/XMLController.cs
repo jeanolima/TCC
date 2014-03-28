@@ -192,7 +192,7 @@ namespace TCC_MVC.Controllers
             var model = new SearchModel();
             var researches = GetAll();
             model.curriculos =researches;
-            model = GetArticlesFromXML(model, researches);
+            model = GetArticlesFromXML(model, researches, true);
 
             return model;
         }
@@ -241,7 +241,7 @@ namespace TCC_MVC.Controllers
             }
         }
 
-        private SearchModel GetArticlesFromXML (SearchModel model, IList<Curriculos> researchs)
+        private SearchModel GetArticlesFromXML (SearchModel model, IList<Curriculos> researchs, bool countCoAuthors = false)
         {
             string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DADOS-BASICOS-DO-ARTIGO";
 
@@ -265,6 +265,7 @@ namespace TCC_MVC.Controllers
                     article.Doi = node.Attributes["DOI"].Value;
                     article.EnglishTitle = node.Attributes["TITULO-DO-ARTIGO-INGLES"].Value;
                     article.Revelation = node.Attributes["FLAG-DIVULGACAO-CIENTIFICA"].Value;
+                    article.Coauthors = node.ParentNode.SelectNodes("AUTORES").Count - 1; //Theres is gonna be always one main author
 
                     model.articles.Add(article);
                 }
