@@ -1,9 +1,0 @@
-digraph "doc" {
-  compound=true
-  node [ fontsize="10", fontname="FreeSans"];
-  edge [ labelfontsize="10", labelfontname="FreeSans"];
-  subgraph clusterdir_2a13c261ce7a080998cc39ccad926279 {
-    graph [ bgcolor="#ddddee", pencolor="black", label="dexnet" fontname="FreeSans", fontsize="10", URL="dir_2a13c261ce7a080998cc39ccad926279.html"]
-  dir_ae897aa85954217a232119574ddd9289 [shape=box, label="doc", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_ae897aa85954217a232119574ddd9289.html"];
-  }
-}

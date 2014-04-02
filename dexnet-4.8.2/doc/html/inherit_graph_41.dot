@@ -1,9 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
-  node [fontname="FreeSans",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="com.sparsity.dex.io.RowWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcom_1_1sparsity_1_1dex_1_1io_1_1RowWriter.html",tooltip="RowWriter interface."];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
-  Node2 [label="com.sparsity.dex.io.CSVWriter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcom_1_1sparsity_1_1dex_1_1io_1_1CSVWriter.html",tooltip="CSVWriter interface."];
-}
