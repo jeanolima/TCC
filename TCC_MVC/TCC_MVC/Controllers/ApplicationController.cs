@@ -10,19 +10,38 @@ using TCC_MVC.Models;
 
 namespace TCC_MVC.Controllers
 {
-    public class XMLController : Controller
+    public class ApplicationController : Controller
     {
         //
         // GET: /XML/
 
         public ActionResult Index()
         {
-            var _context = new TCC_LUCASEntities();
             var model = new SearchModel();
 
-            model = GetAllArticles();
-            ViewBag.All = CountAllQualis(model);
-            model = CountAllSpecificQualis(model);
+            return View("Index", model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(SearchModel model)
+        {
+            switch(model.KeyType)
+            {
+                case "author": { model = GetResearchsByAuthor(model, model.Keyword); break; }
+                case "search": {model= GetResearchBySearch(model, model.Keyword); break; }
+                case "group": { model= GetResearchByGroup(model, model.Keyword); break; }
+                case "clique": {/* model = GetResearchByClique(model, model.Keyword);*/ break; }
+                default: break;
+            }
+
+            switch (model.GroupByType)
+            {
+                case "year":{ model = OrderByYear(model); break; }
+                case "triennum": { model = OrderByYear(model); break; }
+                case "total": { model = OrderByYear(model); break; }
+                case "evolution": { /*model = OrderByYear(model); */break; }
+                default: break;
+            }
 
             return View("Index", model);
         }
@@ -255,6 +274,7 @@ namespace TCC_MVC.Controllers
                 foreach (XmlNode node in xml.SelectNodes(xpathArticle))
                 {
                     var article = new ArticleModel();
+                    article.Author = author.Name;
                     article.Nature = node.Attributes["NATUREZA"].Value;
                     article.Title = node.Attributes["TITULO-DO-ARTIGO"].Value;
                     article.Year = Convert.ToInt32(node.Attributes["ANO-DO-ARTIGO"].Value);
@@ -266,7 +286,6 @@ namespace TCC_MVC.Controllers
                     article.EnglishTitle = node.Attributes["TITULO-DO-ARTIGO-INGLES"].Value;
                     article.Revelation = node.Attributes["FLAG-DIVULGACAO-CIENTIFICA"].Value;
                     article.Coauthors = node.ParentNode.SelectNodes("AUTORES").Count - 1; //Theres is gonna be always one main author
-
                     model.articles.Add(article);
                 }
             }

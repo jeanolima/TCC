@@ -176,6 +176,27 @@ footer {
         list-style: none;
     }
 
+/* filter
+----------------------------------------------------------*/
+ul#filter {
+    font-size: 1.0em;
+    font-weight: 600;
+    margin: 0 0 5px;
+    padding: 0;
+    text-align: left;
+}
+
+    ul#filter li {
+        display: inline;
+        list-style: none;
+        padding-left: 15px;
+    }
+
+    ul#filter li span input[type='radio'] {
+        margin:0;
+        padding:0;    
+        width:21px;
+    }
 
 /* menu
 ----------------------------------------------------------*/
@@ -184,7 +205,7 @@ ul#menu {
     font-weight: 600;
     margin: 0 0 5px;
     padding: 0;
-    text-align: right;
+    text-align: left;
 }
 
     ul#menu li {

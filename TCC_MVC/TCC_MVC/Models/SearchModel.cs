@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TCC_MVC.Models
 {
@@ -23,5 +20,12 @@ namespace TCC_MVC.Models
         public int TotalB5 { get; set; }
         public int TotalC { get; set; }
         public IList<YearArticlesModel> Years { get; set; }
+
+        [Display(Name = "Palavra Chave")]
+        public string Keyword { get; set; }
+        [Display(Name = "Pesquisar por")]
+        public string KeyType { get; set; }
+        [Display(Name = "Agrupar por")]
+        public string GroupByType { get; set; }
     }
 }

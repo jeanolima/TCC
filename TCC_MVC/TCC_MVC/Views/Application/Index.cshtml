@@ -1,0 +1,80 @@
+﻿@model TCC_MVC.Models.SearchModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Index", "Application", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <hgroup>
+        <h3>Filtro:</h3>
+        <ul id="filter">
+            <li>
+                <span>
+                    @Html.LabelFor(m => m.Keyword)
+                    @Html.TextBoxFor(m => m.Keyword)
+                </span>
+            </li>
+            <li>
+                <b>@Html.LabelFor(m => m.KeyType)</b>
+                <span>
+                    Pesquisador @Html.RadioButtonFor(m => m.KeyType, "author")
+                </span>
+                <span>
+                    Linha @Html.RadioButtonFor(m => m.KeyType, "search")
+                </span>
+                <span>
+                    Grupo
+                    @Html.RadioButtonFor(m => m.KeyType, "group")
+                </span>
+                <span>
+                    Clique @Html.RadioButtonFor(m => m.KeyType, "clique")
+                </span>
+            </li>
+            <li>
+                <b>@Html.LabelFor(m => m.GroupByType)</b>
+                <span>
+                    Ano
+                    @Html.RadioButtonFor(m => m.GroupByType, "year")
+                    Trieno
+                    @Html.RadioButtonFor(m => m.GroupByType, "triennium")
+                    Toltal
+                    @Html.RadioButtonFor(m => m.GroupByType, "total")
+                    Evolução
+                    @Html.RadioButtonFor(m => m.GroupByType, "evolution")
+                </span>
+            </li>
+        </ul>
+        <input type="submit" value="Filtrar" />
+    </hgroup>
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+
+<article>
+    <p>
+        Use this area to provide additional information.
+    </p>
+</article>
+@if (Model.articles != null)
+{
+    <table>
+        <tr>
+            <td> </td>
+            <td>Autor</td>
+            <td>Título</td>
+            <td>Ação</td>
+        </tr>
+        @foreach (var article in Model.articles)
+        {
+            <tr>
+                <td><input type="checkbox" name="articles" value="@article.Id" /></td>
+                <td>@article.Author</td>
+                <td>@article.Title</td>
+                <td>@Html.ActionLink("Edit", "Edit", "Article")</td>
+            </tr>
+        }
+    </table>
+}
