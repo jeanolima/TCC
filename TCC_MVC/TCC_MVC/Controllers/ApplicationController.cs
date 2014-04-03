@@ -34,12 +34,20 @@ namespace TCC_MVC.Controllers
                 default: break;
             }
 
-            switch (model.GroupByType)
+            switch (model.OrderByType)
             {
                 case "year":{ model = OrderByYear(model); break; }
                 case "triennum": { model = OrderByYear(model); break; }
                 case "total": { model = OrderByYear(model); break; }
                 case "evolution": { /*model = OrderByYear(model); */break; }
+                default: break;
+            }
+
+            switch (model.GroupByType)
+            {
+                case "completo": { model = GroupByCompleteType(model); break; }
+                case "resumo": { model = GroupByResumeType(model); break; }
+                case "periodico": { /*model = OrderByYear(model); */break; }
                 default: break;
             }
 
@@ -163,6 +171,18 @@ namespace TCC_MVC.Controllers
             return model;
         }
 
+        private SearchModel GroupByCompleteType(SearchModel model)
+        {
+            model.articles = model.articles.Where(x => x.Nature.ToLower().Equals("completo")).ToList();
+            return model;
+        }
+
+        private SearchModel GroupByResumeType(SearchModel model)
+        {
+            model.articles = model.articles.Where(x => x.Nature.ToLower().Equals("resumo")).ToList();
+            return model;
+        }
+
         private SearchModel OrderByTriennium(SearchModel model)
         {
             var yearNow = DateTime.Now.Year;
@@ -274,6 +294,8 @@ namespace TCC_MVC.Controllers
                 foreach (XmlNode node in xml.SelectNodes(xpathArticle))
                 {
                     var article = new ArticleModel();
+                    article.AuthorId = author.Id;
+                    article.Id = Convert.ToInt32(node.NextSibling.Attributes["ISSN"].Value);
                     article.Author = author.Name;
                     article.Nature = node.Attributes["NATUREZA"].Value;
                     article.Title = node.Attributes["TITULO-DO-ARTIGO"].Value;

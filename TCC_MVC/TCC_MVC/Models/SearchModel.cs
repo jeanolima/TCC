@@ -25,7 +25,12 @@ namespace TCC_MVC.Models
         public string Keyword { get; set; }
         [Display(Name = "Pesquisar por")]
         public string KeyType { get; set; }
+        
+        [Display(Name = "Ordenar por")]
+        public string OrderByType { get; set; }
+
         [Display(Name = "Agrupar por")]
         public string GroupByType { get; set; }
+
     }
 }

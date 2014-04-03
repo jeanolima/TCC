@@ -31,16 +31,27 @@
                 </span>
             </li>
             <li>
-                <b>@Html.LabelFor(m => m.GroupByType)</b>
+                <b>@Html.LabelFor(m => m.OrderByType)</b>
                 <span>
                     Ano
-                    @Html.RadioButtonFor(m => m.GroupByType, "year")
+                    @Html.RadioButtonFor(m => m.OrderByType, "year")
                     Trieno
-                    @Html.RadioButtonFor(m => m.GroupByType, "triennium")
+                    @Html.RadioButtonFor(m => m.OrderByType, "triennium")
                     Toltal
-                    @Html.RadioButtonFor(m => m.GroupByType, "total")
+                    @Html.RadioButtonFor(m => m.OrderByType, "total")
                     Evolução
-                    @Html.RadioButtonFor(m => m.GroupByType, "evolution")
+                    @Html.RadioButtonFor(m => m.OrderByType, "evolution")
+                </span>
+            </li>
+            <li>
+                <b>@Html.LabelFor(m => m.OrderByType)</b>
+                <span>
+                    Artigo Completo
+                    @Html.RadioButtonFor(m => m.OrderByType, "completo")
+                    Resumo
+                    @Html.RadioButtonFor(m => m.OrderByType, "resumo")
+                    Periódico
+                    @Html.RadioButtonFor(m => m.OrderByType, "periodico")
                 </span>
             </li>
         </ul>
@@ -71,9 +82,9 @@
         {
             <tr>
                 <td><input type="checkbox" name="articles" value="@article.Id" /></td>
-                <td>@article.Author</td>
+                <td>@Html.ActionLink(article.Author, "Edit", "Research", new { idAuthor = article.AuthorId }, null)</td>
                 <td>@article.Title</td>
-                <td>@Html.ActionLink("Edit", "Edit", "Article")</td>
+                <td>@Html.ActionLink("Visualizar", "View", "Article", new { idArticle = article.Id, idAuthor = article.AuthorId }, null)</td>
             </tr>
         }
     </table>
