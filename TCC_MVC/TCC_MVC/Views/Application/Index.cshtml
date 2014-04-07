@@ -47,11 +47,11 @@
                 <b>@Html.LabelFor(m => m.OrderByType)</b>
                 <span>
                     Artigo Completo
-                    @Html.RadioButtonFor(m => m.OrderByType, "completo")
+                    @Html.RadioButtonFor(m => m.GroupByType, "completo")
                     Resumo
-                    @Html.RadioButtonFor(m => m.OrderByType, "resumo")
+                    @Html.RadioButtonFor(m => m.GroupByType, "resumo")
                     Periódico
-                    @Html.RadioButtonFor(m => m.OrderByType, "periodico")
+                    @Html.RadioButtonFor(m => m.GroupByType, "periodico")
                 </span>
             </li>
         </ul>

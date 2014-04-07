@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCC_MVC", "TCC_MVC\TCC_MVC.csproj", "{90AC230D-0B1D-4196-8ACD-6DEF8F463226}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1. TCC_MVC", "TCC_MVC\1. TCC_MVC.csproj", "{90AC230D-0B1D-4196-8ACD-6DEF8F463226}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
