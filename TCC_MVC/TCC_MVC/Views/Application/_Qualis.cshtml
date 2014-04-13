@@ -1,0 +1,28 @@
+﻿@model TCC_MVC.Models.QualisModel
+
+<table>
+    <tr>
+        <td>Com Qualis</td>
+        <td>Sem Qualis</td>
+        <td>A1</td>
+        <td>A1</td>
+        <td>B2</td>
+        <td>B2</td>
+        <td>B3</td>
+        <td>B4</td>
+        <td>B5</td>
+        <td>C</td>
+    </tr>
+    <tr>
+        <td>@(Model.TotalWithQuallis != null ? Model.TotalWithQuallis.ToString() : "-")</td>
+        <td>@(Model.TotalWithoutQuallis != null ? Model.TotalWithoutQuallis.ToString() : "-")</td>
+        <td>@(Model.TotalA1 != null ? Model.TotalA1.ToString() : "-")</td>
+        <td>@(Model.TotalA2 != null ? Model.TotalA2.ToString() : "-")</td>
+        <td>@(Model.TotalB1 != null ? Model.TotalB1.ToString() : "-")</td>
+        <td>@(Model.TotalB2 != null ? Model.TotalB2.ToString() : "-")</td>
+        <td>@(Model.TotalB3 != null ? Model.TotalB3.ToString() : "-")</td>
+        <td>@(Model.TotalB4 != null ? Model.TotalB4.ToString() : "-")</td>
+        <td>@(Model.TotalB5 != null ? Model.TotalB5.ToString() : "-")</td>
+        <td>@(Model.TotalC != null ? Model.TotalC.ToString() : "-")</td>
+    </tr>
+</table>

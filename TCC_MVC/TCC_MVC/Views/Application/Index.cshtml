@@ -1,0 +1,144 @@
+﻿@model TCC_MVC.Models.SearchModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Index", "Application", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <hgroup>
+        <h3>Filtro:</h3>
+        <ul id="filter">
+            <li>
+                <span>
+                    @Html.LabelFor(m => m.Keyword)
+                    @Html.TextBoxFor(m => m.Keyword)
+                </span>
+            </li>
+            <li>
+                <b>@Html.LabelFor(m => m.KeyType)</b>
+                <span>
+                    @Html.RadioButtonFor(m => m.KeyType, "author") Pesquisador
+                </span>
+                <span>
+                    @Html.RadioButtonFor(m => m.KeyType, "search") Linha 
+                </span>
+                <span>
+                    @Html.RadioButtonFor(m => m.KeyType, "group") Grupo
+                </span>
+                <span>
+                    @Html.RadioButtonFor(m => m.KeyType, "clique") Clique
+                </span>
+            </li>
+            <li>
+                <b>@Html.LabelFor(m => m.OrderByType)</b>
+                <span>
+                    @Html.RadioButtonFor(m => m.OrderByType, "year")
+                    Ano
+                    @Html.RadioButtonFor(m => m.OrderByType, "triennium")
+                    Trieno
+                    @Html.RadioButtonFor(m => m.OrderByType, "total")
+                    Toltal
+                    @Html.RadioButtonFor(m => m.OrderByType, "evolution")
+                    Evolução
+                </span>
+            </li>
+            <li class="hidden hidden-options" >
+                Evolução por:
+                <span>
+                    @Html.RadioButtonFor(x => x.EvolutionType, "year") Ano
+                    @Html.RadioButtonFor(x => x.EvolutionType, "triennum") Trieno
+                </span>
+             </li>
+            <li class="hidden hidden-options">
+                Intervalo:
+                <span>
+                    @Html.RadioButtonFor(x => x.EvolutionGap, "3") 3
+                    @Html.RadioButtonFor(x => x.EvolutionGap, "5") 5
+                </span>
+            </li>
+            <li>
+                <b>@Html.LabelFor(m => m.GroupByType)</b>
+                <span>
+                    @Html.RadioButtonFor(m => m.GroupByType, "completo")
+                    Artigo Completo
+                    @Html.RadioButtonFor(m => m.GroupByType, "resumo")
+                    Resumo
+                    @Html.RadioButtonFor(m => m.GroupByType, "periodico")
+                    Periódico
+                </span>
+            </li>
+            <li>
+                <b>@Html.LabelFor(m => m.QualisType)</b>
+                <span>
+                    @Html.RadioButtonFor(m => m.QualisType, "with")
+                    Todos que contêm
+                    @Html.RadioButtonFor(m => m.QualisType, "without")
+                    Todos que não contêm
+                    @Html.RadioButtonFor(m => m.QualisType, "allSpecific")
+                    Todos detalhadamente
+                    @Html.RadioButtonFor(m => m.QualisType, "a1")
+                    A1
+                    @Html.RadioButtonFor(m => m.QualisType, "a2")
+                    A2
+                    @Html.RadioButtonFor(m => m.QualisType, "b1")
+                    B1
+                    @Html.RadioButtonFor(m => m.QualisType, "b2")
+                    B2
+                    @Html.RadioButtonFor(m => m.QualisType, "b3")
+                    B3
+                    @Html.RadioButtonFor(m => m.QualisType, "b4")
+                    B4
+                    @Html.RadioButtonFor(m => m.QualisType, "b5")
+                    B5
+                    @Html.RadioButtonFor(m => m.QualisType, "c")
+                    C
+                </span>
+            </li>
+        </ul>
+        <input type="submit" value="Filtrar" />
+        <input type="button" value="Desfazer" id="uncheck" />
+    </hgroup>
+}
+
+@*<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Message</h2>
+</hgroup>*@
+
+@*<article>
+    <p>
+        Use this area to provide additional information.
+    </p>
+</article>*@
+@if (!string.IsNullOrEmpty(Model.EvolutionType))
+{
+    @Html.Partial("_EvolutionGraphic", Model.EvolutionGrafic)
+}
+
+@if(!string.IsNullOrEmpty(Model.QualisType))
+{
+    @Html.Partial("_Qualis", Model.Qualis)
+}
+
+@if (Model.articles != null && Model.articles.Count > 0)
+{
+    <br />
+    <span>Total: @Model.Total artigo(s)</span>
+    <table>
+        <tr>
+            <td> </td>
+            <td>Autor</td>
+            <td>Título</td>
+            <td>Ação</td>
+        </tr>
+        @foreach (var article in Model.articles)
+        {
+            <tr>
+                <td><input type="checkbox" name="articles" value="@article.Id" /></td>
+                <td>@Html.ActionLink(article.Author, "Edit", "Research", new { idAuthor = article.AuthorId }, null)</td>
+                <td>@article.Title</td>
+                <td>@Html.ActionLink("Visualizar", "View", "Article", new { idArticle = article.Id, idAuthor = article.AuthorId }, null)</td>
+            </tr>
+        }
+    </table>
+}

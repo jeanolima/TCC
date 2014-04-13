@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TCC_LUCASModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="TCC_LUCASModelStoreContainer">
+          <EntitySet Name="Curriculos" EntityType="TCC_LUCASModel.Store.Curriculos" store:Type="Tables" store:Schema="dbo" store:Name="Curriculos">
+            <DefiningQuery>SELECT 
+      [Curriculos].[Id] AS [Id], 
+      [Curriculos].[Data] AS [Data], 
+      [Curriculos].[Working] AS [Working], 
+      [Curriculos].[UpdatedIn] AS [UpdatedIn], 
+      [Curriculos].[Name] AS [Name]
+      FROM [dbo].[Curriculos] AS [Curriculos]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'TCC_LUCAS.dbo.Curriculos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="Curriculos">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Data" />
+            <PropertyRef Name="Working" />
+            <PropertyRef Name="UpdatedIn" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="xml" Nullable="false" />
+          <Property Name="Working" Type="bit" Nullable="false" />
+          <Property Name="UpdatedIn" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="text" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TCC_LUCASModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="TCC_LUCASEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Curriculos" EntityType="TCC_LUCASModel.Curriculos" />
+        </EntityContainer>
+        <EntityType Name="Curriculos">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Data" />
+            <PropertyRef Name="Working" />
+            <PropertyRef Name="UpdatedIn" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Working" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedIn" Type="DateTime" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TCC_LUCASModelStoreContainer" CdmEntityContainer="TCC_LUCASEntities">
+          <EntitySetMapping Name="Curriculos"><EntityTypeMapping TypeName="TCC_LUCASModel.Curriculos"><MappingFragment StoreEntitySet="Curriculos">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Data" ColumnName="Data" />
+            <ScalarProperty Name="Working" ColumnName="Working" />
+            <ScalarProperty Name="UpdatedIn" ColumnName="UpdatedIn" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DataBase" ZoomLevel="72">
+        <EntityTypeShape EntityType="TCC_LUCASModel.Curriculos" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9802864583333331" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

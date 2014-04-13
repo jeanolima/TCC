@@ -1,0 +1,12 @@
+﻿@model TCC_MVC.Models.Curriculos
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm((string)ViewBag.Action, (string)ViewBag.Controller, FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{ 
+    <label>Nome: @Model.Name</label>
+    <label>Atualizado em: @Model.UpdatedIn.Day+/+@Model.UpdatedIn.Month+/+@Model.UpdatedIn.Year</label>
+    <label>Ativo? @Html.CheckBoxFor(x => x.Working)</label>
+    <label><input type="file" name="Data" id="Data" /></label>
+    <label><input type="submit" value="Salvar" /></label>
+}
