@@ -187,7 +187,7 @@ ul#filter {
 }
 
     ul#filter li {
-        display: inline;
+        display: inline-grid;
         list-style: none;
         padding-left: 15px;
     }
@@ -198,7 +198,7 @@ ul#filter {
         width:21px;
     }
 
-/* menu
+/* application
 ----------------------------------------------------------*/
 ul#menu {
     font-size: 1.3em;
@@ -224,6 +224,9 @@ ul#menu {
             color: #333;
             text-decoration: none;
         }
+.hidden{
+    display: none;
+}
 
 
 /* page elements

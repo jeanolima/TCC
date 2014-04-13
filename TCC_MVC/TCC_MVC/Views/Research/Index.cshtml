@@ -1,0 +1,19 @@
+﻿@model TCC_MVC.Models.Curriculos
+@{
+    ViewBag.Title = "Index";
+}
+<table>
+    <tr>
+        <td>Nome</td>
+        <td>Trabalhando</td>
+        <td>Ações</td>
+    </tr>
+    @foreach (var research in ViewBag.List)
+    {
+        <tr>
+            <td>@research.Name</td>
+            <td>@(research.Working == true ? "Sim" : "Não")</td>
+            <td>@Html.ActionLink("Editar", "Edit", "Research", new { idAuthor = research.Id}, null)</td>
+        </tr>
+    }
+</table>

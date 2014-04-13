@@ -17,41 +17,54 @@
             <li>
                 <b>@Html.LabelFor(m => m.KeyType)</b>
                 <span>
-                    Pesquisador @Html.RadioButtonFor(m => m.KeyType, "author")
+                    @Html.RadioButtonFor(m => m.KeyType, "author") Pesquisador
                 </span>
                 <span>
-                    Linha @Html.RadioButtonFor(m => m.KeyType, "search")
+                    @Html.RadioButtonFor(m => m.KeyType, "search") Linha 
                 </span>
                 <span>
-                    Grupo
-                    @Html.RadioButtonFor(m => m.KeyType, "group")
+                    @Html.RadioButtonFor(m => m.KeyType, "group") Grupo
                 </span>
                 <span>
-                    Clique @Html.RadioButtonFor(m => m.KeyType, "clique")
+                    @Html.RadioButtonFor(m => m.KeyType, "clique") Clique
                 </span>
             </li>
             <li>
                 <b>@Html.LabelFor(m => m.OrderByType)</b>
                 <span>
-                    Ano
                     @Html.RadioButtonFor(m => m.OrderByType, "year")
-                    Trieno
+                    Ano
                     @Html.RadioButtonFor(m => m.OrderByType, "triennium")
-                    Toltal
+                    Trieno
                     @Html.RadioButtonFor(m => m.OrderByType, "total")
-                    Evolução
+                    Toltal
                     @Html.RadioButtonFor(m => m.OrderByType, "evolution")
+                    Evolução
+                </span>
+            </li>
+            <li class="hidden hidden-options" >
+                Evolução por:
+                <span>
+                    @Html.RadioButtonFor(x => x.EvolutionType, "year") Ano
+                    @Html.RadioButtonFor(x => x.EvolutionType, "triennum") Trieno
+                </span>
+             </li>
+            <li class="hidden hidden-options">
+                Intervalo:
+                <span>
+                    @Html.RadioButtonFor(x => x.EvolutionGap, "3") 3
+                    @Html.RadioButtonFor(x => x.EvolutionGap, "5") 5
                 </span>
             </li>
             <li>
                 <b>@Html.LabelFor(m => m.OrderByType)</b>
                 <span>
-                    Artigo Completo
                     @Html.RadioButtonFor(m => m.GroupByType, "completo")
-                    Resumo
+                    Artigo Completo
                     @Html.RadioButtonFor(m => m.GroupByType, "resumo")
-                    Periódico
+                    Resumo
                     @Html.RadioButtonFor(m => m.GroupByType, "periodico")
+                    Periódico
                 </span>
             </li>
         </ul>
@@ -59,17 +72,32 @@
     </hgroup>
 }
 
-<hgroup class="title">
+@*<hgroup class="title">
     <h1>@ViewBag.Title.</h1>
     <h2>@ViewBag.Message</h2>
-</hgroup>
+</hgroup>*@
 
-<article>
+@*<article>
     <p>
         Use this area to provide additional information.
     </p>
-</article>
-@if (Model.articles != null)
+</article>*@
+@if (Model.EvolutionGrafic != null && Model.EvolutionGrafic.Count > 0)
+{
+    <table>
+        <tr>
+            <td>Ano</td>
+            <td>N&ordm; de pubilcações nos últimos @Model.EvolutionGap @Model.EvolutionType</td>
+        </tr>
+        @foreach(var time in Model.EvolutionGrafic){
+            <tr>
+                <td>@time.year</td>
+                <td>@time.total </td>
+            </tr>
+        }
+    </table>
+}
+@if (Model.articles != null && Model.articles.Count > 0)
 {
     <table>
         <tr>

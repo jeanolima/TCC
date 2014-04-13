@@ -31,6 +31,9 @@ namespace TCC_MVC.Models
 
         [Display(Name = "Agrupar por")]
         public string GroupByType { get; set; }
-
+        
+        public string EvolutionType { get; set; }
+        public int EvolutionGap { get; set; }
+        public IList<EvolutionModel> EvolutionGrafic { get; set; }
     }
 }
