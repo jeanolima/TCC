@@ -6,125 +6,107 @@
 @using (Html.BeginForm("Index", "Application", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <hgroup>
-        <h3>Filtro:</h3>
         <ul id="filter">
             <li>
                 <span>
                     @Html.LabelFor(m => m.Keyword)
+                    <br />
                     @Html.TextBoxFor(m => m.Keyword)
                 </span>
             </li>
             <li>
-                <b>@Html.LabelFor(m => m.KeyType)</b>
+                <b>@Html.DisplayNameFor(m => m.KeyType)</b>
+                <br />
                 <span>
-                    @Html.RadioButtonFor(m => m.KeyType, "author") Pesquisador
+                    @Html.RadioButtonFor(m => m.KeyType, "author", new { @id = "author" }) 
+                    <label for="author">Pesquisador</label>
                 </span>
                 <span>
-                    @Html.RadioButtonFor(m => m.KeyType, "search") Linha 
+                    @Html.RadioButtonFor(m => m.KeyType, "search", new { @id = "search" })
+                    <label for="search">Linha</label>  
                 </span>
                 <span>
-                    @Html.RadioButtonFor(m => m.KeyType, "group") Grupo
+                    @Html.RadioButtonFor(m => m.KeyType, "group", new { @id = "group" })
+                    <label for="group">Grupo</label>   
                 </span>
                 <span>
-                    @Html.RadioButtonFor(m => m.KeyType, "clique") Clique
+                    @Html.RadioButtonFor(m => m.KeyType, "clique", new { @id = "clique" })
+                    <label for="clique">Clique</label>    
                 </span>
             </li>
             <li>
-                <b>@Html.LabelFor(m => m.OrderByType)</b>
+                <b>@Html.DisplayNameFor(m => m.OrderByType)</b>
+                <br />
                 <span>
-                    @Html.RadioButtonFor(m => m.OrderByType, "year")
-                    Ano
-                    @Html.RadioButtonFor(m => m.OrderByType, "triennium")
-                    Trieno
-                    @Html.RadioButtonFor(m => m.OrderByType, "total")
-                    Toltal
-                    @Html.RadioButtonFor(m => m.OrderByType, "evolution")
-                    Evolução
+                    @Html.RadioButtonFor(m => m.OrderByType, "year", new { @id = "year" })
+                    <label for="year">Ano</label>    
+                    @Html.RadioButtonFor(m => m.OrderByType, "triennium", new { @id = "triennium" })
+                    <label for="triennium">Trieno</label>
+                    @Html.RadioButtonFor(m => m.OrderByType, "total", new { @id = "total" })
+                    <label for="total">Toltal</label>
+                    @Html.RadioButtonFor(m => m.OrderByType, "evolution", new { @id = "evolution" })
+                    <label for="evolution">Evolução</label>
                 </span>
             </li>
             @{var classe = (Model.OrderByType != null && Model.OrderByType.Equals("evolution")) ? string.Empty : "hidden"; }
             <li class="@classe hidden-options" >
                 Evolução por:
                 <span>
-                    @Html.RadioButtonFor(x => x.EvolutionType, "year") Ano
-                    @Html.RadioButtonFor(x => x.EvolutionType, "triennum") Trieno
+                    @Html.RadioButtonFor(x => x.EvolutionType, "year", new { @id = "yearEvolution" })
+                    <label for="yearEvolution">Ano</label> 
+                    @Html.RadioButtonFor(x => x.EvolutionType, "triennum", new { @id = "triennumEvolution" })
+                    <label for="triennumEvolution">Trieno</label>  
                 </span>
             </li>
             
             <li class="@classe hidden-options">
                 Intervalo:
                 <span>
-                    @Html.RadioButtonFor(x => x.EvolutionGap, "3") 3
-                    @Html.RadioButtonFor(x => x.EvolutionGap, "5") 5
+                    @Html.RadioButtonFor(x => x.EvolutionGap, "3", new { @id = "3" })
+                    <label for="3">3</label>
+                    @Html.RadioButtonFor(x => x.EvolutionGap, "5", new { @id = "5" })
+                    <label for="5">5</label>
                 </span>
             </li>
             <li>
-                <b>@Html.LabelFor(m => m.GroupByType)</b>
+                <b>@Html.DisplayNameFor(m => m.GroupByType)</b>
+                <br />
                 <span>
-                    @Html.RadioButtonFor(m => m.GroupByType, "completo")
-                    Artigo Completo
-                    @Html.RadioButtonFor(m => m.GroupByType, "resumo")
-                    Resumo
-                    @Html.RadioButtonFor(m => m.GroupByType, "periodico")
-                    Periódico
+                    @Html.RadioButtonFor(m => m.GroupByType, "completo", new { @id = "completo" })
+                    <label for="completo">Artigo Completo</label>
+                    @Html.RadioButtonFor(m => m.GroupByType, "resumo", new { @id = "resumo" })
+                    <label for="resumo">Resumo</label>
+                    @Html.RadioButtonFor(m => m.GroupByType, "periodico", new { @id = "periodico" })
+                    <label for="periodico">Periódico</label>
                 </span>
             </li>
-            @*<li>
-                <b>@Html.LabelFor(m => m.QualisType)</b>
-                <span>
-                    @Html.HiddenFor(x => x.listTestString, new { Value = "with" })
-                    @Html.CheckBox("listTest", new { id = "with" })
-                    Todos que contêm
-
-                    @Html.HiddenFor(x => x.listTestString, new { Value = "without" })
-                    @Html.CheckBox("listTest", new { id = "without" })
-                    Todos que não contêm
-
-                    @Html.CheckBoxFor(m => m.listTest, "allSpecific")
-                Todos detalhadamente
-                @Html.CheckBoxFor(m => m.listTest, "a1")
-                A1
-                @Html.CheckBoxFor(m => m.listTest, "a2")
-                A2
-                @Html.CheckBoxFor(m => m.listTest, "b1")
-                B1
-                @Html.CheckBoxFor(m => m.listTest, "b2")
-                B2
-                @Html.CheckBoxFor(m => m.listTest, "b3")
-                B3
-                @Html.CheckBoxFor(m => m.listTest, "b4")
-                B4
-                @Html.CheckBoxFor(m => m.listTest, "b5")
-                B5
-                @Html.CheckBoxFor(m => m.listTest, "c")
-                C
-                </span>
-            </li>*@
             <li>
-                <b>@Html.LabelFor(m => m.QualisType)</b>
+                <b>Contar por Qualis:</b>
+                <br />
                 <span>
-                    @Html.RadioButtonFor(m => m.QualisType, "with")
-                    Todos que contêm
-                    @Html.RadioButtonFor(m => m.QualisType, "without")
-                    Todos que não contêm
-                    @Html.RadioButtonFor(m => m.QualisType, "allSpecific")
-                    Todos detalhadamente
-                    @Html.RadioButtonFor(m => m.QualisType, "a1")
-                    A1
-                    @Html.RadioButtonFor(m => m.QualisType, "a2")
+                    @Html.CheckBoxFor(m => m.Qualis.withCheck, new { id = "with" })
+                    <label for="with">Todos que contêm</label>
+                    @Html.CheckBoxFor(m => m.Qualis.withoutCheck, new { id = "without" })
+                    <label for="without">Todos que não contêm</label>
+                    @Html.CheckBoxFor(m => m.Qualis.specificCheck, new { id = "allSpecific" })
+                    <label for="allSpecific">Todos detalhadamente</label> 
+                    @Html.CheckBoxFor(m => m.Qualis.a1Check, new { id = "a1" })
+                    <label for="a1">A1</label>
+                    @Html.CheckBoxFor(m => m.Qualis.a2Check, new { id = "a2" })
+                    <label for="a2">A2</label>
                     A2
-                    @Html.RadioButtonFor(m => m.QualisType, "b1")
-                    B1
-                    @Html.RadioButtonFor(m => m.QualisType, "b2")
-                    B2
-                    @Html.RadioButtonFor(m => m.QualisType, "b3")
-                    B3
-                    @Html.RadioButtonFor(m => m.QualisType, "b4")
-                    B4
-                    @Html.RadioButtonFor(m => m.QualisType, "b5")
-                    B5
-                    @Html.RadioButtonFor(m => m.QualisType, "c")
-                    C
+                    @Html.CheckBoxFor(m => m.Qualis.b1Check, new { id = "b1" })
+                    <label for="b1">B1</label>
+                    @Html.CheckBoxFor(m => m.Qualis.b2Check, new { id = "b2" })
+                    <label or="b2">B2</label>
+                    @Html.CheckBoxFor(m => m.Qualis.b3Check, new { id = "b3" })
+                    <label for="b3">B3</label>
+                    @Html.CheckBoxFor(m => m.Qualis.b4Check, new { id = "b4" })
+                    <label for="b4">B4</label>
+                    @Html.CheckBoxFor(m => m.Qualis.b5Check, new { id = "b5" })
+                    <label for="b5">B5</label>
+                    @Html.CheckBoxFor(m => m.Qualis.cCheck, new { id = "c" })
+                    <label for="c">C</label>
                 </span>
             </li>
         </ul>
@@ -133,26 +115,15 @@
     </hgroup>
 }
 
-@*<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>*@
-
-@*<article>
-    <p>
-        Use this area to provide additional information.
-    </p>
-</article>*@
-
 @if (!string.IsNullOrEmpty(Model.OrderByType) && Model.OrderByType.Equals("evolutions"))
 {
     @Html.Partial("_EvolutionGraphic", Model.EvolutionGrafic, new ViewDataDictionary { {"chartKeyword", @Model.Keyword }, { "","" } });
 }
 
-@if(!string.IsNullOrEmpty(Model.QualisType))
+@*@if(Model.Qualis.withCheck != null)
 {
     @Html.Partial("_Qualis", Model.Qualis)
-}
+}*@
 
 @if (Model.articles != null && Model.articles.Count > 0)
 {

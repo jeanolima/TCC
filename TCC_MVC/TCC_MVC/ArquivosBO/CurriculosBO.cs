@@ -13,16 +13,9 @@ namespace TCC_MVC.ArquivosBO
 {
     public class CurriculosBO
     {
-        //public QualisModel CountAll(SearchModel model)
-        //{
-        //    var qualis = new QualisModel();
-        //    qualis.Total = model.articles.Count;
-
-        //    return qualis;
-        //}
         public QualisModel CountAllQualis (SearchModel model)
         {
-            var qualis = new QualisModel();
+            var qualis = model.Qualis;
             int total = 0;
             string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
             foreach (var author in model.curriculos)
@@ -47,7 +40,7 @@ namespace TCC_MVC.ArquivosBO
 
         public QualisModel CountAllWithoutQualis(SearchModel model)
         {
-            var qualis = new QualisModel();
+            var qualis = model.Qualis;
             int total = 0;
             string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
             foreach (var author in model.curriculos)
@@ -72,7 +65,7 @@ namespace TCC_MVC.ArquivosBO
         
         public QualisModel CountSpecificQualis(SearchModel model, string type)
         {
-            var qualis = new QualisModel();
+            var qualis = model.Qualis;
             int total = 0;
             string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
             foreach (var author in model.curriculos)
@@ -108,7 +101,7 @@ namespace TCC_MVC.ArquivosBO
         //não esta pronta
         public QualisModel CountAllSpecificQualis(SearchModel model)
         {
-            var allQualis = new QualisModel();
+            var allQualis = model.Qualis;
             int total = 0;
             var listaQualis = new List<string>() { 
                 "A1", "1A", "a1", "1a",
@@ -248,7 +241,7 @@ namespace TCC_MVC.ArquivosBO
             
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(translate(@NOME-COMPLETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + name + "') or @NOME-COMPLETO= '" + name + "']";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(translate(@NOME-COMPLETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + name.ToLower() + "') or translate(@NOME-COMPLETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '" + name.ToLower() + "']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
@@ -263,7 +256,7 @@ namespace TCC_MVC.ArquivosBO
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains(translate(@TITULO-DA-LINHA-DE-PESQUISA,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + title + "') or @TITULO-DA-LINHA-DE-PESQUISA = '" + title + "']";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains(translate(@TITULO-DA-LINHA-DE-PESQUISA,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + title.ToLower() + "') or translate(@TITULO-DA-LINHA-DE-PESQUISA,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '" + title.ToLower() + "']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
@@ -277,7 +270,7 @@ namespace TCC_MVC.ArquivosBO
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//PROJETO-DE-PESQUISA[contains(translate(@NOME-DO-PROJETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + projectName + "') or @NOME-DO-PROJETO = '" + projectName + "']";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//PROJETO-DE-PESQUISA[contains(translate(@NOME-DO-PROJETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + projectName.ToLower() + "') or translate(@NOME-DO-PROJETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '" + projectName.ToLower() + "']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => entry.Id == 13 && XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;

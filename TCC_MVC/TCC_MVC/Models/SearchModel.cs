@@ -8,13 +8,6 @@ namespace TCC_MVC.Models
         public IList<ArticleModel> articles { get; set;}
         public IList<Curriculos> curriculos { get; set;}
         public int Total { get; set; }
-
-        [Display(Name="Contar por qualis:")]
-        public string QualisType { get; set; }
-
-        public IList<bool> listTest { get; set; }
-        public IList<string> listTestString { get; set; }
-
         public QualisModel Qualis { get; set; }
         public IList<YearArticlesModel> Years { get; set; }
 

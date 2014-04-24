@@ -63,16 +63,26 @@ namespace TCC_MVC.Controllers
                 default: break;
             }
 
-            if (!string.IsNullOrEmpty(model.QualisType))
+            if (model.Qualis.specificCheck != null && model.Qualis.specificCheck)
             {
-                switch (model.QualisType)
-                {
-                    case "with": { model.Qualis = _curriculosBO.CountAllQualis(model); break; }
-                    case "whithout": { model.Qualis = _curriculosBO.CountAllWithoutQualis(model); break; }
-                    case "allSpecific": { model.Qualis = _curriculosBO.CountAllSpecificQualis(model); break; }
-                    default: { model.Qualis = _curriculosBO.CountSpecificQualis(model, model.QualisType); break; }
-                }
+                model.Qualis = _curriculosBO.CountAllSpecificQualis(model);
             }
+            else
+            {
+                model.Qualis = (model.Qualis.a1Check) ? _curriculosBO.CountSpecificQualis(model, "a1") : model.Qualis;
+                model.Qualis = (model.Qualis.a2Check) ? _curriculosBO.CountSpecificQualis(model, "a2") : model.Qualis;
+                model.Qualis = (model.Qualis.b1Check) ? _curriculosBO.CountSpecificQualis(model, "b1") : model.Qualis;
+                model.Qualis = (model.Qualis.b2Check) ? _curriculosBO.CountSpecificQualis(model, "b2") : model.Qualis;
+                model.Qualis = (model.Qualis.b3Check) ? _curriculosBO.CountSpecificQualis(model, "b3") : model.Qualis;
+                model.Qualis = (model.Qualis.b4Check) ? _curriculosBO.CountSpecificQualis(model, "b4") : model.Qualis;
+                model.Qualis = (model.Qualis.b5Check) ? _curriculosBO.CountSpecificQualis(model, "b5") : model.Qualis;
+                model.Qualis = (model.Qualis.cCheck) ? _curriculosBO.CountSpecificQualis(model, "c") : model.Qualis;
+            }
+            if(model.Qualis.withCheck != null && model.Qualis.withCheck)
+                model.Qualis = _curriculosBO.CountAllQualis(model);
+            if (model.Qualis.withoutCheck != null && model.Qualis.withoutCheck)
+                model.Qualis = _curriculosBO.CountAllWithoutQualis(model);
+
             return View("Index", model);
         }
     }
