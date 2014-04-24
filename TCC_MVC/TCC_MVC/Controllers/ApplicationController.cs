@@ -48,9 +48,8 @@ namespace TCC_MVC.Controllers
                 case "triennum": { model = _curriculosBO.OrderByYear(model); break; }
                 case "total": { model = _curriculosBO.OrderByYear(model); break; }
                 case "evolution": { 
-                    model.EvolutionGrafic = _curriculosBO.CountByEvolution(model, model.EvolutionType, model.EvolutionGap);
-                    model.articles= _curriculosBO.OrderByEvolution(model, model.EvolutionType, model.EvolutionGap);
-                    model.EvolutionType = (model.EvolutionType.Equals("year") ? "anos" : "trienos");
+                    model.EvolutionGrafic = _curriculosBO.CountByEvolution(model);
+                    model.articles= _curriculosBO.OrderByEvolution(model);
                     break;
                 }
                 default: break;

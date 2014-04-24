@@ -42,14 +42,16 @@
                     Evolução
                 </span>
             </li>
-            <li class="hidden hidden-options" >
+            @{var classe = (Model.OrderByType != null && Model.OrderByType.Equals("evolution")) ? string.Empty : "hidden"; }
+            <li class="@classe hidden-options" >
                 Evolução por:
                 <span>
                     @Html.RadioButtonFor(x => x.EvolutionType, "year") Ano
                     @Html.RadioButtonFor(x => x.EvolutionType, "triennum") Trieno
                 </span>
-             </li>
-            <li class="hidden hidden-options">
+            </li>
+            
+            <li class="@classe hidden-options">
                 Intervalo:
                 <span>
                     @Html.RadioButtonFor(x => x.EvolutionGap, "3") 3
@@ -67,6 +69,37 @@
                     Periódico
                 </span>
             </li>
+            @*<li>
+                <b>@Html.LabelFor(m => m.QualisType)</b>
+                <span>
+                    @Html.HiddenFor(x => x.listTestString, new { Value = "with" })
+                    @Html.CheckBox("listTest", new { id = "with" })
+                    Todos que contêm
+
+                    @Html.HiddenFor(x => x.listTestString, new { Value = "without" })
+                    @Html.CheckBox("listTest", new { id = "without" })
+                    Todos que não contêm
+
+                    @Html.CheckBoxFor(m => m.listTest, "allSpecific")
+                Todos detalhadamente
+                @Html.CheckBoxFor(m => m.listTest, "a1")
+                A1
+                @Html.CheckBoxFor(m => m.listTest, "a2")
+                A2
+                @Html.CheckBoxFor(m => m.listTest, "b1")
+                B1
+                @Html.CheckBoxFor(m => m.listTest, "b2")
+                B2
+                @Html.CheckBoxFor(m => m.listTest, "b3")
+                B3
+                @Html.CheckBoxFor(m => m.listTest, "b4")
+                B4
+                @Html.CheckBoxFor(m => m.listTest, "b5")
+                B5
+                @Html.CheckBoxFor(m => m.listTest, "c")
+                C
+                </span>
+            </li>*@
             <li>
                 <b>@Html.LabelFor(m => m.QualisType)</b>
                 <span>
@@ -110,9 +143,10 @@
         Use this area to provide additional information.
     </p>
 </article>*@
-@if (!string.IsNullOrEmpty(Model.EvolutionType))
+
+@if (!string.IsNullOrEmpty(Model.OrderByType) && Model.OrderByType.Equals("evolutions"))
 {
-    @Html.Partial("_EvolutionGraphic", Model.EvolutionGrafic)
+    @Html.Partial("_EvolutionGraphic", Model.EvolutionGrafic, new ViewDataDictionary { {"chartKeyword", @Model.Keyword }, { "","" } });
 }
 
 @if(!string.IsNullOrEmpty(Model.QualisType))

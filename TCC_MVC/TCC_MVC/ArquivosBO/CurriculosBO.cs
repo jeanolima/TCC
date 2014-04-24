@@ -206,24 +206,24 @@ namespace TCC_MVC.ArquivosBO
             return model;
         }
         
-        public IList<ArticleModel> OrderByEvolution(SearchModel model, string type, int gap)
+        public IList<ArticleModel> OrderByEvolution(SearchModel model)
         {
-            int seasonGap = Int32.Parse(ConfigurationManager.AppSettings["Triennium"]) * gap;
+            int seasonGap = Int32.Parse(ConfigurationManager.AppSettings["Triennium"]) * model.EvolutionGap;
             int year = DateTime.Now.Year;
-            int select = (type.Equals("year") ? year - gap : year - seasonGap * gap);
+            int select = (model.EvolutionType.Equals("year") ? year - model.EvolutionGap : year - seasonGap * model.EvolutionGap);
 
             return model.articles.Where(x => x.Year >= select).OrderBy(x => x.Year).ToList(); ;
         }
 
-        public EvolutionGraphicModel CountByEvolution(SearchModel model, string type, int gap)
+        public EvolutionGraphicModel CountByEvolution(SearchModel model)
         {
             var evolutionGraphic = new EvolutionGraphicModel();
-            int seasonGap = Int32.Parse(ConfigurationManager.AppSettings["Triennium"]) * gap; 
+            int seasonGap = Int32.Parse(ConfigurationManager.AppSettings["Triennium"]) * model.EvolutionGap; 
             int year = DateTime.Now.Year;
-            int select = (type.Equals("year") ? year - gap : year - seasonGap*gap);
+            int select = (model.EvolutionType.Equals("year") ? year - model.EvolutionGap : year - seasonGap * model.EvolutionGap);
 
-            evolutionGraphic.EvolutionType = type;
-            evolutionGraphic.EvolutionGap = gap;
+            evolutionGraphic.EvolutionType = (model.EvolutionType.Equals("year") ? "anos" : "trienos");
+            evolutionGraphic.EvolutionGap = model.EvolutionGap;
             evolutionGraphic.Seasons = model.articles.Where(x => x.Year >= select).Select(x => x.Year).Distinct().Select(t => new EvolutionModel 
             {
                 year = t,
@@ -248,7 +248,7 @@ namespace TCC_MVC.ArquivosBO
             
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(@NOME-COMPLETO,'" + name + "') or @NOME-COMPLETO= '" + name + "']";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS[contains(translate(@NOME-COMPLETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + name + "') or @NOME-COMPLETO= '" + name + "']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
@@ -263,7 +263,7 @@ namespace TCC_MVC.ArquivosBO
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains(@TITULO-DA-LINHA-DE-PESQUISA, '" + title + "') or @TITULO-DA-LINHA-DE-PESQUISA = '"+title+"']";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//LINHA-DE-PESQUISA[contains(translate(@TITULO-DA-LINHA-DE-PESQUISA,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + title + "') or @TITULO-DA-LINHA-DE-PESQUISA = '" + title + "']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
@@ -277,7 +277,7 @@ namespace TCC_MVC.ArquivosBO
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//PROJETO-DE-PESQUISA[contains(@NOME-DO-PROJETO, '" + projectName + "') or @NOME-DO-PROJETO = '" + projectName + "']";
+                string xpath = "//CURRICULO-VITAE//DADOS-GERAIS//ATUACOES-PROFISSIONAIS//ATUACAO-PROFISSIONAL//PROJETO-DE-PESQUISA[contains(translate(@NOME-DO-PROJETO,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '" + projectName + "') or @NOME-DO-PROJETO = '" + projectName + "']";
                 var research = _context.Curriculos.AsEnumerable().Where(entry => entry.Id == 13 && XDocument.Parse("<Root>" + entry.Data + "</Root>").XPathSelectElements(xpath).Any()).ToList();
 
                 model.curriculos = research;
@@ -302,11 +302,11 @@ namespace TCC_MVC.ArquivosBO
                 {
                     var article = new ArticleModel();
                     article.AuthorId = author.Id;
-                    article.Id = Convert.ToInt32(node.NextSibling.Attributes["ISSN"].Value);
+                    article.Id = (!string.IsNullOrEmpty(node.NextSibling.Attributes["ISSN"].Value) ? Convert.ToInt32(Regex.Match(node.NextSibling.Attributes["ISSN"].Value, @"\d+").Value) : 0);
                     article.Author = author.Name;
                     article.Nature = node.Attributes["NATUREZA"].Value;
                     article.Title = node.Attributes["TITULO-DO-ARTIGO"].Value;
-                    article.Year = Convert.ToInt32(node.Attributes["ANO-DO-ARTIGO"].Value);
+                    article.Year = (!string.IsNullOrEmpty(node.Attributes["ANO-DO-ARTIGO"].Value) ? Convert.ToInt32(Regex.Match(node.Attributes["ANO-DO-ARTIGO"].Value, @"\d+").Value) : 0);
                     article.Country = node.Attributes["PAIS-DE-PUBLICACAO"].Value;
                     article.Language = node.Attributes["IDIOMA"].Value;
                     article.HomePage = node.Attributes["HOME-PAGE-DO-TRABALHO"].Value;
