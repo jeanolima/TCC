@@ -1,28 +1,62 @@
 ﻿@model TCC_MVC.Models.QualisModel
 
-<table>
-    <tr>
-        <td>Com Qualis</td>
-        <td>Sem Qualis</td>
-        <td>A1</td>
-        <td>A1</td>
-        <td>B2</td>
-        <td>B2</td>
-        <td>B3</td>
-        <td>B4</td>
-        <td>B5</td>
-        <td>C</td>
-    </tr>
-    <tr>
-        <td>@(Model.TotalWithQuallis != null ? Model.TotalWithQuallis.ToString() : "-")</td>
-        <td>@(Model.TotalWithoutQuallis != null ? Model.TotalWithoutQuallis.ToString() : "-")</td>
-        <td>@(Model.TotalA1 != null ? Model.TotalA1.ToString() : "-")</td>
-        <td>@(Model.TotalA2 != null ? Model.TotalA2.ToString() : "-")</td>
-        <td>@(Model.TotalB1 != null ? Model.TotalB1.ToString() : "-")</td>
-        <td>@(Model.TotalB2 != null ? Model.TotalB2.ToString() : "-")</td>
-        <td>@(Model.TotalB3 != null ? Model.TotalB3.ToString() : "-")</td>
-        <td>@(Model.TotalB4 != null ? Model.TotalB4.ToString() : "-")</td>
-        <td>@(Model.TotalB5 != null ? Model.TotalB5.ToString() : "-")</td>
-        <td>@(Model.TotalC != null ? Model.TotalC.ToString() : "-")</td>
-    </tr>
-</table>
+<div id="chart_qualis">
+    @{
+        MvcHtmlString TotalwithQualis;
+        MvcHtmlString TotalWithoutQuallis;
+        MvcHtmlString TotalA1;
+        MvcHtmlString TotalA2;
+        MvcHtmlString TotalB1;
+        MvcHtmlString TotalB2;
+        MvcHtmlString TotalB3;
+        MvcHtmlString TotalB4;
+        MvcHtmlString TotalB5;
+        MvcHtmlString TotalC;
+
+        MvcHtmlString qualisWith;
+        MvcHtmlString qualisWithout;
+        MvcHtmlString qualisA1;
+        MvcHtmlString qualisA2;
+        MvcHtmlString qualisB1;
+        MvcHtmlString qualisB2;
+        MvcHtmlString qualisB3;
+        MvcHtmlString qualisB4;
+        MvcHtmlString qualisB5;
+        MvcHtmlString qualisC;
+
+
+        if (Model.withCheck) { TotalwithQualis = Html.Hidden("totalQualis", Model.TotalWithQuallis); qualisWith = Html.Hidden("qualis", "Com Qualis"); } else { TotalwithQualis = MvcHtmlString.Empty; qualisWith = MvcHtmlString.Empty; }
+        if (Model.withoutCheck) { TotalWithoutQuallis = Html.Hidden("totalQualis", Model.TotalWithoutQuallis); qualisWithout = Html.Hidden("qualis", "Sem Qualis"); } else { TotalWithoutQuallis = MvcHtmlString.Empty; qualisWithout = MvcHtmlString.Empty; }
+        if(Model.a1Check){TotalA1 =  Html.Hidden("totalQualis", Model.TotalA1); qualisA1 = Html.Hidden("qualis", "A1");}else{ TotalA1 =  MvcHtmlString.Empty; qualisA1 = MvcHtmlString.Empty;}
+        if(Model.a2Check){TotalA2 =  Html.Hidden("totalQualis", Model.TotalA2); qualisA2 = Html.Hidden("qualis", "A2");}else{ TotalA2 =  MvcHtmlString.Empty; qualisA2 = MvcHtmlString.Empty;}
+        if(Model.b1Check){TotalB1 =  Html.Hidden("totalQualis", Model.TotalB1); qualisB1 = Html.Hidden("qualis", "B1");}else{ TotalB1 =  MvcHtmlString.Empty; qualisB1 = MvcHtmlString.Empty;}
+        if(Model.b2Check){TotalB2 =  Html.Hidden("totalQualis", Model.TotalB2); qualisB2 = Html.Hidden("qualis", "B2");}else{ TotalB2 =  MvcHtmlString.Empty; qualisB2 = MvcHtmlString.Empty;}
+        if(Model.b3Check){TotalB3 =  Html.Hidden("totalQualis", Model.TotalB3); qualisB3 = Html.Hidden("qualis", "B3");}else{ TotalB3 =  MvcHtmlString.Empty; qualisB3 = MvcHtmlString.Empty;}
+        if(Model.b4Check){TotalB4 =  Html.Hidden("totalQualis", Model.TotalB4); qualisB4 = Html.Hidden("qualis", "B4");}else{ TotalB4 =  MvcHtmlString.Empty; qualisB4 = MvcHtmlString.Empty;}
+        if(Model.b5Check){TotalB5 =  Html.Hidden("totalQualis", Model.TotalB5); qualisB5 = Html.Hidden("qualis", "B5");}else{ TotalB5 =  MvcHtmlString.Empty; qualisB5 = MvcHtmlString.Empty;}
+        if(Model.cCheck ){TotalC  =  Html.Hidden("totalQualis", Model.TotalC ); qualisC  = Html.Hidden("qualis", "C" );}else{ TotalC  =  MvcHtmlString.Empty; qualisC  = MvcHtmlString.Empty;}
+        
+    } 
+    @MvcHtmlString.Create(TotalwithQualis.ToString())
+    @MvcHtmlString.Create(TotalWithoutQuallis.ToString())
+    @MvcHtmlString.Create(TotalA1.ToString())
+    @MvcHtmlString.Create(TotalA2.ToString())
+    @MvcHtmlString.Create(TotalB1.ToString())
+    @MvcHtmlString.Create(TotalB2.ToString())
+    @MvcHtmlString.Create(TotalB3.ToString())
+    @MvcHtmlString.Create(TotalB4.ToString())
+    @MvcHtmlString.Create(TotalB5.ToString())
+    @MvcHtmlString.Create(TotalC.ToString())
+
+    @MvcHtmlString.Create(qualisWith.ToString())
+    @MvcHtmlString.Create(qualisWithout.ToString())
+    @MvcHtmlString.Create(qualisA1.ToString())
+    @MvcHtmlString.Create(qualisA2.ToString())
+    @MvcHtmlString.Create(qualisB1.ToString())
+    @MvcHtmlString.Create(qualisB2.ToString())
+    @MvcHtmlString.Create(qualisB3.ToString())
+    @MvcHtmlString.Create(qualisB4.ToString())
+    @MvcHtmlString.Create(qualisB5.ToString())
+    @MvcHtmlString.Create(qualisC.ToString())
+
+</div>

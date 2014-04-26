@@ -66,22 +66,29 @@ namespace TCC_MVC.Controllers
             if (model.Qualis.specificCheck != null && model.Qualis.specificCheck)
             {
                 model.Qualis = _curriculosBO.CountAllSpecificQualis(model);
+                model.showQualis = true;
             }
             else
             {
-                model.Qualis = (model.Qualis.a1Check) ? _curriculosBO.CountSpecificQualis(model, "a1") : model.Qualis;
-                model.Qualis = (model.Qualis.a2Check) ? _curriculosBO.CountSpecificQualis(model, "a2") : model.Qualis;
-                model.Qualis = (model.Qualis.b1Check) ? _curriculosBO.CountSpecificQualis(model, "b1") : model.Qualis;
-                model.Qualis = (model.Qualis.b2Check) ? _curriculosBO.CountSpecificQualis(model, "b2") : model.Qualis;
-                model.Qualis = (model.Qualis.b3Check) ? _curriculosBO.CountSpecificQualis(model, "b3") : model.Qualis;
-                model.Qualis = (model.Qualis.b4Check) ? _curriculosBO.CountSpecificQualis(model, "b4") : model.Qualis;
-                model.Qualis = (model.Qualis.b5Check) ? _curriculosBO.CountSpecificQualis(model, "b5") : model.Qualis;
-                model.Qualis = (model.Qualis.cCheck) ? _curriculosBO.CountSpecificQualis(model, "c") : model.Qualis;
+                if(model.Qualis.a1Check){ _curriculosBO.CountSpecificQualis(model, "a1"); model.showQualis = true; }
+                if(model.Qualis.a2Check){ _curriculosBO.CountSpecificQualis(model, "a2"); model.showQualis = true; }
+                if(model.Qualis.b1Check){ _curriculosBO.CountSpecificQualis(model, "b1"); model.showQualis = true; }
+                if(model.Qualis.b2Check){ _curriculosBO.CountSpecificQualis(model, "b2"); model.showQualis = true; }
+                if(model.Qualis.b3Check){ _curriculosBO.CountSpecificQualis(model, "b3"); model.showQualis = true; }
+                if(model.Qualis.b4Check){ _curriculosBO.CountSpecificQualis(model, "b4"); model.showQualis = true; }
+                if(model.Qualis.b5Check){ _curriculosBO.CountSpecificQualis(model, "b5"); model.showQualis = true; }
+                if(model.Qualis.cCheck ){ _curriculosBO.CountSpecificQualis(model, "c" ); model.showQualis = true; }
             }
-            if(model.Qualis.withCheck != null && model.Qualis.withCheck)
+            if (model.Qualis.withCheck != null && model.Qualis.withCheck)
+            {
                 model.Qualis = _curriculosBO.CountAllQualis(model);
+                model.showQualis = true;
+            }
             if (model.Qualis.withoutCheck != null && model.Qualis.withoutCheck)
+            {
                 model.Qualis = _curriculosBO.CountAllWithoutQualis(model);
+                model.showQualis = true;
+            }
 
             return View("Index", model);
         }

@@ -1,25 +1,12 @@
 ﻿@model TCC_MVC.Models.EvolutionGraphicModel
 
-<div id="chart_div"></div>
-@Html.Hidden("chartTitle", "Nº de pubilcações nos últimos "+@Model.EvolutionGap+" "+@Model.EvolutionType)
-@Html.Hidden("chartKeyword", @ViewData["chartKeyword"])
+<div id="chart_evolution">
+    @Html.Hidden("chartTitle", "Nº de pubilcações nos últimos " + @Model.EvolutionGap + " " + @Model.EvolutionType)
+    @Html.Hidden("chartKeyword", @ViewData["chartKeyword"])
 
-@foreach (var season in Model.Seasons)
-{
-    @Html.Hidden("chartYear", season.year)
-    @Html.Hidden("chartTotal", season.total)
-}
-
-@*<table>
-    <tr>
-        <td>Ano</td>
-        <td>N&ordm; de pubilcações nos últimos @Model.EvolutionGap @Model.EvolutionType</td>
-    </tr>
     @foreach (var season in Model.Seasons)
     {
-        <tr>
-            <td>@season.year</td>
-            <td>@season.total </td>
-        </tr>
+        @Html.Hidden("chartYear", season.year)
+        @Html.Hidden("chartTotal", season.total)
     }
-</table>*@
+</div>

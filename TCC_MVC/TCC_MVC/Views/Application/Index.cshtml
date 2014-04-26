@@ -94,7 +94,6 @@
                     <label for="a1">A1</label>
                     @Html.CheckBoxFor(m => m.Qualis.a2Check, new { id = "a2" })
                     <label for="a2">A2</label>
-                    A2
                     @Html.CheckBoxFor(m => m.Qualis.b1Check, new { id = "b1" })
                     <label for="b1">B1</label>
                     @Html.CheckBoxFor(m => m.Qualis.b2Check, new { id = "b2" })
@@ -115,15 +114,15 @@
     </hgroup>
 }
 
-@if (!string.IsNullOrEmpty(Model.OrderByType) && Model.OrderByType.Equals("evolutions"))
+@if (!string.IsNullOrEmpty(Model.OrderByType) && Model.OrderByType.Equals("evolution"))
 {
     @Html.Partial("_EvolutionGraphic", Model.EvolutionGrafic, new ViewDataDictionary { {"chartKeyword", @Model.Keyword }, { "","" } });
 }
 
-@*@if(Model.Qualis.withCheck != null)
+@if(Model.showQualis != null && Model.showQualis == true)
 {
     @Html.Partial("_Qualis", Model.Qualis)
-}*@
+}
 
 @if (Model.articles != null && Model.articles.Count > 0)
 {

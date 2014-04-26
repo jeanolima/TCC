@@ -9,6 +9,7 @@ namespace TCC_MVC.Models
         public IList<Curriculos> curriculos { get; set;}
         public int Total { get; set; }
         public QualisModel Qualis { get; set; }
+        public bool showQualis { get; set; }
         public IList<YearArticlesModel> Years { get; set; }
 
         [Display(Name = "Palavra Chave")]

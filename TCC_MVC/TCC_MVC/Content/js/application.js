@@ -18,11 +18,15 @@
 })(jQuery, window);
 
 function init() {
-    google.load("visualization", "1", { 'packages': ['corechart'], "callback": drawChart });
-    google.setOnLoadCallback(drawChart);
+    google.load("visualization", "1", { 'packages': ['corechart'], "callback": drawChartEvolution });
+    google.setOnLoadCallback(drawChartEvolution);
+
+    google.load("visualization", "1", { 'packages': ['corechart'], "callback": drawChartQualis });
+    google.setOnLoadCallback(drawChartQualis);
+
 }
 
-function drawChart() {
+function drawChartEvolution() {
 
     var data = new google.visualization.DataTable();
 
@@ -51,7 +55,35 @@ function drawChart() {
         vAxis: { viewWindow: { min: 0, } }
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(document.getElementById('chart_evolution'));
+    chart.draw(data, options);
+}
+
+function drawChartQualis() {
+
+    var data = new google.visualization.DataTable();
+
+    data.addColumn('string', 'Qualis');
+    data.addColumn('number', "Total");
+
+    var qualies = $("input[name='qualis']");
+    var totals = $("input[name='totalQualis']");
+    
+    console.log(qualies);
+    console.log(totals);
+    for (var i = 0; i < qualies.length; i++) {
+        console.log($(qualies[i]).val());
+        console.log($(totals[i]).val());
+        data.addRows([
+            [$(qualies[i]).val(), parseInt($(totals[i]).val())]
+        ]);
+    }
+
+    var options = {
+        title: "Divisões dos Qualis"
+    };
+    //,'yellow','blue','gold','brown','black','purple','orange'
+    var chart = new google.visualization.PieChart(document.getElementById('chart_qualis'));
     chart.draw(data, options);
 }
 
