@@ -8,7 +8,6 @@ namespace TCC_MVC.Models
 {
     public class QualisModel 
     {
-        public bool hasQualis { get; set; }
         public bool withCheck { get; set; }
         public int TotalWithQuallis { get; set; }
         public bool withoutCheck { get; set; }

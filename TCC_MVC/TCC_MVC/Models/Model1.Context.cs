@@ -26,5 +26,7 @@ namespace TCC_MVC.Models
         }
     
         public DbSet<Curriculos> Curriculos { get; set; }
+        public DbSet<CurriculosGroup> CurriculosGroup { get; set; }
+        public DbSet<Group> Group { get; set; }
     }
 }

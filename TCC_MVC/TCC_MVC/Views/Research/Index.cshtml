@@ -2,11 +2,14 @@
 @{
     ViewBag.Title = "Index";
 }
+
+    <a id="noHover" href=@Url.Action("New")><input type="button" value="Novo Pesquisador" /></a>
+
 <table>
     <tr>
-        <td>Nome</td>
-        <td>Trabalhando</td>
-        <td>Ações</td>
+        <td><b>Nome</b></td>
+        <td><b>Trabalhando</b></td>
+        <td><b>Ações</b></td>
     </tr>
     @foreach (var research in ViewBag.List)
     {

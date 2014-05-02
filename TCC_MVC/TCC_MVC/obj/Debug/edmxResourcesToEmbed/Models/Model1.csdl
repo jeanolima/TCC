@@ -1,19 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TCC_LUCASModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="TCC_LUCASEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Curriculos" EntityType="TCC_LUCASModel.Curriculos" />
+    <EntitySet Name="CurriculosGroup" EntityType="TCC_LUCASModel.CurriculosGroup" />
+    <EntitySet Name="Group" EntityType="TCC_LUCASModel.Group" />
+    <AssociationSet Name="FK_CurriculosGroup_CurriculosGroup" Association="TCC_LUCASModel.FK_CurriculosGroup_CurriculosGroup">
+      <End Role="Curriculos" EntitySet="Curriculos" />
+      <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CurriculosGroup_Group" Association="TCC_LUCASModel.FK_CurriculosGroup_Group">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
+    </AssociationSet>
+  </EntityContainer>
   <EntityType Name="Curriculos">
     <Key>
       <PropertyRef Name="Id" />
-      <PropertyRef Name="Data" />
-      <PropertyRef Name="Working" />
-      <PropertyRef Name="UpdatedIn" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="Data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Working" Type="Boolean" Nullable="false" />
-    <Property Name="UpdatedIn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedIn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Working" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="CurriculosGroup" Relationship="TCC_LUCASModel.FK_CurriculosGroup_CurriculosGroup" FromRole="Curriculos" ToRole="CurriculosGroup" />
   </EntityType>
-  <EntityContainer Name="TCC_LUCASEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Curriculos" EntityType="Self.Curriculos" />
-  </EntityContainer>
+  <EntityType Name="CurriculosGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="CurriculoId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Curriculos" Relationship="TCC_LUCASModel.FK_CurriculosGroup_CurriculosGroup" FromRole="CurriculosGroup" ToRole="Curriculos" />
+    <NavigationProperty Name="Group" Relationship="TCC_LUCASModel.FK_CurriculosGroup_Group" FromRole="CurriculosGroup" ToRole="Group" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CurriculosGroup" Relationship="TCC_LUCASModel.FK_CurriculosGroup_Group" FromRole="Group" ToRole="CurriculosGroup" />
+  </EntityType>
+  <Association Name="FK_CurriculosGroup_CurriculosGroup">
+    <End Type="TCC_LUCASModel.Curriculos" Role="Curriculos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TCC_LUCASModel.CurriculosGroup" Role="CurriculosGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Curriculos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CurriculosGroup">
+        <PropertyRef Name="CurriculoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CurriculosGroup_Group">
+    <End Type="TCC_LUCASModel.Group" Role="Group" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TCC_LUCASModel.CurriculosGroup" Role="CurriculosGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CurriculosGroup">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

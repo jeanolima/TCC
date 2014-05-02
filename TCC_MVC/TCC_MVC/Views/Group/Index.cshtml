@@ -1,0 +1,15 @@
+﻿@model List<TCC_MVC.Models.GroupModel>
+
+<a id="noHover" href="@Url.Action("New")"><input type="button" value="Novo Grupo" /></a>
+<br />
+@if (Model!= null && Model.Count > 0)
+{
+    foreach(var group in Model)
+    {
+        <span>@group.Name  - @Html.ActionLink("Editar", "Edit", "Group", new { idGroup = group.Id }, null)</span>
+    }
+}
+else
+{
+    <span>Não possui nenhum grupo cadastrado.</span>
+}

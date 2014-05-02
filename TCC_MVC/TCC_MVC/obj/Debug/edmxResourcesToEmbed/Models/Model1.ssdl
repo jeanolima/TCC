@@ -1,29 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TCC_LUCASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'TCC_LUCAS.dbo.Curriculos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Curriculos">
     <Key>
       <PropertyRef Name="Id" />
-      <PropertyRef Name="Data" />
-      <PropertyRef Name="Working" />
-      <PropertyRef Name="UpdatedIn" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-    <Property Name="Data" Type="xml" Nullable="false" />
-    <Property Name="Working" Type="bit" Nullable="false" />
-    <Property Name="UpdatedIn" Type="datetime" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="text" />
+    <Property Name="Data" Type="xml" />
+    <Property Name="UpdatedIn" Type="datetime" Nullable="false" />
+    <Property Name="Working" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="CurriculosGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupId" Type="int" Nullable="false" />
+    <Property Name="CurriculoId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="text" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_CurriculosGroup_CurriculosGroup">
+    <End Role="Curriculos" Type="Self.Curriculos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CurriculosGroup" Type="Self.CurriculosGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Curriculos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CurriculosGroup">
+        <PropertyRef Name="CurriculoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CurriculosGroup_Group">
+    <End Role="Group" Type="Self.Group" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CurriculosGroup" Type="Self.CurriculosGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CurriculosGroup">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="TCC_LUCASModelStoreContainer">
-    <EntitySet Name="Curriculos" EntityType="Self.Curriculos" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-[Curriculos].[Id] AS [Id], 
-[Curriculos].[Data] AS [Data], 
-[Curriculos].[Working] AS [Working], 
-[Curriculos].[UpdatedIn] AS [UpdatedIn], 
-[Curriculos].[Name] AS [Name]
-FROM [dbo].[Curriculos] AS [Curriculos]</DefiningQuery>
-    </EntitySet>
+    <EntitySet Name="Curriculos" EntityType="Self.Curriculos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CurriculosGroup" EntityType="Self.CurriculosGroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CurriculosGroup_CurriculosGroup" Association="Self.FK_CurriculosGroup_CurriculosGroup">
+      <End Role="Curriculos" EntitySet="Curriculos" />
+      <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CurriculosGroup_Group" Association="Self.FK_CurriculosGroup_Group">
+      <End Role="Group" EntitySet="Group" />
+      <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

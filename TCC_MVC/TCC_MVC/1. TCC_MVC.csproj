@@ -171,9 +171,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ArquivosBO\CurriculosBO.cs" />
+    <Compile Include="ArquivosBO\GroupBO.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
+    <Compile Include="Controllers\CurriculoComparer.cs" />
     <Compile Include="Controllers\GraphController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ResearchController.cs" />
@@ -183,8 +186,15 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ArticleModel.cs" />
+    <Compile Include="Models\CurriculosGroup.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EvolutionGraphicModel.cs" />
     <Compile Include="Models\EvolutionModel.cs" />
+    <Compile Include="Models\Group.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\QualisModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\Curriculos.cs">
@@ -376,6 +386,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Application\_Qualis.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Group\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Group\_Form.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Group\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Group\New.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

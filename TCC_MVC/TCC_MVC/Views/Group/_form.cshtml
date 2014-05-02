@@ -1,0 +1,45 @@
+﻿@model TCC_MVC.Models.GroupModel
+
+<span><label>Nome do grupo:</label> @Html.TextBoxFor(x => x.Name)</span>
+<table>
+    @if(Model.Researchs != null && Model.Researchs.Count > 0)
+    {
+        int i = 0;
+        <tr>
+            @foreach (var research in Model.Researchs)
+            {
+                i++;
+                <td>
+                    @Html.CheckBoxFor("ResearchsLinked", true, new { value = research.Id, @id = "research_"+research.Id })
+                    <label for="research_@research.Id">@research.Name</label>
+                </td>
+                if(i.Equals(4))
+                {
+                    i = 0;
+                    @:</tr><tr>
+                }
+            }
+        </tr>
+    }
+
+    @if (Model.Researchs != null && Model.ResearchsOut.Count > 0)
+    {
+        int i = 0;
+        <tr>
+            @foreach (var researchOut in Model.ResearchsOut)
+            {
+                i++;
+                <td>
+                    @Html.CheckBox("ResearchsLinked", false, new { value = researchOut.Id, @id = "research_" + researchOut.Id })
+                    <label for="research_@researchOut.Id">@Html.DisplayFor(x => researchOut.Name)</label>
+                </td>
+                if(i.Equals(4))
+                {
+                    i = 0;
+                    @:</tr><tr>
+                }
+            }
+        </tr>
+    }
+</table>
+

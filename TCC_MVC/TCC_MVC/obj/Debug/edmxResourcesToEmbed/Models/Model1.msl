@@ -4,11 +4,28 @@
     <EntitySetMapping Name="Curriculos">
       <EntityTypeMapping TypeName="TCC_LUCASModel.Curriculos">
         <MappingFragment StoreEntitySet="Curriculos">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Data" ColumnName="Data" />
           <ScalarProperty Name="Working" ColumnName="Working" />
           <ScalarProperty Name="UpdatedIn" ColumnName="UpdatedIn" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CurriculosGroup">
+      <EntityTypeMapping TypeName="TCC_LUCASModel.CurriculosGroup">
+        <MappingFragment StoreEntitySet="CurriculosGroup">
+          <ScalarProperty Name="CurriculoId" ColumnName="CurriculoId" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Group">
+      <EntityTypeMapping TypeName="TCC_LUCASModel.Group">
+        <MappingFragment StoreEntitySet="Group">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

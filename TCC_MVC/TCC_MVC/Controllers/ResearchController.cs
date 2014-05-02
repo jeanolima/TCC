@@ -20,6 +20,7 @@ namespace TCC_MVC.Controllers
             return View();
         }
 
+        
         public ActionResult New()
         {
             Curriculos model = new Curriculos();
@@ -32,17 +33,14 @@ namespace TCC_MVC.Controllers
         [HttpPost]
         public ActionResult New(Curriculos model)
         {
-            ViewBag.Action = "New";
-            ViewBag.Research = "Research";
-
             if (!Validate(model))
                 ModelState.AddModelError("Nome", "O nome informado não é o mesmo do curriculo submetido. Tem certeza que usaste o currículo certo?");
             if (model.Data != null)
             {
-                if (UploadXML(model))
-                    ModelState.AddModelError("upload", "Não foi possível fazer upload do documento. Por favor tente mais tarde");
+                if (!SaveResearch(model))
+                    ModelState.AddModelError("error", "Não foi possível fazer upload do documento. Por favor tente mais tarde");
             }
-
+            
             return RedirectToAction("Index");
         }
 
@@ -63,7 +61,7 @@ namespace TCC_MVC.Controllers
                 ModelState.AddModelError("Nome", "O nome informado não é o mesmo do curriculo submetido. Tem certeza que usaste o currículo certo?");
             if (model.Data != null)
             {
-                if (UploadXML(model))
+                if (!SaveResearch(model))
                     ModelState.AddModelError("upload", "Não foi possível fazer upload do documento. Por favor tente mais tarde");
             }
 
@@ -77,7 +75,7 @@ namespace TCC_MVC.Controllers
         }
 
         [HttpPost]
-        protected bool UploadXML(Curriculos model)
+        protected bool SaveResearch(Curriculos model)
         {
             HttpPostedFileBase file = Request.Files[0];
             string name = model.Name;
@@ -92,18 +90,18 @@ namespace TCC_MVC.Controllers
                     using (SqlConnection con = new SqlConnection(constr))
                     {
                         string query = "";
-                        if(model.Id == null)
-                            query = "INSERT INTO Curriculos(Data, Working, UpdateIn, Name) VALUES (@Data, @Working, @UpdateIn, @Name)";
+                        if(model.Id == null || model.Id == 0)
+                            query = "INSERT INTO Curriculos(Data, Working, UpdatedIn, Name) VALUES (@Data, @Working, @UpdatedIn, @Name)";
                         else
-                            query = "UPDATE Curriculos SET [Data] = @Data, [Working] = @Working, [UpdatedIn] = @UpdateIn, [Name] = @Name WHERE Id = @Id";
+                            query = "UPDATE Curriculos SET [Data] = @Data, [Working] = @Working, [UpdatedIn] = @UpdatedIn, [Name] = @Name WHERE Id = @Id";
                         using (SqlCommand cmd = new SqlCommand(query))
                         {
                             cmd.Connection = con;
                             cmd.Parameters.AddWithValue("@Data", bytes);
                             cmd.Parameters.AddWithValue("@Working", working);
-                            cmd.Parameters.AddWithValue("@UpdateIn", updateIn);
                             cmd.Parameters.AddWithValue("@Name", name);
-                            if (model.Id != null)
+                            cmd.Parameters.AddWithValue("@UpdatedIn", DateTime.Now);
+                            if (model.Id != 0)
                                 cmd.Parameters.AddWithValue("@Id", model.Id);
                             
                             con.Open();

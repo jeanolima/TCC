@@ -18,14 +18,15 @@
                 </div>
                 <div class="float-right">
                     <section id="login">
-                        @Html.Partial("_LoginPartial")
+                        @*@Html.Partial("_LoginPartial")*@
                     </section>
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Autores", "Index", "Research")</li>
+                            <li>@Html.ActionLink("Pesquisadores", "Index", "Research")</li>
                             <li>@Html.ActionLink("Applicação", "Index", "Application")</li>
+                            <li>@Html.ActionLink("Grupos", "Index", "Group")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
                         </ul>
                     </nav>
                 </div>

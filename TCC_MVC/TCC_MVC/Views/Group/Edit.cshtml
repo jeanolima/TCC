@@ -1,0 +1,9 @@
+﻿@model TCC_MVC.Models.GroupModel
+
+@using (Html.BeginForm((string)ViewBag.Action, (string)ViewBag.Controller, FormMethod.Post))
+{ 
+    @Html.Partial("_Form", Model)
+    
+    <input type="submit" value="Salvar" />
+}
+

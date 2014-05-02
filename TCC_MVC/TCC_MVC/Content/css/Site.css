@@ -30,6 +30,9 @@ a {
     a:hover {
         background-color: #c7d1d6;
     }
+a#noHover:hover {
+    background-color: inherit!important;
+}
 
 header, footer, hgroup,
 nav, section {
