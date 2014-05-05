@@ -6,10 +6,13 @@ using System.Web.Mvc;
 
 namespace TCC_MVC.Models
 {
-    public class GroupModel 
+    public class CurriculoModel 
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IList<CurriculoModel> Researchs { get; set; }
+        public string Data { get; set; }
+        public System.DateTime UpdatedIn { get; set; }
+        public bool Working { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

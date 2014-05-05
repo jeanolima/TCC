@@ -25,7 +25,7 @@ namespace TCC_MVC.Controllers
             ViewBag.Controller = "Group";
             GroupModel model = new GroupModel();
             IList<Curriculos> allResearchs = _curriculoBO.GetAll();
-            model.ResearchsOut = allResearchs.OrderBy(x => x.Name).ToList();
+            //model.ResearchsOut = allResearchs.OrderBy(x => x.Name).ToList();
 
             return View("New", model);
         }
@@ -44,14 +44,25 @@ namespace TCC_MVC.Controllers
             ViewBag.Controller = "Group";
             var group = _groupBO.GetGroupById(idGroup);
             GroupModel model = new GroupModel();
-            IList<Curriculos> researchsIn = _groupBO.GetResearchsByGroup(idGroup);
-            IList<Curriculos> allResearchs = _curriculoBO.GetAll();
-            IList<Curriculos> researchsOut = allResearchs.Except(researchsIn, new CurriculoComparer()).ToList();
+            var researchsIn = _groupBO.GetResearchsByGroup(idGroup).Select(x => new CurriculoModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                IsSelected = true
+            }).OrderBy(x=>x.Name).ToList();
+
+            var researchsOut = _curriculoBO.GetAll().Select(x => new CurriculoModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                IsSelected = false
+            }).Except(researchsIn, new CurriculoComparer()).OrderBy(x => x.Name).ToList();
+
+            var allResearchs = researchsIn.Concat(researchsOut).ToList();
             
             model.Id = group.Id;
             model.Name = group.Name;
-            model.Researchs = researchsIn.OrderBy(x => x.Name).ToList();
-            model.ResearchsOut = researchsOut.OrderBy(x => x.Name).ToList();
+            model.Researchs = allResearchs;
 
             return View("Edit",model);
         }
@@ -60,7 +71,15 @@ namespace TCC_MVC.Controllers
         public ActionResult Edit(GroupModel model)
         {
 
-            return View();
+            if (!string.IsNullOrEmpty(model.Name))
+            {
+                if (_groupBO.Save(model))
+                    return RedirectToAction("Index");
+                else
+                    return View(model);
+            }
+            else
+                return View(model);
         }
 
     }

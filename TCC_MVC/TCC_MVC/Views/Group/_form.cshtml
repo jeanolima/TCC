@@ -1,19 +1,29 @@
 ﻿@model TCC_MVC.Models.GroupModel
 
+
+@Html.HiddenFor(x => x.Id)
 <span><label>Nome do grupo:</label> @Html.TextBoxFor(x => x.Name)</span>
 <table>
     @if(Model.Researchs != null && Model.Researchs.Count > 0)
     {
         int i = 0;
+        bool unselected = true;
         <tr>
-            @foreach (var research in Model.Researchs)
+            @for (var j = 0; j < Model.Researchs.Count; j++ )
             {
+                if (!Model.Researchs[j].IsSelected && unselected)
+                {
+                    unselected = false;
+                    i = 0;
+                    @:</tr><tr>
+                }
                 i++;
                 <td>
-                    @Html.CheckBoxFor("ResearchsLinked", true, new { value = research.Id, @id = "research_"+research.Id })
-                    <label for="research_@research.Id">@research.Name</label>
+                    @Html.HiddenFor(x => x.Researchs[j].Id)
+                    @Html.CheckBoxFor(x => x.Researchs[j].IsSelected, new { @id = "research_" + Model.Researchs[j].Id })
+                    <label for="research_@Model.Researchs[j].Id">@Model.Researchs[j].Name</label>
                 </td>
-                if(i.Equals(4))
+                if (i.Equals(4) )
                 {
                     i = 0;
                     @:</tr><tr>
@@ -22,7 +32,7 @@
         </tr>
     }
 
-    @if (Model.Researchs != null && Model.ResearchsOut.Count > 0)
+    @*@if (Model.Researchs != null && Model.ResearchsOut.Count > 0)
     {
         int i = 0;
         <tr>
@@ -40,6 +50,6 @@
                 }
             }
         </tr>
-    }
+    }*@
 </table>
 

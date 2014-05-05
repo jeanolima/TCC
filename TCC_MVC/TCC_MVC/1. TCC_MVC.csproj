@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ArticleModel.cs" />
+    <Compile Include="Models\CurriculoModel.cs" />
     <Compile Include="Models\CurriculosGroup.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

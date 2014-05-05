@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -56,15 +57,60 @@ namespace TCC_MVC.ArquivosBO
             return groupList;
         }
 
-        public IList<Curriculos> GetResearchsByGroup(int idGroup)
+        public IList<CurriculoModel> GetResearchsByGroup(int idGroup)
         {
             using(var _context = new TCC_LUCASEntities())
             {
                 return (from c in _context.Curriculos
                            join cg in _context.CurriculosGroup on c.Id equals cg.CurriculoId
                            where cg.GroupId.Equals(idGroup)
-                           select c).ToList();
+                        select new CurriculoModel
+                        {
+                            Id = c.Id,
+                            Name = c.Name
+                        }).ToList();
 
+            }
+        }
+
+        public bool Save(GroupModel model)
+        {
+            using (var _context = new TCC_LUCASEntities())
+            {
+                try
+                {
+                    Group entitie = new Group();
+                    if (model.Id != 0)
+                        entitie = _context.Group.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
+                    entitie.Name = model.Name;
+                    var list= new Collection<CurriculosGroup>();
+
+                    //foreach(var cg in entitie.CurriculosGroup)
+                    //{
+                    //    if(model.Researchs.Contains(cg.Curriculos) != null)
+
+                    //}
+
+                    foreach (var research in model.Researchs)
+                    {
+                        if(research.IsSelected)
+                            list.Add(new CurriculosGroup
+                            {
+                                GroupId = model.Id,
+                                CurriculoId = research.Id
+                            });
+                    }
+                    entitie.CurriculosGroup = list;
+                    if (model.Id == 0)
+                        _context.Group.Add(entitie);
+                    _context.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
             }
         }
     }
