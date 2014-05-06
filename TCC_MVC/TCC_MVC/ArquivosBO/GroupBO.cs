@@ -83,24 +83,32 @@ namespace TCC_MVC.ArquivosBO
                     if (model.Id != 0)
                         entitie = _context.Group.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
                     entitie.Name = model.Name;
-                    var list= new Collection<CurriculosGroup>();
-
-                    //foreach(var cg in entitie.CurriculosGroup)
-                    //{
-                    //    if(model.Researchs.Contains(cg.Curriculos) != null)
-
-                    //}
+                    var listAll = new Collection<CurriculosGroup>();
 
                     foreach (var research in model.Researchs)
                     {
-                        if(research.IsSelected)
-                            list.Add(new CurriculosGroup
-                            {
-                                GroupId = model.Id,
-                                CurriculoId = research.Id
-                            });
+                        if (research.IsSelected)
+                        {
+                            var CurriculoGroup = _context.CurriculosGroup.Where(x => x.CurriculoId.Equals(research.Id) && x.GroupId.Equals(model.Id)).FirstOrDefault();
+                            if (CurriculoGroup != null)
+                                listAll.Add(CurriculoGroup);
+                            else
+                                listAll.Add(new CurriculosGroup
+                                {
+                                    GroupId = model.Id,
+                                    CurriculoId = research.Id
+                                });
+                        }
                     }
-                    entitie.CurriculosGroup = list;
+
+                    var listRemove = entitie.CurriculosGroup.Except(listAll, new CurriculosGroupComparer()).ToList();
+                    var listAdd = listAll.Except(entitie.CurriculosGroup, new CurriculosGroupComparer2()).ToList();
+
+                    foreach (var cg in listRemove)
+                        _context.CurriculosGroup.Remove(cg);
+                    foreach (var cg in listAdd)
+                        _context.CurriculosGroup.Add(cg);
+
                     if (model.Id == 0)
                         _context.Group.Add(entitie);
                     _context.SaveChanges();

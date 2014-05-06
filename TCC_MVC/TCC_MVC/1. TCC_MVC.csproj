@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CurriculoComparer.cs" />
+    <Compile Include="Controllers\CurriculosGroupCompararer2.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Models\Group.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CurriculosGroupComparer.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\QualisModel.cs" />
     <Compile Include="Models\SearchModel.cs" />

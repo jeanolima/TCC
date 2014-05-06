@@ -24,8 +24,12 @@ namespace TCC_MVC.Controllers
             ViewBag.Action= "New";
             ViewBag.Controller = "Group";
             GroupModel model = new GroupModel();
-            IList<Curriculos> allResearchs = _curriculoBO.GetAll();
-            //model.ResearchsOut = allResearchs.OrderBy(x => x.Name).ToList();
+            IList<CurriculoModel> allResearchs = _curriculoBO.GetAll().Select(x => new CurriculoModel { 
+                Id = x.Id,
+                Name = x.Name,
+                IsSelected = false
+            }).ToList();
+            model.Researchs = allResearchs.OrderBy(x => x.Name).ToList();
 
             return View("New", model);
         }
@@ -33,8 +37,15 @@ namespace TCC_MVC.Controllers
         [HttpPost]
         public ActionResult New(GroupModel model)
         {
-
-            return View();
+            if (!string.IsNullOrEmpty(model.Name))
+            {
+                if (_groupBO.Save(model))
+                    return RedirectToAction("Index");
+                else
+                    return RedirectToAction("New");
+            }
+            else
+                return View(model);
         }
 
         public ActionResult Edit(int idGroup)
@@ -76,7 +87,7 @@ namespace TCC_MVC.Controllers
                 if (_groupBO.Save(model))
                     return RedirectToAction("Index");
                 else
-                    return View(model);
+                    return RedirectToAction("Edit", model.Id);
             }
             else
                 return View(model);
