@@ -280,6 +280,20 @@ namespace TCC_MVC.ArquivosBO
             }
         }
 
+        public SearchModel GetResearchByGroup(SearchModel model, int idGroup)
+        {
+            using (var _context = new TCC_LUCASEntities())
+            {
+                model.curriculos = (from c in _context.Curriculos
+                           join cg in _context.CurriculosGroup on c.Id equals cg.CurriculoId
+                           where cg.GroupId.Equals(idGroup)
+                            select c).ToList();
+                model = GetArticlesFromXML(model, model.curriculos);
+
+                return model;
+            }
+        }
+
         public SearchModel GetArticlesFromXML (SearchModel model, IList<Curriculos> researchs, bool countCoAuthors = false)
         {
             string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DADOS-BASICOS-DO-ARTIGO";

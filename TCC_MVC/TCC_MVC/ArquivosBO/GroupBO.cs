@@ -69,7 +69,6 @@ namespace TCC_MVC.ArquivosBO
                             Id = c.Id,
                             Name = c.Name
                         }).ToList();
-
             }
         }
 

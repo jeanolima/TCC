@@ -29,10 +29,17 @@
                     @Html.RadioButtonFor(m => m.KeyType, "group", new { @id = "group" })
                     <label for="group">Grupo</label>   
                 </span>
-                <span>
+                @*<span>
                     @Html.RadioButtonFor(m => m.KeyType, "clique", new { @id = "clique" })
                     <label for="clique">Clique</label>    
-                </span>
+                </span>*@
+            </li>
+            @{var classe2 = (Model.KeyType != null && Model.KeyType.Equals("group")) ? string.Empty : "hidden"; }
+            <li class="@classe2 keyType">
+                <label>Selecione o Grupo:</label>
+                @Html.DropDownListFor(x => x.GroupSelected, Model.Groups.Select(x => new SelectListItem { 
+                                                                            Text =  x.Name,
+                                                                            Value = x.Id.ToString()}))
             </li>
             <li>
                 <b>@Html.DisplayNameFor(m => m.OrderByType)</b>
@@ -49,7 +56,7 @@
                 </span>
             </li>
             @{var classe = (Model.OrderByType != null && Model.OrderByType.Equals("evolution")) ? string.Empty : "hidden"; }
-            <li class="@classe hidden-options" >
+            <li class="@classe orderBy" >
                 Evolução por:
                 <span>
                     @Html.RadioButtonFor(x => x.EvolutionType, "year", new { @id = "yearEvolution" })

@@ -2,12 +2,18 @@
 
 <a id="noHover" href="@Url.Action("New")"><input type="button" value="Novo Grupo" /></a>
 <br />
-@if (Model!= null && Model.Count > 0)
+
+@if (Model != null && Model.Count > 0)
 {
-    foreach(var group in Model)
-    {
-        <span>@group.Name  - @Html.ActionLink("Editar", "Edit", "Group", new { idGroup = group.Id }, null)</span>
-    }
+    <table>
+        @foreach (var group in Model)
+        {
+            <tr>
+                <td><label>@group.Name</label><td>
+                <td><label>@Html.ActionLink("Editar", "Edit", "Group", new { idGroup = group.Id }, null)</label></td>
+            </tr>
+        }
+    </table>
 }
 else
 {

@@ -26,5 +26,7 @@ namespace TCC_MVC.Models
         public string EvolutionType { get; set; }
         public int EvolutionGap { get; set; }
         public EvolutionGraphicModel EvolutionGrafic { get; set; }
+        public IList<GroupModel> Groups { get; set; }
+        public int GroupSelected { get; set; }
     }
 }

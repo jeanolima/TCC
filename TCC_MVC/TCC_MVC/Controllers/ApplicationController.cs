@@ -14,11 +14,19 @@ namespace TCC_MVC.Controllers
     public class ApplicationController : Controller
     {
         public CurriculosBO _curriculosBO = new CurriculosBO();
+        public GroupBO _groupBO = new GroupBO();
 
         public ActionResult Index()
         {
             var model = new SearchModel();
-
+            model.Groups = new List<GroupModel>();
+            model.Groups.Add(new GroupModel { Id = 0, Name = "Selecione um grupo" });
+            model.Groups = model.Groups.Concat(_groupBO.GetAll().Select(x => new GroupModel
+            {
+                Id = x.Id,
+                Name = x.Name
+            })).ToList();
+            
             return View("Index", model);
         }
 
@@ -31,7 +39,7 @@ namespace TCC_MVC.Controllers
                 {
                     case "author": { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; }
                     case "search": { model = _curriculosBO.GetResearchBySearch(model, model.Keyword); break; }
-                    case "group": { model = _curriculosBO.GetResearchByGroup(model, model.Keyword); break; }
+                    case "group": { model = _curriculosBO.GetResearchByGroup(model, model.GroupSelected); break; }
                     case "clique": { /* model = GetResearchByClique(model, model.Keyword);*/ break; }
                     default: { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; };
                 }
@@ -89,6 +97,14 @@ namespace TCC_MVC.Controllers
                 model.Qualis = _curriculosBO.CountAllWithoutQualis(model);
                 model.showQualis = true;
             }
+
+            model.Groups = new List<GroupModel>();
+            model.Groups.Add(new GroupModel { Id = 0, Name = "Selecione um grupo" });
+            model.Groups.Concat(_groupBO.GetAll().Select(x => new GroupModel
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToList());
 
             return View("Index", model);
         }

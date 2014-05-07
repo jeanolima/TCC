@@ -3,14 +3,25 @@
     $(document).ready(function () {
         $("input[name='OrderByType']").click(function () {
             if ($(this).attr("value") == "evolution") {
-                $(".hidden-options").removeClass("hidden");
+                $(".orderBy").removeClass("hidden");
             }
             else {
-                $(".hidden-options").addClass("hidden");
+                $(".orderBy").addClass("hidden");
             }
         });
+
+        $("input[name='KeyType']").click(function () {
+            if ($(this).attr("value") == "group") {
+                $(".keyType").removeClass("hidden");
+            }
+            else {
+                $(".keyType").addClass("hidden");
+            }
+        });
+
         $("#uncheck").click(function () {
             $("input[type='radio']").attr("checked", false);
+            $("input[type='checkbox']").attr("checked", false);
         });
     });
 
