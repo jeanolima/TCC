@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TCC_LUCASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="ConferenceQualis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Conference" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="International" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Curriculos">
           <Key>
             <PropertyRef Name="Id" />
@@ -59,6 +68,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TCC_LUCASModelStoreContainer">
+          <EntitySet Name="ConferenceQualis" EntityType="Self.ConferenceQualis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Curriculos" EntityType="Self.Curriculos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurriculosGroup" EntityType="Self.CurriculosGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
@@ -76,6 +86,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="TCC_LUCASModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="TCC_LUCASEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ConferenceQualis" EntityType="TCC_LUCASModel.ConferenceQualis" />
           <EntitySet Name="Curriculos" EntityType="TCC_LUCASModel.Curriculos" />
           <EntitySet Name="CurriculosGroup" EntityType="TCC_LUCASModel.CurriculosGroup" />
           <EntitySet Name="Group" EntityType="TCC_LUCASModel.Group" />
@@ -88,6 +99,15 @@
             <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ConferenceQualis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Conference" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="International" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="Curriculos">
           <Key>
             <PropertyRef Name="Id" />
@@ -145,12 +165,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TCC_LUCASModelStoreContainer" CdmEntityContainer="TCC_LUCASEntities">
+          <EntitySetMapping Name="ConferenceQualis">
+            <EntityTypeMapping TypeName="TCC_LUCASModel.ConferenceQualis">
+              <MappingFragment StoreEntitySet="ConferenceQualis">
+                <ScalarProperty Name="International" ColumnName="International" />
+                <ScalarProperty Name="Conference" ColumnName="Conference" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Curriculos">
             <EntityTypeMapping TypeName="TCC_LUCASModel.Curriculos">
               <MappingFragment StoreEntitySet="Curriculos">

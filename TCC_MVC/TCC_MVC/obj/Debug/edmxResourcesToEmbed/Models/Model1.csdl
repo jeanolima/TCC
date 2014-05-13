@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TCC_LUCASModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
   <EntityContainer Name="TCC_LUCASEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ConferenceQualis" EntityType="TCC_LUCASModel.ConferenceQualis" />
     <EntitySet Name="Curriculos" EntityType="TCC_LUCASModel.Curriculos" />
     <EntitySet Name="CurriculosGroup" EntityType="TCC_LUCASModel.CurriculosGroup" />
     <EntitySet Name="Group" EntityType="TCC_LUCASModel.Group" />
@@ -13,6 +14,15 @@
       <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="ConferenceQualis">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Conference" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="International" Type="Boolean" Nullable="false" />
+  </EntityType>
   <EntityType Name="Curriculos">
     <Key>
       <PropertyRef Name="Id" />

@@ -67,20 +67,20 @@ namespace TCC_MVC.ArquivosBO
         {
             var qualis = model.Qualis;
             int total = 0;
-            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
-            foreach (var author in model.curriculos)
+            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DETALHAMENTO-DO-ARTIGO";
+            using (var _context = new TCC_LUCASEntities())
             {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(author.Data);
-
-                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                foreach (var author in model.curriculos)
                 {
-                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
-                    if (info.Contains(type) &&
-                        !info.Contains("Nada consta") &&
-                        !info.Contains("Não está classificado"))
+                    XmlDocument xml = new XmlDocument();
+                    xml.LoadXml(author.Data);
+
+                    foreach (XmlNode node in xml.SelectNodes(xpathArticle))
                     {
-                        total++;
+                        string title = node.Attributes["TITULO-DO-PERIODICO-OU-REVISTA"].Value;
+                        var ConferenceQualis = _context.ConferenceQualis.Where(x => x.Conference.Equals(title)).FirstOrDefault();
+                        if (ConferenceQualis != null && ConferenceQualis.Type.ToLower().Equals(type))
+                            total++;
                     }
                 }
             }

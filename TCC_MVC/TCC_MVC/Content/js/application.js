@@ -99,6 +99,8 @@ function drawChartQualis() {
                          role: "annotation"
                      }]);
     var width = i * 95;
+    if (width < 500)
+        width = 500;
     var options = {
         colors: ["#CC3333", "#006600"],
         title: "Divisões dos Qualis",
