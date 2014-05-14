@@ -17,20 +17,21 @@ namespace TCC_MVC.ArquivosBO
         {
             var qualis = model.Qualis;
             int total = 0;
-            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
-            foreach (var author in model.curriculos)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(author.Data);
+            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DETALHAMENTO-DO-ARTIGO";
 
-                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+            using (var _context = new TCC_LUCASEntities())
+            {
+                foreach (var author in model.curriculos)
                 {
-                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
-                    if(info.Contains("Qualis") &&
-                        !info.Contains("Nada consta") &&
-                        !info.Contains("Não está classificado"))
+                    XmlDocument xml = new XmlDocument();
+                    xml.LoadXml(author.Data);
+
+                    foreach (XmlNode node in xml.SelectNodes(xpathArticle))
                     {
-                        total++;
+                        string title = node.Attributes["TITULO-DO-PERIODICO-OU-REVISTA"].Value;
+                        var ConferenceQualis = _context.ConferenceQualis.Where(x => x.Conference.Equals(title)).FirstOrDefault();
+                        if (ConferenceQualis != null)
+                            total++;
                     }
                 }
             }
@@ -42,20 +43,21 @@ namespace TCC_MVC.ArquivosBO
         {
             var qualis = model.Qualis;
             int total = 0;
-            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS";
-            foreach (var author in model.curriculos)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(author.Data);
+            string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DETALHAMENTO-DO-ARTIGO";
 
-                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+            using (var _context = new TCC_LUCASEntities())
+            {
+                foreach (var author in model.curriculos)
                 {
-                    var info = node.Attributes["DESCRICAO-INFORMACOES-ADICIONAIS"].Value;
-                    if (!info.Contains("Qualis") ||
-                        info.Contains("Nada consta") ||
-                        info.Contains("Não está classificado"))
+                    XmlDocument xml = new XmlDocument();
+                    xml.LoadXml(author.Data);
+
+                    foreach (XmlNode node in xml.SelectNodes(xpathArticle))
                     {
-                        total++;
+                        string title = node.Attributes["TITULO-DO-PERIODICO-OU-REVISTA"].Value;
+                        var ConferenceQualis = _context.ConferenceQualis.Where(x => x.Conference.Equals(title)).FirstOrDefault();
+                        if (ConferenceQualis == null)
+                            total++;
                     }
                 }
             }
@@ -116,28 +118,40 @@ namespace TCC_MVC.ArquivosBO
             
             foreach (var author in model.curriculos)
             {
-                foreach (var qualis in listaQualis)
+                using (var _context = new TCC_LUCASEntities())
                 {
-                    string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS[contains(@DESCRICAO-INFORMACOES-ADICIONAIS, '" + qualis + "') and not(contains(@DESCRICAO-INFORMACOES-ADICIONAIS,'Nada consta') or contains(@DESCRICAO-INFORMACOES-ADICIONAIS,'Não está classificado')) ]";
-                
-                    XmlDocument xml = new XmlDocument();
-                    xml.LoadXml(author.Data);
-                    total = xml.SelectNodes(xpathArticle).Count;
-
-                    var num = Regex.Match(qualis, @"\d+").Value;
-                    var letter = Regex.Replace(qualis, @"[\d-]", string.Empty);
-                    var qualisFormat = letter + num;
-                    switch (qualisFormat.ToLower())
+                    string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DETALHAMENTO-DO-ARTIGO";
+                    
+                    foreach (var qualis in listaQualis)
                     {
-                        case "a1": { allQualis.TotalA1 = allQualis.TotalA1 + total; break; }
-                        case "a2": { allQualis.TotalA2 = allQualis.TotalA2 + total; break; }
-                        case "b1": { allQualis.TotalB1 = allQualis.TotalB1 + total; break; }
-                        case "b2": { allQualis.TotalB2 = allQualis.TotalB2 + total; break; }
-                        case "b3": { allQualis.TotalB3 = allQualis.TotalB3 + total; break; }
-                        case "b4": { allQualis.TotalB4 = allQualis.TotalB4 + total; break; }
-                        case "b5": { allQualis.TotalB5 = allQualis.TotalB5 + total; break; }
-                        case "c": { allQualis.TotalC = allQualis.TotalC + 1; break; }
-                        default: { break; }
+                        //string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//INFORMACOES-ADICIONAIS[contains(@DESCRICAO-INFORMACOES-ADICIONAIS, '" + qualis + "') and not(contains(@DESCRICAO-INFORMACOES-ADICIONAIS,'Nada consta') or contains(@DESCRICAO-INFORMACOES-ADICIONAIS,'Não está classificado')) ]";    
+                        XmlDocument xml = new XmlDocument();
+                        xml.LoadXml(author.Data);
+                        //total = xml.SelectNodes(xpathArticle).Count;
+                        //var num = Regex.Match(qualis, @"\d+").Value;
+                        //var letter = Regex.Replace(qualis, @"[\d-]", string.Empty);
+                        //var qualisFormat = letter + num;
+                        foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                        {
+                            string title = node.Attributes["TITULO-DO-PERIODICO-OU-REVISTA"].Value;
+                            var ConferenceQualis = _context.ConferenceQualis.Where(x => x.Conference.Equals(title)).FirstOrDefault();
+                            if (ConferenceQualis != null)
+                            {
+                                total++;
+                                switch (ConferenceQualis.Type.ToLower())
+                                {
+                                    case "a1": { allQualis.TotalA1++; break; }
+                                    case "a2": { allQualis.TotalA2++; break; }
+                                    case "b1": { allQualis.TotalB1++; break; }
+                                    case "b2": { allQualis.TotalB2++; break; }
+                                    case "b3": { allQualis.TotalB3++; break; }
+                                    case "b4": { allQualis.TotalB4++; break; }
+                                    case "b5": { allQualis.TotalB5++; break; }
+                                    case "c": { allQualis.TotalC++; break; }
+                                    default: { break; }
+                                }
+                            }
+                        }
                     }
                 }
             }
