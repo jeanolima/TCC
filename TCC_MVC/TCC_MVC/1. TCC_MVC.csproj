@@ -187,9 +187,6 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ArticleModel.cs" />
-    <Compile Include="Models\ConferenceQualis.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CurriculoModel.cs" />
     <Compile Include="Models\CurriculosGroup.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -201,7 +198,13 @@
     </Compile>
     <Compile Include="Controllers\CurriculosGroupComparer.cs" />
     <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Models\QualisConference.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QualisModel.cs" />
+    <Compile Include="Models\QualisPeriodico.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\Curriculos.cs">
       <DependentUpon>Model1.tt</DependentUpon>

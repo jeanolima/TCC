@@ -22,6 +22,8 @@
         $("#uncheck").click(function () {
             $("input[type='radio']").attr("checked", false);
             $("input[type='checkbox']").attr("checked", false);
+            $(".keyType").addClass("hidden");
+            $(".orderBy").addClass("hidden");
         });
     });
 

@@ -27,15 +27,28 @@
 
         if (Model.withCheck) { TotalwithQualis = Html.Hidden("totalQualis", Model.TotalWithQuallis); qualisWith = Html.Hidden("qualis", "Com Qualis"); } else { TotalwithQualis = MvcHtmlString.Empty; qualisWith = MvcHtmlString.Empty; }
         if (Model.withoutCheck) { TotalWithoutQuallis = Html.Hidden("totalQualis", Model.TotalWithoutQuallis); qualisWithout = Html.Hidden("qualis", "Sem Qualis"); } else { TotalWithoutQuallis = MvcHtmlString.Empty; qualisWithout = MvcHtmlString.Empty; }
-        if(Model.a1Check){TotalA1 =  Html.Hidden("totalQualis", Model.TotalA1); qualisA1 = Html.Hidden("qualis", "A1");}else{ TotalA1 =  MvcHtmlString.Empty; qualisA1 = MvcHtmlString.Empty;}
-        if(Model.a2Check){TotalA2 =  Html.Hidden("totalQualis", Model.TotalA2); qualisA2 = Html.Hidden("qualis", "A2");}else{ TotalA2 =  MvcHtmlString.Empty; qualisA2 = MvcHtmlString.Empty;}
-        if(Model.b1Check){TotalB1 =  Html.Hidden("totalQualis", Model.TotalB1); qualisB1 = Html.Hidden("qualis", "B1");}else{ TotalB1 =  MvcHtmlString.Empty; qualisB1 = MvcHtmlString.Empty;}
-        if(Model.b2Check){TotalB2 =  Html.Hidden("totalQualis", Model.TotalB2); qualisB2 = Html.Hidden("qualis", "B2");}else{ TotalB2 =  MvcHtmlString.Empty; qualisB2 = MvcHtmlString.Empty;}
-        if(Model.b3Check){TotalB3 =  Html.Hidden("totalQualis", Model.TotalB3); qualisB3 = Html.Hidden("qualis", "B3");}else{ TotalB3 =  MvcHtmlString.Empty; qualisB3 = MvcHtmlString.Empty;}
-        if(Model.b4Check){TotalB4 =  Html.Hidden("totalQualis", Model.TotalB4); qualisB4 = Html.Hidden("qualis", "B4");}else{ TotalB4 =  MvcHtmlString.Empty; qualisB4 = MvcHtmlString.Empty;}
-        if(Model.b5Check){TotalB5 =  Html.Hidden("totalQualis", Model.TotalB5); qualisB5 = Html.Hidden("qualis", "B5");}else{ TotalB5 =  MvcHtmlString.Empty; qualisB5 = MvcHtmlString.Empty;}
-        if(Model.cCheck ){TotalC  =  Html.Hidden("totalQualis", Model.TotalC ); qualisC  = Html.Hidden("qualis", "C" );}else{ TotalC  =  MvcHtmlString.Empty; qualisC  = MvcHtmlString.Empty;}
-        
+        if(Model.specificCheck)
+        {
+            TotalA1 = Html.Hidden("totalQualis", Model.TotalA1); qualisA1 = Html.Hidden("qualis", "A1");
+            TotalA2 = Html.Hidden("totalQualis", Model.TotalA2); qualisA2 = Html.Hidden("qualis", "A2");
+            TotalB1 = Html.Hidden("totalQualis", Model.TotalB1); qualisB1 = Html.Hidden("qualis", "B1");
+            TotalB2 = Html.Hidden("totalQualis", Model.TotalB2); qualisB2 = Html.Hidden("qualis", "B2");
+            TotalB3 = Html.Hidden("totalQualis", Model.TotalB3); qualisB3 = Html.Hidden("qualis", "B3");
+            TotalB4 = Html.Hidden("totalQualis", Model.TotalB4); qualisB4 = Html.Hidden("qualis", "B4");
+            TotalB5 = Html.Hidden("totalQualis", Model.TotalB5); qualisB5 = Html.Hidden("qualis", "B5");
+            TotalC = Html.Hidden("totalQualis", Model.TotalC); qualisC = Html.Hidden("qualis", "C");
+        }
+        else
+        { 
+            if(Model.a1Check){TotalA1 =  Html.Hidden("totalQualis", Model.TotalA1); qualisA1 = Html.Hidden("qualis", "A1");}else{ TotalA1 =  MvcHtmlString.Empty; qualisA1 = MvcHtmlString.Empty;}
+            if(Model.a2Check){TotalA2 =  Html.Hidden("totalQualis", Model.TotalA2); qualisA2 = Html.Hidden("qualis", "A2");}else{ TotalA2 =  MvcHtmlString.Empty; qualisA2 = MvcHtmlString.Empty;}
+            if(Model.b1Check){TotalB1 =  Html.Hidden("totalQualis", Model.TotalB1); qualisB1 = Html.Hidden("qualis", "B1");}else{ TotalB1 =  MvcHtmlString.Empty; qualisB1 = MvcHtmlString.Empty;}
+            if(Model.b2Check){TotalB2 =  Html.Hidden("totalQualis", Model.TotalB2); qualisB2 = Html.Hidden("qualis", "B2");}else{ TotalB2 =  MvcHtmlString.Empty; qualisB2 = MvcHtmlString.Empty;}
+            if(Model.b3Check){TotalB3 =  Html.Hidden("totalQualis", Model.TotalB3); qualisB3 = Html.Hidden("qualis", "B3");}else{ TotalB3 =  MvcHtmlString.Empty; qualisB3 = MvcHtmlString.Empty;}
+            if(Model.b4Check){TotalB4 =  Html.Hidden("totalQualis", Model.TotalB4); qualisB4 = Html.Hidden("qualis", "B4");}else{ TotalB4 =  MvcHtmlString.Empty; qualisB4 = MvcHtmlString.Empty;}
+            if(Model.b5Check){TotalB5 =  Html.Hidden("totalQualis", Model.TotalB5); qualisB5 = Html.Hidden("qualis", "B5");}else{ TotalB5 =  MvcHtmlString.Empty; qualisB5 = MvcHtmlString.Empty;}
+            if(Model.cCheck ){TotalC  =  Html.Hidden("totalQualis", Model.TotalC ); qualisC  = Html.Hidden("qualis", "C" );}else{ TotalC  =  MvcHtmlString.Empty; qualisC  = MvcHtmlString.Empty;}
+        }
     } 
     @MvcHtmlString.Create(TotalwithQualis.ToString())
     @MvcHtmlString.Create(TotalWithoutQuallis.ToString())

@@ -66,7 +66,7 @@
                 </span>
             </li>
             
-            <li class="@classe hidden-options">
+            <li class="@classe orderBy">
                 Intervalo:
                 <span>
                     @Html.RadioButtonFor(x => x.EvolutionGap, "3", new { @id = "3" })
@@ -104,7 +104,7 @@
                     @Html.CheckBoxFor(m => m.Qualis.b1Check, new { id = "b1" })
                     <label for="b1">B1</label>
                     @Html.CheckBoxFor(m => m.Qualis.b2Check, new { id = "b2" })
-                    <label or="b2">B2</label>
+                    <label for="b2">B2</label>
                     @Html.CheckBoxFor(m => m.Qualis.b3Check, new { id = "b3" })
                     <label for="b3">B3</label>
                     @Html.CheckBoxFor(m => m.Qualis.b4Check, new { id = "b4" })

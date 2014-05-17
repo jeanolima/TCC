@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TCC_LUCASModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
   <EntityContainer Name="TCC_LUCASEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="ConferenceQualis" EntityType="TCC_LUCASModel.ConferenceQualis" />
     <EntitySet Name="Curriculos" EntityType="TCC_LUCASModel.Curriculos" />
     <EntitySet Name="CurriculosGroup" EntityType="TCC_LUCASModel.CurriculosGroup" />
     <EntitySet Name="Group" EntityType="TCC_LUCASModel.Group" />
+    <EntitySet Name="QualisConference" EntityType="TCC_LUCASModel.QualisConference" />
+    <EntitySet Name="QualisPeriodico" EntityType="TCC_LUCASModel.QualisPeriodico" />
     <AssociationSet Name="FK_CurriculosGroup_CurriculosGroup" Association="TCC_LUCASModel.FK_CurriculosGroup_CurriculosGroup">
       <End Role="Curriculos" EntitySet="Curriculos" />
       <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
@@ -14,15 +15,6 @@
       <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="ConferenceQualis">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="Conference" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-    <Property Name="International" Type="Boolean" Nullable="false" />
-  </EntityType>
   <EntityType Name="Curriculos">
     <Key>
       <PropertyRef Name="Id" />
@@ -51,6 +43,23 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="CurriculosGroup" Relationship="TCC_LUCASModel.FK_CurriculosGroup_Group" FromRole="Group" ToRole="CurriculosGroup" />
+  </EntityType>
+  <EntityType Name="QualisConference">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Conference" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="International" Type="Int32" />
+  </EntityType>
+  <EntityType Name="QualisPeriodico">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Conference" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_CurriculosGroup_CurriculosGroup">
     <End Type="TCC_LUCASModel.Curriculos" Role="Curriculos" Multiplicity="1">

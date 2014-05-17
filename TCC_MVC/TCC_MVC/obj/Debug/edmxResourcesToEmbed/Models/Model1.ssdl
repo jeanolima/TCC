@@ -1,14 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TCC_LUCASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityType Name="ConferenceQualis">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
-    <Property Name="Conference" Type="varchar" MaxLength="250" Nullable="false" />
-    <Property Name="International" Type="bit" Nullable="false" />
-  </EntityType>
   <EntityType Name="Curriculos">
     <Key>
       <PropertyRef Name="Id" />
@@ -33,6 +24,23 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="text" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QualisConference">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Conference" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="International" Type="int" />
+  </EntityType>
+  <EntityType Name="QualisPeriodico">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Conference" Type="varchar" MaxLength="250" Nullable="false" />
   </EntityType>
   <Association Name="FK_CurriculosGroup_CurriculosGroup">
     <End Role="Curriculos" Type="Self.Curriculos" Multiplicity="1">
@@ -63,10 +71,11 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="TCC_LUCASModelStoreContainer">
-    <EntitySet Name="ConferenceQualis" EntityType="Self.ConferenceQualis" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Curriculos" EntityType="Self.Curriculos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CurriculosGroup" EntityType="Self.CurriculosGroup" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QualisConference" EntityType="Self.QualisConference" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QualisPeriodico" EntityType="Self.QualisPeriodico" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_CurriculosGroup_CurriculosGroup" Association="Self.FK_CurriculosGroup_CurriculosGroup">
       <End Role="Curriculos" EntitySet="Curriculos" />
       <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />

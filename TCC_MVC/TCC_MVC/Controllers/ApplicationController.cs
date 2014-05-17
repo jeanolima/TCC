@@ -71,7 +71,7 @@ namespace TCC_MVC.Controllers
                 default: break;
             }
 
-            if (model.Qualis.specificCheck != null && model.Qualis.specificCheck)
+            if (model.Qualis.specificCheck)
             {
                 model.Qualis = _curriculosBO.CountAllSpecificQualis(model);
                 model.showQualis = true;
@@ -87,12 +87,12 @@ namespace TCC_MVC.Controllers
                 if(model.Qualis.b5Check){ _curriculosBO.CountSpecificQualis(model, "b5"); model.showQualis = true; }
                 if(model.Qualis.cCheck ){ _curriculosBO.CountSpecificQualis(model, "c" ); model.showQualis = true; }
             }
-            if (model.Qualis.withCheck != null && model.Qualis.withCheck)
+            if (model.Qualis.withCheck)
             {
                 model.Qualis = _curriculosBO.CountAllQualis(model);
                 model.showQualis = true;
             }
-            if (model.Qualis.withoutCheck != null && model.Qualis.withoutCheck)
+            if (model.Qualis.withoutCheck)
             {
                 model.Qualis = _curriculosBO.CountAllWithoutQualis(model);
                 model.showQualis = true;
@@ -100,11 +100,11 @@ namespace TCC_MVC.Controllers
 
             model.Groups = new List<GroupModel>();
             model.Groups.Add(new GroupModel { Id = 0, Name = "Selecione um grupo" });
-            model.Groups.Concat(_groupBO.GetAll().Select(x => new GroupModel
+            model.Groups = model.Groups.Concat(_groupBO.GetAll().Select(x => new GroupModel
             {
                 Id = x.Id,
                 Name = x.Name
-            }).ToList());
+            })).ToList();
 
             return View("Index", model);
         }

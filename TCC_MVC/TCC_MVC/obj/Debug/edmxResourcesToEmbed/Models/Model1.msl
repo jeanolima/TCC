@@ -1,16 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="TCC_LUCASModelStoreContainer" CdmEntityContainer="TCC_LUCASEntities">
-    <EntitySetMapping Name="ConferenceQualis">
-      <EntityTypeMapping TypeName="TCC_LUCASModel.ConferenceQualis">
-        <MappingFragment StoreEntitySet="ConferenceQualis">
-          <ScalarProperty Name="International" ColumnName="International" />
-          <ScalarProperty Name="Conference" ColumnName="Conference" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Curriculos">
       <EntityTypeMapping TypeName="TCC_LUCASModel.Curriculos">
         <MappingFragment StoreEntitySet="Curriculos">
@@ -35,6 +25,25 @@
       <EntityTypeMapping TypeName="TCC_LUCASModel.Group">
         <MappingFragment StoreEntitySet="Group">
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QualisConference">
+      <EntityTypeMapping TypeName="TCC_LUCASModel.QualisConference">
+        <MappingFragment StoreEntitySet="QualisConference">
+          <ScalarProperty Name="International" ColumnName="International" />
+          <ScalarProperty Name="Conference" ColumnName="Conference" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QualisPeriodico">
+      <EntityTypeMapping TypeName="TCC_LUCASModel.QualisPeriodico">
+        <MappingFragment StoreEntitySet="QualisPeriodico">
+          <ScalarProperty Name="Conference" ColumnName="Conference" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
