@@ -90,7 +90,7 @@ namespace TCC_MVC.Controllers
                     using (SqlConnection con = new SqlConnection(constr))
                     {
                         string query = "";
-                        if(model.Id == null || model.Id == 0)
+                        if(model.Id == 0)
                             query = "INSERT INTO Curriculos(Data, Working, UpdatedIn, Name) VALUES (@Data, @Working, @UpdatedIn, @Name)";
                         else
                             query = "UPDATE Curriculos SET [Data] = @Data, [Working] = @Working, [UpdatedIn] = @UpdatedIn, [Name] = @Name WHERE Id = @Id";
@@ -114,6 +114,5 @@ namespace TCC_MVC.Controllers
                 }
             }
         }
-
     }
 }

@@ -185,9 +185,15 @@ namespace TCC_MVC.ArquivosBO
             return allQualis;
         }
 
-        public SearchModel GroupByCompleteType(SearchModel model)
+        public SearchModel OrderByType(SearchModel model)
         {
-            model.articles = model.articles.Where(x => x.Nature.ToLower().Equals("completo")).ToList();
+            model.articles = model.articles.OrderBy(x => x.IsArticle).ToList();
+            return model;
+        }
+
+        public SearchModel OrderByCompleteType(SearchModel model)
+        {
+            model.articles = model.articles.OrderBy(x => x.Nature).ToList();
             return model;
         }
 
@@ -338,34 +344,68 @@ namespace TCC_MVC.ArquivosBO
         public SearchModel GetArticlesFromXML (SearchModel model, IList<Curriculos> researchs, bool countCoAuthors = false)
         {
             string xpathArticle = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//ARTIGOS-PUBLICADOS//ARTIGO-PUBLICADO//DADOS-BASICOS-DO-ARTIGO";
+            string xpathEvent = "//CURRICULO-VITAE//PRODUCAO-BIBLIOGRAFICA//TRABALHOS-EM-EVENTOS//TRABALHO-EM-EVENTOS//DADOS-BASICOS-DO-TRABALHO";
+            int articles = 0;
+            int events = 0;
 
             if (model.articles == null)
                 model.articles = new List<ArticleModel>();
-            foreach (var author in researchs)
+            using (var _context = new TCC_LUCASEntities())
             {
-                XmlDocument xml = new XmlDocument();
-                xml.LoadXml(author.Data);
-                
-                foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                foreach (var author in researchs)
                 {
-                    var article = new ArticleModel();
-                    article.AuthorId = author.Id;
-                    article.Id = (!string.IsNullOrEmpty(node.NextSibling.Attributes["ISSN"].Value) ? Convert.ToInt32(Regex.Match(node.NextSibling.Attributes["ISSN"].Value, @"\d+").Value) : 0);
-                    article.Author = author.Name;
-                    article.Nature = node.Attributes["NATUREZA"].Value;
-                    article.Title = node.Attributes["TITULO-DO-ARTIGO"].Value;
-                    article.Year = (!string.IsNullOrEmpty(node.Attributes["ANO-DO-ARTIGO"].Value) ? Convert.ToInt32(Regex.Match(node.Attributes["ANO-DO-ARTIGO"].Value, @"\d+").Value) : 0);
-                    article.Country = node.Attributes["PAIS-DE-PUBLICACAO"].Value;
-                    article.Language = node.Attributes["IDIOMA"].Value;
-                    article.HomePage = node.Attributes["HOME-PAGE-DO-TRABALHO"].Value;
-                    article.Relevant = node.Attributes["FLAG-RELEVANCIA"].Value;
-                    article.Doi = node.Attributes["DOI"].Value;
-                    article.EnglishTitle = node.Attributes["TITULO-DO-ARTIGO-INGLES"].Value;
-                    article.Revelation = node.Attributes["FLAG-DIVULGACAO-CIENTIFICA"].Value;
-                    article.Coauthors = node.ParentNode.SelectNodes("AUTORES").Count - 1; //Theres is gonna be always one main author
-                    model.articles.Add(article);
+                    XmlDocument xml = new XmlDocument();
+                    xml.LoadXml(author.Data);
+                
+                    foreach (XmlNode node in xml.SelectNodes(xpathArticle))
+                    {
+                        articles++;
+                        var article = new ArticleModel();
+                        article.AuthorId = author.Id;
+                        //article.Id = (!string.IsNullOrEmpty(node.NextSibling.Attributes["ISSN"].Value) ? Convert.ToInt64(Regex.Match(node.NextSibling.Attributes["ISSN"].Value, @"\d+").Value) : 0);
+                        article.Author = author.Name;
+                        article.Nature = node.Attributes["NATUREZA"].Value;
+                        article.Title = node.Attributes["TITULO-DO-ARTIGO"].Value;
+                        article.QualisName = node.NextSibling.Attributes["TITULO-DO-PERIODICO-OU-REVISTA"].Value;
+                        article.Year = (!string.IsNullOrEmpty(node.Attributes["ANO-DO-ARTIGO"].Value) ? Convert.ToInt32(Regex.Match(node.Attributes["ANO-DO-ARTIGO"].Value, @"\d+").Value) : 0);
+                        article.Country = node.Attributes["PAIS-DE-PUBLICACAO"].Value;
+                        article.Language = node.Attributes["IDIOMA"].Value;
+                        article.HomePage = node.Attributes["HOME-PAGE-DO-TRABALHO"].Value;
+                        article.Relevant = node.Attributes["FLAG-RELEVANCIA"].Value;
+                        article.Doi = node.Attributes["DOI"].Value;
+                        article.EnglishTitle = node.Attributes["TITULO-DO-ARTIGO-INGLES"].Value;
+                        article.Revelation = node.Attributes["FLAG-DIVULGACAO-CIENTIFICA"].Value;
+                        article.Coauthors = node.ParentNode.SelectNodes("AUTORES").Count - 1; //Theres is gonna be always one main author
+                        string titulo = node.ParentNode.SelectSingleNode("DETALHAMENTO-DO-ARTIGO").Attributes["TITULO-DO-PERIODICO-OU-REVISTA"].Value;
+                        var qualis = _context.QualisPeriodico.Where(x => x.Conference.Equals(titulo)).FirstOrDefault();
+                        article.Qualis = qualis == null ? "Não possui" : qualis.Type;
+                        article.IsArticle = true;
+                        model.articles.Add(article);
+                    }
+
+                    foreach (XmlNode node in xml.SelectNodes(xpathEvent))
+                    {
+                        events++;
+                        var article = new ArticleModel();
+                        article.AuthorId = author.Id;
+                        article.Author = author.Name;
+                        //article.Id = (!string.IsNullOrEmpty(node.NextSibling.Attributes["ISBN"].Value) ? Convert.ToInt64(Regex.Match(node.NextSibling.Attributes["ISBN"].Value, @"\d+").Value) : 0);
+                        article.Coauthors = node.ParentNode.SelectNodes("AUTORES").Count - 1; //Theres is gonna be always one main author
+                        article.Year = (!string.IsNullOrEmpty(node.Attributes["ANO-DO-TRABALHO"].Value) ? Convert.ToInt32(Regex.Match(node.Attributes["ANO-DO-TRABALHO"].Value, @"\d+").Value) : 0);
+                        article.Title = node.Attributes["TITULO-DO-TRABALHO"].Value;
+                        article.QualisName = node.NextSibling.Attributes["NOME-DO-EVENTO"].Value;
+                        article.Nature = node.Attributes["NATUREZA"].Value;
+                        string titulo = node.ParentNode.SelectSingleNode("DETALHAMENTO-DO-TRABALHO").Attributes["NOME-DO-EVENTO"].Value;
+                        var qualis = _context.QualisConference.Where(x => x.Conference.Equals(titulo)).FirstOrDefault();
+                        article.Qualis = qualis == null ? "Não possui" : qualis.Type;
+                        article.IsArticle = false;
+                        model.articles.Add(article);
+                    }
                 }
             }
+            model.Total = model.articles.Count;
+            model.TotalArticles = articles;
+            model.TotalEvents = events;
 
             return model;
         }
@@ -385,6 +425,18 @@ namespace TCC_MVC.ArquivosBO
             using (var _context = new TCC_LUCASEntities())
             {
                 return _context.Curriculos.Where(x => x.Id.Equals(id)).FirstOrDefault();
+            }
+        }
+
+        public SearchModel GetModelByResearchId(SearchModel model, int id)
+        {
+            model.curriculos = new List<Curriculos>();
+            using (var _context = new TCC_LUCASEntities())
+            {
+                 model.curriculos.Add(_context.Curriculos.Where(x => x.Id.Equals(id)).FirstOrDefault());
+                model = GetArticlesFromXML(model, model.curriculos);
+
+                return model;
             }
         }
 

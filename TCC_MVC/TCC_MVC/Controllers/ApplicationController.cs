@@ -43,7 +43,6 @@ namespace TCC_MVC.Controllers
                     case "clique": { /* model = GetResearchByClique(model, model.Keyword);*/ break; }
                     default: { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; };
                 }
-                model.Total = model.articles.Count;
             }
             else
             {
@@ -65,9 +64,9 @@ namespace TCC_MVC.Controllers
 
             switch (model.GroupByType)
             {
-                case "completo": { model = _curriculosBO.GroupByCompleteType(model); break; }
+                case "completo": { model = _curriculosBO.OrderByCompleteType(model); break; }
                 case "resumo": { model = _curriculosBO.GroupByResumeType(model); break; }
-                case "periodico": { /*model = OrderByYear(model); */break; }
+                case "periodico": { model = _curriculosBO.OrderByType(model); break; }
                 default: break;
             }
 
@@ -105,6 +104,21 @@ namespace TCC_MVC.Controllers
                 Id = x.Id,
                 Name = x.Name
             })).ToList();
+
+            return View("Index", model);
+        }
+
+        public ActionResult Research(int id)
+        {
+            var model = new SearchModel();
+            model.Groups = new List<GroupModel>();
+            model.Groups.Add(new GroupModel { Id = 0, Name = "Selecione um grupo" });
+            model.Groups = model.Groups.Concat(_groupBO.GetAll().Select(x => new GroupModel
+            {
+                Id = x.Id,
+                Name = x.Name
+            })).ToList();
+            model = _curriculosBO.GetModelByResearchId(model, id);
 
             return View("Index", model);
         }

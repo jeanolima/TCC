@@ -16,7 +16,8 @@
         <tr>
             <td>@research.Name</td>
             <td>@(research.Working == true ? "Sim" : "Não")</td>
-            <td>@Html.ActionLink("Editar", "Edit", "Research", new { idAuthor = research.Id}, null)</td>
+            <td>@Html.ActionLink("Editar", "Edit", "Research", new { idAuthor = research.Id }, null)</td>
+            <td>@Html.ActionLink("Ver publicações", "Research", "Application", new { id = research.Id}, null)</td>
         </tr>
     }
 </table>

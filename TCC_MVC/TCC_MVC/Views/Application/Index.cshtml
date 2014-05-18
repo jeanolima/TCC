@@ -49,8 +49,8 @@
                     <label for="year">Ano</label>    
                     @Html.RadioButtonFor(m => m.OrderByType, "triennium", new { @id = "triennium" })
                     <label for="triennium">Trieno</label>
-                    @Html.RadioButtonFor(m => m.OrderByType, "total", new { @id = "total" })
-                    <label for="total">Toltal</label>
+                    @*@Html.RadioButtonFor(m => m.OrderByType, "total", new { @id = "total" })
+                    <label for="total">Toltal</label>*@
                     @Html.RadioButtonFor(m => m.OrderByType, "evolution", new { @id = "evolution" })
                     <label for="evolution">Evolução</label>
                 </span>
@@ -80,11 +80,11 @@
                 <br />
                 <span>
                     @Html.RadioButtonFor(m => m.GroupByType, "completo", new { @id = "completo" })
-                    <label for="completo">Artigo Completo</label>
-                    @Html.RadioButtonFor(m => m.GroupByType, "resumo", new { @id = "resumo" })
-                    <label for="resumo">Resumo</label>
+                    <label for="completo">Completo/Resumo</label>
+                    @*@Html.RadioButtonFor(m => m.GroupByType, "resumo", new { @id = "resumo" })
+                    <label for="resumo">Resumo</label>*@
                     @Html.RadioButtonFor(m => m.GroupByType, "periodico", new { @id = "periodico" })
-                    <label for="periodico">Periódico</label>
+                    <label for="periodico">Periódico/Evento</label>
                 </span>
             </li>
             <li>
@@ -134,12 +134,15 @@
 @if (Model.articles != null && Model.articles.Count > 0)
 {
     <br />
-    <span>Total: @Model.Total artigo(s)</span>
+    <span>Total: @Model.Total publicações(s)   -   Artigos: @Model.TotalArticles    -    Eventos: @Model.TotalEvents</span>
+    <br />
     <table>
         <tr>
             <td> </td>
             <td>Autor</td>
             <td>Título</td>
+            <td>Qualis</td>
+            <td>Tipo</td>
             <td>Ação</td>
         </tr>
         @foreach (var article in Model.articles)
@@ -148,6 +151,8 @@
                 <td><input type="checkbox" name="articles" value="@article.Id" /></td>
                 <td>@Html.ActionLink(article.Author, "Edit", "Research", new { idAuthor = article.AuthorId }, null)</td>
                 <td>@article.Title</td>
+                <td>@article.Qualis</td>
+                <td>@(article.IsArticle == true ? "Artigo" : "Evento")</td>
                 <td>@Html.ActionLink("Visualizar", "View", "Article", new { idArticle = article.Id, idAuthor = article.AuthorId }, null)</td>
             </tr>
         }
