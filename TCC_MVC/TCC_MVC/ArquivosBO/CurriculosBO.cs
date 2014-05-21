@@ -184,22 +184,16 @@ namespace TCC_MVC.ArquivosBO
             }
             return allQualis;
         }
-
-        public SearchModel OrderByType(SearchModel model)
-        {
-            model.articles = model.articles.OrderBy(x => x.IsArticle).ToList();
-            return model;
-        }
-
+        
         public SearchModel OrderByCompleteType(SearchModel model)
         {
             model.articles = model.articles.OrderBy(x => x.Nature).ToList();
             return model;
         }
 
-        public SearchModel GroupByResumeType(SearchModel model)
+        public SearchModel OrderByPeriodicType(SearchModel model)
         {
-            model.articles = model.articles.Where(x => x.Nature.ToLower().Equals("resumo")).ToList();
+            model.articles = model.articles.OrderBy(x => x.IsArticle).ToList();
             return model;
         }
 

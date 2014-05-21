@@ -26,5 +26,6 @@ namespace TCC_MVC.Models
         public int Coauthors { get; set; }
         public string Qualis { get; set; }
         public bool IsArticle { get; set; }
+        public bool IsComplete { get; set; }
     }
 }

@@ -25,9 +25,12 @@ namespace TCC_MVC.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Area> Area { get; set; }
         public DbSet<Curriculos> Curriculos { get; set; }
         public DbSet<CurriculosGroup> CurriculosGroup { get; set; }
+        public DbSet<CurriculosLine> CurriculosLine { get; set; }
         public DbSet<Group> Group { get; set; }
+        public DbSet<Line> Line { get; set; }
         public DbSet<QualisConference> QualisConference { get; set; }
         public DbSet<QualisPeriodico> QualisPeriodico { get; set; }
     }

@@ -19,12 +19,17 @@ a {
     outline: none;
     padding-left: 3px;
     padding-right: 3px;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
     a:link, a:visited,
     a:active, a:hover {
         color: #333;
+        font-size: 1.35em;
+    }
+    
+    a#link {
+
     }
 
     a:hover {

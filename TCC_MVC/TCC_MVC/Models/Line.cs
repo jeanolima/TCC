@@ -12,21 +12,18 @@ namespace TCC_MVC.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Curriculos
+    public partial class Line
     {
-        public Curriculos()
+        public Line()
         {
-            this.CurriculosGroup = new HashSet<CurriculosGroup>();
             this.CurriculosLine = new HashSet<CurriculosLine>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Data { get; set; }
-        public System.DateTime UpdatedIn { get; set; }
-        public bool Working { get; set; }
+        public int AreaId { get; set; }
     
-        public virtual ICollection<CurriculosGroup> CurriculosGroup { get; set; }
+        public virtual Area Area { get; set; }
         public virtual ICollection<CurriculosLine> CurriculosLine { get; set; }
     }
 }

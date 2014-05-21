@@ -79,11 +79,11 @@
                 <b>@Html.DisplayNameFor(m => m.GroupByType)</b>
                 <br />
                 <span>
-                    @Html.RadioButtonFor(m => m.GroupByType, "completo", new { @id = "completo" })
+                    @Html.RadioButtonFor(m => m.GroupByType, "r/c", new { @id = "completo" })
                     <label for="completo">Completo/Resumo</label>
                     @*@Html.RadioButtonFor(m => m.GroupByType, "resumo", new { @id = "resumo" })
                     <label for="resumo">Resumo</label>*@
-                    @Html.RadioButtonFor(m => m.GroupByType, "periodico", new { @id = "periodico" })
+                    @Html.RadioButtonFor(m => m.GroupByType, "p/e", new { @id = "periodico" })
                     <label for="periodico">Periódico/Evento</label>
                 </span>
             </li>
@@ -142,7 +142,14 @@
             <td>Autor</td>
             <td>Título</td>
             <td>Qualis</td>
-            <td>Tipo</td>
+            @if(Model.GroupByType != null )
+            {
+                <td>Tipo</td>
+            }
+            @if(Model.OrderByType != null)
+            {
+                <td>Ano</td>
+            }
             <td>Ação</td>
         </tr>
         @foreach (var article in Model.articles)
@@ -152,7 +159,20 @@
                 <td>@Html.ActionLink(article.Author, "Edit", "Research", new { idAuthor = article.AuthorId }, null)</td>
                 <td>@article.Title</td>
                 <td>@article.Qualis</td>
-                <td>@(article.IsArticle == true ? "Artigo" : "Evento")</td>
+                @if(Model.GroupByType != null)
+                {
+                    if(Model.GroupByType.Equals("r/c"))
+                    { 
+                        <td>@(article.Nature.ToLower().Equals("completo") == true ? "Completo" : "Resumo")</td>
+                    }
+                    else{
+                        <td>@(article.IsArticle == true ? "Artigo" : "Evento")</td>
+                    }
+                }
+                @if (Model.OrderByType != null)
+                {
+                    <td>@article.Year</td>
+                }
                 <td>@Html.ActionLink("Visualizar", "View", "Article", new { idArticle = article.Id, idAuthor = article.AuthorId }, null)</td>
             </tr>
         }
