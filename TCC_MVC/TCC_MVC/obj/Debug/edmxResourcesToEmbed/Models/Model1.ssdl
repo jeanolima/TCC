@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TCC_LUCASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="Curriculos">
     <Key>
       <PropertyRef Name="Id" />
@@ -18,12 +25,28 @@
     <Property Name="GroupId" Type="int" Nullable="false" />
     <Property Name="CurriculoId" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="CurriculosLine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CurriculoId" Type="int" Nullable="false" />
+    <Property Name="LineId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Group">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="text" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Line">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="AreaId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="QualisConference">
     <Key>
@@ -70,10 +93,55 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_CurriculusLine_Curriculos">
+    <End Role="Curriculos" Type="Self.Curriculos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CurriculosLine" Type="Self.CurriculosLine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Curriculos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CurriculosLine">
+        <PropertyRef Name="CurriculoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CurriculusLine_Line">
+    <End Role="Line" Type="Self.Line" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CurriculosLine" Type="Self.CurriculosLine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Line">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CurriculosLine">
+        <PropertyRef Name="LineId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Line_Area">
+    <End Role="Area" Type="Self.Area" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Line" Type="Self.Line" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Area">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Line">
+        <PropertyRef Name="AreaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="TCC_LUCASModelStoreContainer">
+    <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Curriculos" EntityType="Self.Curriculos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CurriculosGroup" EntityType="Self.CurriculosGroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CurriculosLine" EntityType="Self.CurriculosLine" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Line" EntityType="Self.Line" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QualisConference" EntityType="Self.QualisConference" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QualisPeriodico" EntityType="Self.QualisPeriodico" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_CurriculosGroup_CurriculosGroup" Association="Self.FK_CurriculosGroup_CurriculosGroup">
@@ -83,6 +151,18 @@
     <AssociationSet Name="FK_CurriculosGroup_Group" Association="Self.FK_CurriculosGroup_Group">
       <End Role="Group" EntitySet="Group" />
       <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CurriculusLine_Curriculos" Association="Self.FK_CurriculusLine_Curriculos">
+      <End Role="Curriculos" EntitySet="Curriculos" />
+      <End Role="CurriculosLine" EntitySet="CurriculosLine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CurriculusLine_Line" Association="Self.FK_CurriculusLine_Line">
+      <End Role="Line" EntitySet="Line" />
+      <End Role="CurriculosLine" EntitySet="CurriculosLine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Line_Area" Association="Self.FK_Line_Area">
+      <End Role="Area" EntitySet="Area" />
+      <End Role="Line" EntitySet="Line" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

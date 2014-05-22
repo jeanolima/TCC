@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="TCC_LUCASModelStoreContainer" CdmEntityContainer="TCC_LUCASEntities">
+    <EntitySetMapping Name="Area">
+      <EntityTypeMapping TypeName="TCC_LUCASModel.Area">
+        <MappingFragment StoreEntitySet="Area">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Curriculos">
       <EntityTypeMapping TypeName="TCC_LUCASModel.Curriculos">
         <MappingFragment StoreEntitySet="Curriculos">
@@ -21,9 +29,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CurriculosLine">
+      <EntityTypeMapping TypeName="TCC_LUCASModel.CurriculosLine">
+        <MappingFragment StoreEntitySet="CurriculosLine">
+          <ScalarProperty Name="LineId" ColumnName="LineId" />
+          <ScalarProperty Name="CurriculoId" ColumnName="CurriculoId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Group">
       <EntityTypeMapping TypeName="TCC_LUCASModel.Group">
         <MappingFragment StoreEntitySet="Group">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Line">
+      <EntityTypeMapping TypeName="TCC_LUCASModel.Line">
+        <MappingFragment StoreEntitySet="Line">
+          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>

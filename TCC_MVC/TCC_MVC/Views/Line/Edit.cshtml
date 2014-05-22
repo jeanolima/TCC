@@ -1,5 +1,8 @@
-﻿@{
-    ViewBag.Title = "Edit";
-}
+﻿@model TCC_MVC.Models.LineModel
 
-<h2>Edit</h2>
+@using (Html.BeginForm((string)ViewBag.Action, (string)ViewBag.Controller, FormMethod.Post))
+{
+    @Html.Partial("_Form", Model)
+
+    <input type="submit" value="Salvar" />
+}

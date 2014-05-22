@@ -1,1 +1,44 @@
-﻿
+﻿@model TCC_MVC.Models.LineModel
+
+
+@Html.HiddenFor(x => x.Id)
+<span><label>Nome da Linha de Pesquisa:</label> @Html.TextBoxFor(x => x.Name)</span>
+<table>
+    @if (Model.Researchs != null && Model.Researchs.Count > 0)
+    {
+        int i = 0;
+        bool unselected = true;
+        
+        <label>Selecione o Area:</label>
+        @Html.DropDownListFor(x => x.LineSelected, Model.Areas.Select(x => new SelectListItem { 
+                                                                            Text =  x.Name,
+                                                                            Value = x.Id.ToString()}))
+        
+        <tr>
+            @for (var j = 0; j < Model.Researchs.Count; j++)
+            {
+                if (!Model.Researchs[j].IsSelected && unselected)
+                {
+                    unselected = false;
+                    i = 0;
+                @:</tr>
+                @:<tr>
+                }
+                i++;
+                <td>
+                    @Html.HiddenFor(x => x.Researchs[j].Id)
+                    @Html.CheckBoxFor(x => x.Researchs[j].IsSelected, new { @id = "research_" + Model.Researchs[j].Id })
+                    <label for="research_@Model.Researchs[j].Id">@Model.Researchs[j].Name</label>
+                </td>
+                if (i.Equals(4))
+                {
+                    i = 0;
+                    
+                @:</tr>
+                @:<tr>
+                }
+            }
+        </tr>
+    }
+</table>
+

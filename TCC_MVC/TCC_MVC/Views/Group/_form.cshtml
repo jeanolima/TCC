@@ -31,25 +31,5 @@
             }
         </tr>
     }
-
-    @*@if (Model.Researchs != null && Model.ResearchsOut.Count > 0)
-    {
-        int i = 0;
-        <tr>
-            @foreach (var researchOut in Model.ResearchsOut)
-            {
-                i++;
-                <td>
-                    @Html.CheckBox("ResearchsLinked", false, new { value = researchOut.Id, @id = "research_" + researchOut.Id })
-                    <label for="research_@researchOut.Id">@Html.DisplayFor(x => researchOut.Name)</label>
-                </td>
-                if(i.Equals(4))
-                {
-                    i = 0;
-                    @:</tr><tr>
-                }
-            }
-        </tr>
-    }*@
 </table>
 

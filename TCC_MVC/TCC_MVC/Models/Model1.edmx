@@ -34,7 +34,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CurriculoId" Type="int" Nullable="false" />
           <Property Name="LineId" Type="int" Nullable="false" />
         </EntityType>
@@ -98,7 +98,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CurriculosLine_Curriculos">
+        <Association Name="FK_CurriculusLine_Curriculos">
           <End Role="Curriculos" Type="Self.Curriculos" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -112,7 +112,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CurriculosLine_Line">
+        <Association Name="FK_CurriculusLine_Line">
           <End Role="Line" Type="Self.Line" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -157,11 +157,11 @@
             <End Role="Group" EntitySet="Group" />
             <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
           </AssociationSet>
-          <AssociationSet Name="FK_CurriculosLine_Curriculos" Association="Self.FK_CurriculosLine_Curriculos">
+          <AssociationSet Name="FK_CurriculusLine_Curriculos" Association="Self.FK_CurriculusLine_Curriculos">
             <End Role="Curriculos" EntitySet="Curriculos" />
             <End Role="CurriculosLine" EntitySet="CurriculosLine" />
           </AssociationSet>
-          <AssociationSet Name="FK_CurriculosLine_Line" Association="Self.FK_CurriculosLine_Line">
+          <AssociationSet Name="FK_CurriculusLine_Line" Association="Self.FK_CurriculusLine_Line">
             <End Role="Line" EntitySet="Line" />
             <End Role="CurriculosLine" EntitySet="CurriculosLine" />
           </AssociationSet>
@@ -191,7 +191,7 @@
             <End Role="Curriculos" EntitySet="Curriculos" />
             <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
           </AssociationSet>
-          <AssociationSet Name="FK_CurriculosLine_Curriculos" Association="TCC_LUCASModel.FK_CurriculosLine_Curriculos">
+          <AssociationSet Name="FK_CurriculusLine_Curriculos" Association="TCC_LUCASModel.FK_CurriculusLine_Curriculos">
             <End Role="Curriculos" EntitySet="Curriculos" />
             <End Role="CurriculosLine" EntitySet="CurriculosLine" />
           </AssociationSet>
@@ -199,7 +199,7 @@
             <End Role="Group" EntitySet="Group" />
             <End Role="CurriculosGroup" EntitySet="CurriculosGroup" />
           </AssociationSet>
-          <AssociationSet Name="FK_CurriculosLine_Line" Association="TCC_LUCASModel.FK_CurriculosLine_Line">
+          <AssociationSet Name="FK_CurriculusLine_Line" Association="TCC_LUCASModel.FK_CurriculusLine_Line">
             <End Role="Line" EntitySet="Line" />
             <End Role="CurriculosLine" EntitySet="CurriculosLine" />
           </AssociationSet>
@@ -222,7 +222,7 @@
           <Property Name="UpdatedIn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Working" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CurriculosGroup" Relationship="TCC_LUCASModel.FK_CurriculosGroup_CurriculosGroup" FromRole="Curriculos" ToRole="CurriculosGroup" />
-          <NavigationProperty Name="CurriculosLine" Relationship="TCC_LUCASModel.FK_CurriculosLine_Curriculos" FromRole="Curriculos" ToRole="CurriculosLine" />
+          <NavigationProperty Name="CurriculosLine" Relationship="TCC_LUCASModel.FK_CurriculusLine_Curriculos" FromRole="Curriculos" ToRole="CurriculosLine" />
         </EntityType>
         <EntityType Name="CurriculosGroup">
           <Key>
@@ -238,11 +238,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CurriculoId" Type="Int32" Nullable="false" />
           <Property Name="LineId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Curriculos" Relationship="TCC_LUCASModel.FK_CurriculosLine_Curriculos" FromRole="CurriculosLine" ToRole="Curriculos" />
-          <NavigationProperty Name="Line" Relationship="TCC_LUCASModel.FK_CurriculosLine_Line" FromRole="CurriculosLine" ToRole="Line" />
+          <NavigationProperty Name="Curriculos" Relationship="TCC_LUCASModel.FK_CurriculusLine_Curriculos" FromRole="CurriculosLine" ToRole="Curriculos" />
+          <NavigationProperty Name="Line" Relationship="TCC_LUCASModel.FK_CurriculusLine_Line" FromRole="CurriculosLine" ToRole="Line" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -260,7 +260,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="AreaId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Area" Relationship="TCC_LUCASModel.FK_Line_Area" FromRole="Line" ToRole="Area" />
-          <NavigationProperty Name="CurriculosLine" Relationship="TCC_LUCASModel.FK_CurriculosLine_Line" FromRole="Line" ToRole="CurriculosLine" />
+          <NavigationProperty Name="CurriculosLine" Relationship="TCC_LUCASModel.FK_CurriculusLine_Line" FromRole="Line" ToRole="CurriculosLine" />
         </EntityType>
         <EntityType Name="QualisConference">
           <Key>
@@ -307,7 +307,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CurriculosLine_Curriculos">
+        <Association Name="FK_CurriculusLine_Curriculos">
           <End Type="TCC_LUCASModel.Curriculos" Role="Curriculos" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -335,7 +335,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CurriculosLine_Line">
+        <Association Name="FK_CurriculusLine_Line">
           <End Type="TCC_LUCASModel.Line" Role="Line" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>

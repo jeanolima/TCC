@@ -1,5 +1,22 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
+﻿@model List<TCC_MVC.Models.LineModel>
 
-<h2>Index</h2>
+<a id="noHover" href="@Url.Action("New")"><input type="button" value="Novo Grupo" /></a>
+<br />
+
+@if (Model != null && Model.Count > 0)
+{
+    <table>
+        @foreach (var line in Model)
+        {
+            <tr>
+                <td><label>@line.Name</label>
+                <td>
+                <td><label>@Html.ActionLink("Editar", "Edit", "Line", new { idLine = line.Id }, null)</label></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <span>Não possui nenhum grupo cadastrado.</span>
+}
