@@ -11,7 +11,7 @@ namespace TCC_MVC.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public IList<AreaModel> Areas { get; set; }
-        public int LineSelected { get; set; }
+        public int AreaSelected { get; set; }
         public IList<CurriculoModel> Researchs { get; set; }
     }
 }

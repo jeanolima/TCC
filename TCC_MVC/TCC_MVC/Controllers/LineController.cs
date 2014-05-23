@@ -82,8 +82,9 @@ namespace TCC_MVC.Controllers
             model.Researchs = allResearchs;
             model.Areas = new List<AreaModel>();
             model.Areas.Add(new AreaModel { Id = 0, Name = "Selecione um grupo" });
-            model.Areas = model.Areas.Concat(_groupBO.GetAreas(idLine)).ToList();
-            model.LineSelected = model.Areas.Where(x => x.IsSelected == true).Select(x => x.Id).FirstOrDefault();
+            model.Areas = model.Areas.Concat(_groupBO.GetAreas()).ToList();
+            var areaSelected = _groupBO.GetAreaById(idLine);
+            model.AreaSelected = areaSelected.Id;
 
             return View("Edit", model);
         }
@@ -92,7 +93,7 @@ namespace TCC_MVC.Controllers
         public ActionResult Edit(LineModel model)
         {
 
-            if (!string.IsNullOrEmpty(model.Name))
+            if (!string.IsNullOrEmpty(model.Name) && model.AreaSelected != 0)
             {
                 if (_groupBO.Save(model))
                     return RedirectToAction("Index");

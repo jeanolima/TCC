@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TCC_MVC.Controllers;
 using TCC_MVC.Models;
 
 namespace TCC_MVC.ArquivosBO
@@ -127,38 +129,44 @@ namespace TCC_MVC.ArquivosBO
             {
                 try
                 {
-                    Group entitie = new Group();
+                    Line entitie = new Line();
                     if (model.Id != 0)
-                        entitie = _context.Group.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
+                        entitie = _context.Line.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
                     entitie.Name = model.Name;
-                    var listAll = new Collection<CurriculosGroup>();
+                    var listAll = new Collection<CurriculosLine>();
 
                     foreach (var research in model.Researchs)
                     {
                         if (research.IsSelected)
                         {
-                            var CurriculoGroup = _context.CurriculosGroup.Where(x => x.CurriculoId.Equals(research.Id) && x.GroupId.Equals(model.Id)).FirstOrDefault();
-                            if (CurriculoGroup != null)
-                                listAll.Add(CurriculoGroup);
+                            var CurriculoLine = _context.CurriculosLine.Where(x => x.CurriculoId.Equals(research.Id) && x.LineId.Equals(model.Id)).FirstOrDefault();
+                            if (CurriculoLine != null)
+                                listAll.Add(CurriculoLine);
                             else
-                                listAll.Add(new CurriculosGroup
+                                listAll.Add(new CurriculosLine
                                 {
-                                    GroupId = model.Id,
+                                    LineId = model.Id,
                                     CurriculoId = research.Id
                                 });
                         }
                     }
 
-                    var listRemove = entitie.CurriculosGroup.Except(listAll, new CurriculosGroupComparer()).ToList();
-                    var listAdd = listAll.Except(entitie.CurriculosGroup, new CurriculosGroupComparer2()).ToList();
+                    var listRemove = entitie.CurriculosLine.Except(listAll, new CurriculosLineComparer()).ToList();
+                    var listAdd = listAll.Except(entitie.CurriculosLine, new CurriculosLineComparer()).ToList();
 
                     foreach (var cg in listRemove)
-                        _context.CurriculosGroup.Remove(cg);
+                        _context.CurriculosLine.Remove(cg);
                     foreach (var cg in listAdd)
-                        _context.CurriculosGroup.Add(cg);
+                        _context.CurriculosLine.Add(cg);
+
+                    var area = _context.Area.Where(x => x.Id.Equals(model.AreaSelected)).FirstOrDefault();
+                    entitie.AreaId = area.Id;
+                    _context.Line.Attach(entitie);  
+                    _context.Entry(entitie).State = EntityState.Modified;
+
 
                     if (model.Id == 0)
-                        _context.Group.Add(entitie);
+                        _context.Line.Add(entitie);
                     _context.SaveChanges();
 
                     return true;
@@ -212,23 +220,27 @@ namespace TCC_MVC.ArquivosBO
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                return _context.Area.Select(x => new AreaModel{
-                    Id = x.Id,
-                    Name = x.Name
-                }).ToList();
-            }
-        }
-
-        public IList<AreaModel> GetAreas(int id)
-        {
-            using (var _context = new TCC_LUCASEntities())
-            {
                 return _context.Area.Select(x => new AreaModel
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    IsSelected = (x.Id.Equals(id)? true : false)
+                    IsSelected = false
                 }).ToList();
+            }
+        }
+
+        public AreaModel GetAreaById(int id)
+        {
+            using (var _context = new TCC_LUCASEntities())
+            {
+                return (from c in _context.Area
+                        join cg in _context.Line on c.Id equals cg.AreaId
+                        where cg.Id.Equals(id)
+                        select new AreaModel
+                        {
+                            Id = c.Id,
+                            Name = c.Name
+                        }).FirstOrDefault();
             }
         }
     }

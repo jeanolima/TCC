@@ -3,17 +3,20 @@
 
 @Html.HiddenFor(x => x.Id)
 <span><label>Nome da Linha de Pesquisa:</label> @Html.TextBoxFor(x => x.Name)</span>
+<br />
+<label>Selecione o Area:</label>
+@Html.DropDownListFor(x => x.AreaSelected, Model.Areas.Select(x => new SelectListItem
+   {
+       Text = x.Name,
+       Value = x.Id.ToString()
+   }))
+<br />
+<label>Selecione os pesquisadores que fazem parte da linha de pesquisa:</label>
 <table>
     @if (Model.Researchs != null && Model.Researchs.Count > 0)
     {
         int i = 0;
         bool unselected = true;
-        
-        <label>Selecione o Area:</label>
-        @Html.DropDownListFor(x => x.LineSelected, Model.Areas.Select(x => new SelectListItem { 
-                                                                            Text =  x.Name,
-                                                                            Value = x.Id.ToString()}))
-        
         <tr>
             @for (var j = 0; j < Model.Researchs.Count; j++)
             {

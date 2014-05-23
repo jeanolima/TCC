@@ -176,6 +176,7 @@
     <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\CurriculoComparer.cs" />
     <Compile Include="Controllers\CurriculosGroupCompararer2.cs" />
+    <Compile Include="Controllers\CurriculosLineComparer.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
