@@ -10,6 +10,6 @@ namespace TCC_MVC.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool IsSelected { get; set; }
+        public ICollection<Line> Lines { get; set; }
     }
 }

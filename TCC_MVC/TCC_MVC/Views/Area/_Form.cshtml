@@ -1,1 +1,6 @@
-﻿
+﻿@model TCC_MVC.Models.AreaModel
+
+
+@Html.HiddenFor(x => x.Id)
+<span><label>Nome da Linha de Pesquisa:</label> @Html.TextBoxFor(x => x.Name)</span>
+<br />

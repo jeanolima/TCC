@@ -11,11 +11,26 @@
         });
 
         $("input[name='KeyType']").click(function () {
-            if ($(this).attr("value") == "group") {
-                $(".keyType").removeClass("hidden");
-            }
-            else {
-                $(".keyType").addClass("hidden");
+            console.log($(this).attr("value"));
+            switch ($(this).attr("value"))
+            {
+                case "group":
+                    {
+                        $(".keyType").addClass("hidden");
+                        $(".keyType.group").removeClass("hidden");
+                        break;
+                    }
+                case "search":
+                    {
+                        $(".keyType").addClass("hidden");
+                        $(".keyType.line").removeClass("hidden");
+                        break;
+                    }
+                default:
+                    {
+                        $(".keyType").addClass("hidden");
+                        break;
+                    }
             }
         });
 

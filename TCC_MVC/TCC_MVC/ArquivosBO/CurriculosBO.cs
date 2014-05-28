@@ -307,6 +307,20 @@ namespace TCC_MVC.ArquivosBO
             }
         }
 
+        public SearchModel GetResearchBySearch(SearchModel model, int idLine)
+        {
+            using (var _context = new TCC_LUCASEntities())
+            {
+                model.curriculos = (from c in _context.Curriculos
+                                    join cg in _context.CurriculosLine on c.Id equals cg.CurriculoId
+                                    where cg.LineId.Equals(idLine)
+                                    select c).ToList();
+                model = GetArticlesFromXML(model, model.curriculos);
+
+                return model;
+            }
+        }
+
         public SearchModel GetResearchByGroup(SearchModel model, string projectName)
         {
             using (var _context = new TCC_LUCASEntities())

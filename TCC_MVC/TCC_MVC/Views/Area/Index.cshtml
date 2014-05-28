@@ -1,0 +1,21 @@
+﻿@model List<TCC_MVC.Models.AreaModel>
+
+<a id="noHover" href="@Url.Action("New")"><input type="button" value="Novo Grupo" /></a>
+<br />
+
+@if (Model != null && Model.Count > 0)
+{
+    <table>
+        @foreach (var area in Model)
+        {
+            <tr>
+                <td><label>@area.Name</label><td>
+                <td><label>@Html.ActionLink("Editar", "Edit", "Area", new { idArea = area.Id }, null)</label></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <span>Não possui nenhum grupo cadastrado.</span>
+}

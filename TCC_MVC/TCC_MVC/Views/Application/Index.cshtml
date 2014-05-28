@@ -29,17 +29,22 @@
                     @Html.RadioButtonFor(m => m.KeyType, "group", new { @id = "group" })
                     <label for="group">Grupo</label>   
                 </span>
-                @*<span>
-                    @Html.RadioButtonFor(m => m.KeyType, "clique", new { @id = "clique" })
-                    <label for="clique">Clique</label>    
-                </span>*@
             </li>
             @{var classe2 = (Model.KeyType != null && Model.KeyType.Equals("group")) ? string.Empty : "hidden"; }
-            <li class="@classe2 keyType">
+            <li class="@classe2 keyType group">
                 <label>Selecione o Grupo:</label>
                 @Html.DropDownListFor(x => x.GroupSelected, Model.Groups.Select(x => new SelectListItem { 
                                                                             Text =  x.Name,
                                                                             Value = x.Id.ToString()}))
+            </li>
+            @{var classeLine = (Model.KeyType != null && Model.KeyType.Equals("search")) ? string.Empty : "hidden"; }
+            <li class="@classeLine keyType line">
+                <label>Selecione a Linha de Pesquisa</label>
+                @Html.DropDownListFor(x => x.LineSelected, Model.Lines.Select(x => new SelectListItem
+           {
+               Text = x.Name,
+               Value = x.Id.ToString()
+           }))
             </li>
             <li>
                 <b>@Html.DisplayNameFor(m => m.OrderByType)</b>

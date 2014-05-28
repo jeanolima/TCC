@@ -26,6 +26,10 @@ namespace TCC_MVC.Controllers
                 Id = x.Id,
                 Name = x.Name
             })).ToList();
+
+            model.Lines = new List<LineModel>();
+            model.Lines.Add(new LineModel { Id = 0, Name = "Selecione a linha de pesquisa" });
+            model.Lines = model.Lines.Concat(_groupBO.GetAllLines()).ToList();
             
             return View("Index", model);
         }
@@ -38,9 +42,8 @@ namespace TCC_MVC.Controllers
                 switch (model.KeyType)
                 {
                     case "author": { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; }
-                    case "search": { model = _curriculosBO.GetResearchBySearch(model, model.Keyword); break; }
+                    case "search": { model = _curriculosBO.GetResearchBySearch(model, model.LineSelected); break; }
                     case "group": { model = _curriculosBO.GetResearchByGroup(model, model.GroupSelected); break; }
-                    case "clique": { /* model = GetResearchByClique(model, model.Keyword);*/ break; }
                     default: { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; };
                 }
             }
@@ -108,6 +111,10 @@ namespace TCC_MVC.Controllers
                 Name = x.Name
             })).ToList();
 
+            model.Lines = new List<LineModel>();
+            model.Lines.Add(new LineModel { Id = 0, Name = "Selecione a linha de pesquisa" });
+            model.Lines = model.Lines.Concat(_groupBO.GetAllLines()).ToList();
+
             return View("Index", model);
         }
 
@@ -122,6 +129,10 @@ namespace TCC_MVC.Controllers
                 Name = x.Name
             })).ToList();
             model = _curriculosBO.GetModelByResearchId(model, id);
+
+            model.Lines = new List<LineModel>();
+            model.Lines.Add(new LineModel { Id = 0, Name = "Selecione a linha de pesquisa" });
+            model.Lines = model.Lines.Concat(_groupBO.GetAllLines()).ToList();
 
             return View("Index", model);
         }

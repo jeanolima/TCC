@@ -178,6 +178,40 @@ namespace TCC_MVC.ArquivosBO
             }
         }
 
+        public bool Save(AreaModel model)
+        {
+            using (var _context = new TCC_LUCASEntities())
+            {
+                try
+                {
+                    Area entitie = new Area();
+                    if (model.Id != 0)
+                        entitie = _context.Area.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
+                    entitie.Name = model.Name;
+
+                    if (model.Id == 0)
+                        _context.Area.Add(entitie);
+                    _context.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        public Area GetAreaById(int id)
+        {
+            Curriculos research = new Curriculos();
+            using (var _context = new TCC_LUCASEntities())
+            {
+                return _context.Area.Where(x => x.Id.Equals(id)).FirstOrDefault();
+            }
+        }
+
         public IList<LineModel> GetAllLines()
         {
             var list = new List<LineModel>();
@@ -223,24 +257,20 @@ namespace TCC_MVC.ArquivosBO
                 return _context.Area.Select(x => new AreaModel
                 {
                     Id = x.Id,
-                    Name = x.Name,
-                    IsSelected = false
+                    Name = x.Name
                 }).ToList();
             }
         }
-
-        public AreaModel GetAreaById(int id)
+        public IList<AreaModel> GetAreasBD()
         {
             using (var _context = new TCC_LUCASEntities())
             {
-                return (from c in _context.Area
-                        join cg in _context.Line on c.Id equals cg.AreaId
-                        where cg.Id.Equals(id)
-                        select new AreaModel
+                return _context.Area.Select(a => new AreaModel
                         {
-                            Id = c.Id,
-                            Name = c.Name
-                        }).FirstOrDefault();
+                            Id = a.Id,
+                            Name = a.Name,
+                            Lines = a.Line
+                        }).ToList();
             }
         }
     }

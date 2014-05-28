@@ -1,20 +1,26 @@
-﻿@model List<TCC_MVC.Models.LineModel>
+﻿@model List<TCC_MVC.Models.AreaModel>
 
 <a id="noHover" href="@Url.Action("New")"><input type="button" value="Novo Grupo" /></a>
 <br />
 
 @if (Model != null && Model.Count > 0)
 {
-    <table>
-        @foreach (var line in Model)
-        {
-            <tr>
-                <td><label>@line.Name</label>
-                <td>
-                <td><label>@Html.ActionLink("Editar", "Edit", "Line", new { idLine = line.Id }, null)</label></td>
-            </tr>
-        }
-    </table>
+    foreach (var area in Model)
+    {
+        <fieldset>
+            <legend>@area.Name</legend>
+            <table>
+                @foreach (var line in area.Lines)
+                { 
+                    <tr>
+                        <td><label>@line.Name</label>
+                        <td>
+                        <td><label>@Html.ActionLink("Editar", "Edit", "Line", new { idLine = line.Id }, null)</label></td>
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    }
 }
 else
 {

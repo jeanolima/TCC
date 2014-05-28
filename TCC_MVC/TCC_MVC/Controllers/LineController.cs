@@ -15,8 +15,8 @@ namespace TCC_MVC.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Index";
-            IList<LineModel> model = _groupBO.GetAllLines();
-
+            IList<AreaModel> model = _groupBO.GetAreasBD();
+            
             return View(model);
         }
 
