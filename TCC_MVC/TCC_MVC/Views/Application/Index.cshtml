@@ -155,7 +155,7 @@
             {
                 <td>Ano</td>
             }
-            <td>Ação</td>
+            @*<td>Ação</td>*@
         </tr>
         @foreach (var article in Model.articles)
         {
@@ -178,7 +178,7 @@
                 {
                     <td>@article.Year</td>
                 }
-                <td>@Html.ActionLink("Visualizar", "View", "Article", new { idArticle = article.Id, idAuthor = article.AuthorId }, null)</td>
+                @*<td>@Html.ActionLink("Visualizar", "View", "Article", new { idArticle = article.Id, idAuthor = article.AuthorId }, null)</td>*@
             </tr>
         }
     </table>

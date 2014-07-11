@@ -83,7 +83,7 @@ namespace TCC_MVC.Controllers
             model.Areas = new List<AreaModel>();
             model.Areas.Add(new AreaModel { Id = 0, Name = "Selecione um grupo" });
             model.Areas = model.Areas.Concat(_groupBO.GetAreas()).ToList();
-            var areaSelected = _groupBO.GetAreaById(idLine);
+            var areaSelected = _groupBO.GetAreaById(Line.AreaId);
             model.AreaSelected = areaSelected.Id;
 
             return View("Edit", model);

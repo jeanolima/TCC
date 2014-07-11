@@ -37,26 +37,33 @@ namespace TCC_MVC.Controllers
         [HttpPost]
         public ActionResult Index(SearchModel model)
         {
-            if (!string.IsNullOrEmpty(model.KeyType))
+            string keytype = "";
+            
+            keytype = model.KeyType;
+            switch (model.KeyType)
             {
-                switch (model.KeyType)
-                {
-                    case "author": { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; }
-                    case "search": { model = _curriculosBO.GetResearchBySearch(model, model.LineSelected); break; }
-                    case "group": { model = _curriculosBO.GetResearchByGroup(model, model.GroupSelected); break; }
-                    default: { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; };
+                case "author": {
+                    if (!string.IsNullOrEmpty(model.Keyword))
+                    {
+                        model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); 
+                    }
+                    else
+                    {
+                        model = _curriculosBO.GetAllArticles();
+                    }
+                    break; 
                 }
+                case "search": { model = _curriculosBO.GetResearchBySearch(model, model.LineSelected); break; }
+                case "group": { model = _curriculosBO.GetResearchByGroup(model, model.GroupSelected); break; }
+                default: { model = _curriculosBO.GetResearchsByAuthor(model, model.Keyword); break; };
             }
-            else
-            {
-                model = _curriculosBO.GetAllArticles();
-            }
-
+            
+            
             switch (model.OrderByType)
             {
                 case "year": { model = _curriculosBO.OrderByYear(model); break; }
-                case "triennum": { model = _curriculosBO.OrderByYear(model); break; }
-                case "total": { model = _curriculosBO.OrderByYear(model); break; }
+                case "triennium": { model = _curriculosBO.OrderByTriennium(model); break; }
+                //case "total": { model = _curriculosBO.OrderByYear(model); break; }
                 case "evolution": { 
                     model.EvolutionGrafic = _curriculosBO.CountByEvolution(model);
                     model.articles= _curriculosBO.OrderByEvolution(model);
@@ -114,7 +121,7 @@ namespace TCC_MVC.Controllers
             model.Lines = new List<LineModel>();
             model.Lines.Add(new LineModel { Id = 0, Name = "Selecione a linha de pesquisa" });
             model.Lines = model.Lines.Concat(_groupBO.GetAllLines()).ToList();
-
+            model.KeyType = keytype;
             return View("Index", model);
         }
 
